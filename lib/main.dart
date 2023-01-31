@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vertical_navigation_bar/vertical_navigation_bar.dart';
+import 'navbar/vertical_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final pageController = PageController(
