@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_security_application/verticalnavbar.dart';
+import 'package:flutter_security_application/vertical_navigation_bar.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -10,6 +10,8 @@ void main() {
   runApp(const MyApp());
 }
 
+Color rgbColor = const Color.fromRGBO(80, 28, 141, 0.75);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -17,7 +19,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.deepPurple,
+        primaryColor: Colors.deepPurple[800],
+        secondaryHeaderColor: Colors.deepPurple[800],
       ),
-      home: const VerticalNavBar(title: 'Flutter Demo Home Page'),
+      home: const VerticalNavigationBar(title: 'easy_sidemenu Demo'),
       debugShowCheckedModeBanner: false,
     );
   }
