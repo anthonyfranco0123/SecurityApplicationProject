@@ -58,7 +58,7 @@ class RegistryAccess {
       #net accounts /maxpwage:90
       #net accounts /minpwage:10
       #net accounts /minpwlen:8
-      #
+      net accounts
 
 
   ''');
