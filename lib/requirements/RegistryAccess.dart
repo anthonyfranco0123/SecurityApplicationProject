@@ -49,12 +49,16 @@ class RegistryAccess {
 
     print(SysInfo.userName.toString());
     await shell.run('''
+      #enable password expiry
       wmic UserAccount where "Name='${SysInfo.userName.toString()}'" set PasswordExpires=True
       
-      #The command below will change max password age
+      #The commands below will change certain password settings
       #However, it will require admin privilege, which I dont know how to enable
-      #net accounts /maxpwage:90
       
+      #net accounts /maxpwage:90
+      #net accounts /minpwage:10
+      #net accounts /minpwlen:8
+      #
 
 
   ''');
