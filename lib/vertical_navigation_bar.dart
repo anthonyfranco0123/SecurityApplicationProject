@@ -13,8 +13,12 @@ import 'package:flutter_security_application/requirements/requirement_eight.dart
 import 'package:flutter_security_application/requirements/requirement_nine.dart';
 import 'package:flutter_security_application/requirements/requirement_ten.dart';
 
+
 class VerticalNavigationBar extends StatefulWidget {
-  const VerticalNavigationBar({super.key});
+  const VerticalNavigationBar({Key? key, required this.title})
+      : super(key: key);
+
+  final String title;
 
   @override
   State<VerticalNavigationBar> createState() => _VerticalNavigationBarState();
@@ -72,22 +76,15 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               width: sw * 0.15,
               child: Column(
                 children: <Widget>[
-                  Expanded(
-                    child: SvgPicture.asset(
-                      'assets/Chip_Shield.svg',
-                      colorBlendMode: BlendMode.softLight,
+                  SvgPicture.asset('assets/Chip_Shield.svg',
+                  colorBlendMode: BlendMode.softLight,),
+                  if(sw>sh) const Text(
+                    "IPRO Security Application",
+                    style: TextStyle(
+                        color: Colors.white,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  if (sw > 720 && sh > 720)
-                    const Expanded(
-                      child: Text(
-                        "IPRO Security Application",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
                 ],
               ),
             ),
@@ -159,7 +156,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 5,
                 title: 'Auto Updates',
-                onTap: (page, _) {
+                onTap:(page, _){
                   sideMenu.changePage(5);
                 },
                 icon: const Icon(Icons.image_rounded),
@@ -167,7 +164,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 6,
                 title: 'Removable Devices',
-                onTap: (page, _) {
+                onTap:(page, _){
                   sideMenu.changePage(6);
                 },
                 icon: const Icon(Icons.add_circle),
@@ -175,7 +172,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 7,
                 title: 'System Privileges',
-                onTap: (page, _) {
+                onTap:(page, _){
                   sideMenu.changePage(7);
                 },
                 icon: const Icon(Icons.wallet),
@@ -183,7 +180,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 8,
                 title: 'Installation Restrictions',
-                onTap: (page, _) {
+                onTap:(page, _){
                   sideMenu.changePage(8);
                 },
                 icon: const Icon(Icons.zoom_in),
@@ -191,7 +188,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 9,
                 title: 'Firewall State',
-                onTap: (page, _) {
+                onTap:(page, _){
                   sideMenu.changePage(9);
                 },
                 icon: const Icon(Icons.qr_code),
@@ -217,12 +214,74 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 RequirementEightWidget(),
                 RequirementNineWidget(),
                 RequirementTenWidget(),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Dashboard',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Users',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Files',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Download',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Settings',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Only Title',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Only Icon',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
         ],
       ),
-      backgroundColor: const Color(0xFF0f0530),
     );
   }
 }
