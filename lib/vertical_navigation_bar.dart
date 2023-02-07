@@ -61,8 +61,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                       offset: Offset(0, 0), // changes position of shadow
                     ),
                   ]),
-              // backgroundColor: Color.fromARGB(255, 79, 117, 134),
-              // backgroundColor: Colors.deepPurple[800],
               backgroundColor: const Color(0xFF0f0530),
             ),
             // title: Image.asset('assets/Application_Logo.png')
@@ -77,12 +75,15 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                     child: SvgPicture.asset('assets/Chip_Shield.svg',
                     colorBlendMode: BlendMode.softLight,),
                   ),
-                  if(sh>720 && sw>720) const Text(
-                    "IPRO Security Application",
-                    style: TextStyle(
-                        color: Colors.white,
+                  if(sh>720 && sw>720) Container(
+                    margin: const EdgeInsets.only(bottom: 14),
+                    child: const Text(
+                      "IPRO Security Application",
+                      style: TextStyle(
+                          color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -106,7 +107,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                   '3',
                   style: TextStyle(color: Colors.white),
                 ),
-                tooltipContent: "This is a tooltip for Dashboard item",
               ),
               SideMenuItem(
                 priority: 1,
