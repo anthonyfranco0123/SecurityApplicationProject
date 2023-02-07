@@ -76,52 +76,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     super.initState();
   }
 
-  List<Widget> _buildScreens() {
-    return [
-      const RequirementOneWidget(),
-      // MainScreen(
-      //   hideStatus: _hideNavBar,
-      //   onScreenHideButtonPressed: () {
-      //     setState(() {
-      //       _hideNavBar = !_hideNavBar;
-      //     });
-      //   },
-      // ),
-      // ObjectDetectionWidget(
-      //   hideStatus: _hideNavBar,
-      //   onScreenHideButtonPressed: () {
-      //     setState(() {
-      //       _hideNavBar = !_hideNavBar;
-      //     });
-      //   },
-      // ),
-      // MainScreen(
-      //   hideStatus: _hideNavBar,
-      //   onScreenHideButtonPressed: () {
-      //     setState(() {
-      //       _hideNavBar = !_hideNavBar;
-      //     });
-      //   },
-      // ),
-      // MainScreen(
-      //   hideStatus: _hideNavBar,
-      //   onScreenHideButtonPressed: () {
-      //     setState(() {
-      //       _hideNavBar = !_hideNavBar;
-      //     });
-      //   },
-      // ),
-      // MainScreen(
-      //   hideStatus: _hideNavBar,
-      //   onScreenHideButtonPressed: () {
-      //     setState(() {
-      //       _hideNavBar = !_hideNavBar;
-      //     });
-      //   },
-      // ),
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     final sh = MediaQuery.of(context).size.height;
@@ -170,6 +124,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                     style: TextStyle(
                         color: Colors.white,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -253,6 +208,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 onTap:(page, _){
                   sideMenu.changePage(6);
                 },
+                icon: const Icon(Icons.add_circle),
               ),
               SideMenuItem(
                 priority: 7,
@@ -260,6 +216,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 onTap:(page, _){
                   sideMenu.changePage(7);
                 },
+                icon: const Icon(Icons.wallet),
               ),
               SideMenuItem(
                 priority: 8,
@@ -267,6 +224,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 onTap:(page, _){
                   sideMenu.changePage(8);
                 },
+                icon: const Icon(Icons.zoom_in),
               ),
               SideMenuItem(
                 priority: 9,
@@ -275,6 +233,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                   firewallState();
                   sideMenu.changePage(9);
                 },
+                icon: const Icon(Icons.qr_code),
               ),
               const SideMenuItem(
                 priority: 10,
