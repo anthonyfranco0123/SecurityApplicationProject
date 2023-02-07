@@ -4,6 +4,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/requirements/requirement_one.dart';
 import 'package:flutter_security_application/requirements/requirement_two.dart';
+import 'package:flutter_security_application/requirements/requirement_three.dart';
+import 'package:flutter_security_application/requirements/requirement_four.dart';
+import 'package:flutter_security_application/requirements/requirement_five.dart';
+import 'package:flutter_security_application/requirements/requirement_six.dart';
+import 'package:flutter_security_application/requirements/requirement_seven.dart';
+import 'package:flutter_security_application/requirements/requirement_eight.dart';
+import 'package:flutter_security_application/requirements/requirement_nine.dart';
+import 'package:flutter_security_application/requirements/requirement_ten.dart';
+
 
 class VerticalNavigationBar extends StatefulWidget {
   const VerticalNavigationBar({Key? key, required this.title})
@@ -115,7 +124,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 children: <Widget>[
                   SvgPicture.asset('assets/Chip_Shield.svg',
                   colorBlendMode: BlendMode.softLight,),
-                  const Text(
+                  if(sw>sh) const Text(
                     "IPRO Security Application",
                     style: TextStyle(
                         color: Colors.white,
@@ -134,7 +143,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
             items: [
               SideMenuItem(
                 priority: 0,
-                title: 'Dashboard',
+                title: 'Password Resets',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -147,7 +156,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               ),
               SideMenuItem(
                 priority: 1,
-                title: 'Users',
+                title: 'Password Restrictions',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -155,7 +164,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               ),
               SideMenuItem(
                 priority: 2,
-                title: 'Files',
+                title: 'Event Logs',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -175,7 +184,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               ),
               SideMenuItem(
                 priority: 3,
-                title: 'Download',
+                title: 'Logging Tests',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -183,28 +192,50 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               ),
               SideMenuItem(
                 priority: 4,
-                title: 'Settings',
+                title: 'Initialization Policies',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.settings),
               ),
-              // SideMenuItem(
-              //   priority: 5,
-              //   onTap:(page){
-              //     sideMenu.changePage(5);
-              //   },
-              //   icon: const Icon(Icons.image_rounded),
-              // ),
-              // SideMenuItem(
-              //   priority: 6,
-              //   title: 'Only Title',
-              //   onTap:(page){
-              //     sideMenu.changePage(6);
-              //   },
-              // ),
-              const SideMenuItem(
+              SideMenuItem(
+                priority: 5,
+                title: 'Auto Updates',
+                onTap:(page, _){
+                  sideMenu.changePage(5);
+                },
+                icon: const Icon(Icons.image_rounded),
+              ),
+              SideMenuItem(
+                priority: 6,
+                title: 'Removable Devices',
+                onTap:(page, _){
+                  sideMenu.changePage(6);
+                },
+              ),
+              SideMenuItem(
                 priority: 7,
+                title: 'System Privileges',
+                onTap:(page, _){
+                  sideMenu.changePage(7);
+                },
+              ),
+              SideMenuItem(
+                priority: 8,
+                title: 'Installation Restrictions',
+                onTap:(page, _){
+                  sideMenu.changePage(8);
+                },
+              ),
+              SideMenuItem(
+                priority: 9,
+                title: 'Firewall State',
+                onTap:(page, _){
+                  sideMenu.changePage(9);
+                },
+              ),
+              const SideMenuItem(
+                priority: 10,
                 title: 'Exit',
                 icon: Icon(Icons.exit_to_app),
               ),
@@ -213,9 +244,17 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
           Expanded(
             child: PageView(
               controller: page,
-              children: [
-                const RequirementOneWidget(),
-                const RequirementTwoWidget(),
+              children: const [
+                RequirementOneWidget(),
+                RequirementTwoWidget(),
+                RequirementThreeWidget(),
+                RequirementFourWidget(),
+                RequirementFiveWidget(),
+                RequirementSixWidget(),
+                RequirementSevenWidget(),
+                RequirementEightWidget(),
+                RequirementNineWidget(),
+                RequirementTenWidget(),
                 // Container(
                 //   color: Colors.white,
                 //   child: const Center(
@@ -234,51 +273,51 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 //     ),
                 //   ),
                 // ),
-                Container(
-                  color: Colors.white,
-                  child: const Center(
-                    child: Text(
-                      'Files',
-                      style: TextStyle(fontSize: 35),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: const Center(
-                    child: Text(
-                      'Download',
-                      style: TextStyle(fontSize: 35),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: const Center(
-                    child: Text(
-                      'Settings',
-                      style: TextStyle(fontSize: 35),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: const Center(
-                    child: Text(
-                      'Only Title',
-                      style: TextStyle(fontSize: 35),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: const Center(
-                    child: Text(
-                      'Only Icon',
-                      style: TextStyle(fontSize: 35),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Files',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Download',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Settings',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Only Title',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Only Icon',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
