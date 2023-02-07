@@ -4,7 +4,7 @@ import 'package:system_info2/system_info2.dart';
 import 'package:process_run/shell.dart';
 class RegistryAccess {
 
-  void firewallState() {
+  static void firewallState() {
     final key1 = Registry.openPath(RegistryHive.localMachine,
         path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile');
     final privateFirewall = key1.getValueAsInt('EnableFirewall');
@@ -42,7 +42,7 @@ class RegistryAccess {
     }
   }
 
-  Future shellTest() async {
+  static Future shellTest() async {
     // This works on Windows/Linux/Mac
 
     var shell = Shell();
