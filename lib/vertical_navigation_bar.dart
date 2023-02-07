@@ -15,10 +15,7 @@ import 'package:flutter_security_application/requirements/requirement_ten.dart';
 
 
 class VerticalNavigationBar extends StatefulWidget {
-  const VerticalNavigationBar({Key? key, required this.title})
-      : super(key: key);
-
-  final String title;
+  const VerticalNavigationBar({super.key});
 
   @override
   State<VerticalNavigationBar> createState() => _VerticalNavigationBarState();
@@ -76,9 +73,11 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               width: sw * 0.15,
               child: Column(
                 children: <Widget>[
-                  SvgPicture.asset('assets/Chip_Shield.svg',
-                  colorBlendMode: BlendMode.softLight,),
-                  if(sw>sh) const Text(
+                  Expanded(
+                    child: SvgPicture.asset('assets/Chip_Shield.svg',
+                    colorBlendMode: BlendMode.softLight,),
+                  ),
+                  if(sh>720 && sw>720) const Text(
                     "IPRO Security Application",
                     style: TextStyle(
                         color: Colors.white,
