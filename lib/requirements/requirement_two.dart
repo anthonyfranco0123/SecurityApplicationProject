@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_security_application/RegistryAccess.dart';
 
 class RequirementTwoWidget extends StatefulWidget {
+
 
   const RequirementTwoWidget({
     Key? key,
@@ -42,6 +44,20 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget>{
           textAlign: TextAlign.center,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        //child: Text('something'),
+        backgroundColor: Colors.red[600],
+        onPressed: () => {
+          RegistryAccess.firewallState()
+          },
+
+      ),
     );
+
   }
 }
+
+
+
+
+
