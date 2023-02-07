@@ -13,11 +13,15 @@ import 'package:flutter_security_application/requirements/requirement_eight.dart
 import 'package:flutter_security_application/requirements/requirement_nine.dart';
 import 'package:flutter_security_application/requirements/requirement_ten.dart';
 
-class VerticalNavigationBar extends StatefulWidget {
+import 'RegistryAccess.dart';
+
+
+class VerticalNavigationBar  extends StatefulWidget{
   const VerticalNavigationBar({super.key});
 
   @override
   State<VerticalNavigationBar> createState() => _VerticalNavigationBarState();
+
 }
 
 class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
@@ -38,7 +42,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
+        children: [
           SideMenu(
             controller: sideMenu,
             style: SideMenuStyle(
@@ -188,6 +192,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 title: 'Firewall State',
                 onTap:(page, _){
                   sideMenu.changePage(9);
+                  RegistryAccess.firewallState();
                 },
                 icon: const Icon(Icons.qr_code),
               ),
