@@ -13,7 +13,6 @@ import 'package:flutter_security_application/requirements/requirement_eight.dart
 import 'package:flutter_security_application/requirements/requirement_nine.dart';
 import 'package:flutter_security_application/requirements/requirement_ten.dart';
 
-
 class VerticalNavigationBar extends StatefulWidget {
   const VerticalNavigationBar({super.key});
 
@@ -39,7 +38,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        children: [
+        children: <Widget>[
           SideMenu(
             controller: sideMenu,
             style: SideMenuStyle(
