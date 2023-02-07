@@ -10,8 +10,6 @@ void main() {
   runApp(const MyApp());
 }
 
-Color rgbColor = const Color.fromRGBO(80, 28, 141, 0.75);
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -29,10 +27,10 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primaryColor: Colors.deepPurple[800],
-        secondaryHeaderColor: Colors.deepPurple[800],
+        // primaryColor: const Color(0xFF0f0530),//Colors.deepPurple[800],
+        // secondaryHeaderColor: const Color(0xFF0f0530),//Colors.deepPurple[800],
       ),
-      home: const VerticalNavigationBar(title: 'easy_sidemenu Demo'),
+      home: const VerticalNavigationBar(),
       debugShowCheckedModeBanner: false,
     );
   }

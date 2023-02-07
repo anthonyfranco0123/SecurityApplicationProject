@@ -163,8 +163,8 @@ class _SideMenuState extends State<SideMenu> {
     _currentWidth = _widthSize(
         Global.style.displayMode ?? SideMenuDisplayMode.auto, context);
 
-    return AnimatedContainer(
-      duration: _toggleDuration(),
+    return Container(
+      // duration: _toggleDuration(),
       width: _currentWidth,
       height: MediaQuery.of(context).size.height,
       decoration: _decoration(widget.style),
