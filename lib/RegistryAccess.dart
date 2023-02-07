@@ -62,10 +62,5 @@ class RegistryAccess {
 
 
   ''');
-
-    //shell = shell.pushd('example');
-
-
-    //shell = shell.popd();
   }
 }
