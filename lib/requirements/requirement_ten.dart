@@ -17,7 +17,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget>{
   void initState() {
     super.initState();
   }
-
+  String result = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,14 +44,23 @@ class RequirementTenWidgetState extends State<RequirementTenWidget>{
           textAlign: TextAlign.center,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        //child: Text('something'),
-        backgroundColor: Colors.red[600],
-        onPressed: () => {
-          RegistryAccess.firewallState()
-        },
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 
+      floatingActionButton: SizedBox(
+        height: 100.0,
+        width: 100.0,
+        child: FloatingActionButton(
+          child: Text(result),
+          onPressed: () => {
+            setState((){
+             result = RegistryAccess.firewallState();
+          })
+
+      },
+        ),
       ),
+    backgroundColor: Colors.blue[600],
     );
+
   }
 }
