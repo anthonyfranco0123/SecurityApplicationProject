@@ -192,7 +192,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 title: 'Firewall State',
                 onTap:(page, _){
                   sideMenu.changePage(9);
-                  RegistryAccess.firewallState();
+                  // RegistryAccess.firewallState();
                 },
                 icon: const Icon(Icons.qr_code),
               ),
