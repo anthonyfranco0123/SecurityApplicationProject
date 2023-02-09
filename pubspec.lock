@@ -102,6 +102,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_console:
+    dependency: "direct main"
+    description:
+      name: flutter_console
+      sha256: "593d4eaa85aae01fa62860dd71e0822d095062e65f44e5e432ec8be5966111ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -329,5 +337,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.19.0 <4.0.0"
   flutter: ">=2.11.0-0.1.pre"
