@@ -50,13 +50,37 @@ class RequirementTenWidgetState extends State<RequirementTenWidget>{
         height: 100.0,
         width: 100.0,
         child: FloatingActionButton(
-          child: Text(result),
-          onPressed: () => {
-            setState((){
-             result = RegistryAccess.firewallState();
-          })
+          //child: Text(result),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text("Firewall State"),
+                content: Text(result = RegistryAccess.firewallState()),
 
-      },
+
+                actions: <Widget>[
+
+                  TextButton(
+                    onPressed: (){
+                     // setState((){
+                     //  result = RegistryAccess.firewallState();
+                        Navigator.of(ctx).pop();
+                      //  });
+                    },
+
+                    child: Container(
+                      color: Colors.green,
+                      padding : const EdgeInsets.all(14),
+                      child: const Text('okay')
+                    ),
+                    ),
+              ],
+            ),
+            );
+            },
+
+        //child: const Text("Firewall State"),
         ),
       ),
     backgroundColor: Colors.blue[600],

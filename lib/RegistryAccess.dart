@@ -10,12 +10,20 @@ class RegistryAccess {
      int pri, public, domain;
     final key1 = Registry.openPath(RegistryHive.localMachine,
         path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile');
+    final key2 = Registry.openPath(RegistryHive.localMachine,
+        path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile');
+    final key3 = Registry.openPath(RegistryHive.localMachine,
+        path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile');
+
     final privateFirewall = key1.getValueAsInt('EnableFirewall');
-    if (privateFirewall != null) {
-      if (privateFirewall == 1) {
+    final publicFirewall = key2.getValueAsInt('EnableFirewall');
+    final domainFirewall = key3.getValueAsInt('EnableFirewall');
+
+    if (privateFirewall != null && publicFirewall != null && domainFirewall != null) {
+      if (privateFirewall == 1 && publicFirewall == 1 && domainFirewall == 1) {
         pri = 1;
-        print('Private firewall state: on');
-        return 'Private firewall state: on';
+        print('Private, Public, and Domain firewall state: on');
+        return 'Private, Public, and Domain firewall state: on';
       }
       else {
         pri = 0;
@@ -24,9 +32,6 @@ class RegistryAccess {
       }
     }
 
-    final key2 = Registry.openPath(RegistryHive.localMachine,
-        path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile');
-    final publicFirewall = key2.getValueAsInt('EnableFirewall');
     if (publicFirewall != null) {
       if (publicFirewall == 1) {
         public = 1;
@@ -40,9 +45,6 @@ class RegistryAccess {
       }
     }
 
-    final key3 = Registry.openPath(RegistryHive.localMachine,
-        path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile');
-    final domainFirewall = key3.getValueAsInt('EnableFirewall');
     if (domainFirewall != null) {
       if (domainFirewall == 1) {
         domain = 1;
@@ -56,9 +58,7 @@ class RegistryAccess {
       }
     }
 
-   // if (domain == 1){
 
-    //}
   }
 
   //Getter Method static getState
