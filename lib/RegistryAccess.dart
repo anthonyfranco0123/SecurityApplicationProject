@@ -1,7 +1,7 @@
 // import 'package:flutter/foundation.dart';
-// import 'dart:async';
-// import 'package:system_info2/system_info2.dart';
-// import 'package:process_run/shell.dart';
+ import 'dart:async';
+ import 'package:system_info2/system_info2.dart';
+ import 'package:process_run/shell.dart';
 // import 'dart:developer';
 import 'package:win32_registry/win32_registry.dart';
 
@@ -12,6 +12,8 @@ class RegistryAccess {
     final key1 = Registry.openPath(RegistryHive.localMachine,
         path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile');
     final privateFirewall = key1.getValueAsInt('EnableFirewall');
+    //RegistryValue('EnableFirewall', RegistryValueType REG_SZ, 0);
+    //key1.createValue();
     if (privateFirewall != null) {
       if (privateFirewall == 1) {
         // pri = 1;
@@ -68,25 +70,37 @@ class RegistryAccess {
 
   //Getter Method static getState
 
-  // static Future shellTest() async {
-  //   // This works on Windows/Linux/Mac
-  //
-  //   var shell = Shell();
-  //
-  //   print(SysInfo.userName.toString());
-  //   await shell.run('''
-  //     #enable password expiry
-  //     wmic UserAccount where "Name='${SysInfo.userName.toString()}'" set PasswordExpires=True
-  //
-  //     #The commands below will change certain password settings
-  //     #However, it will require admin privilege, which I dont know how to enable
-  //
-  //     #net accounts /maxpwage:90
-  //     #net accounts /minpwage:10
-  //     #net accounts /minpwlen:8
-  //     net accounts
-  //
-  //
-  // ''');
-  // }
+   static Future shellTest() async {
+     // This works on Windows/Linux/Mac
+
+     var shell = Shell();
+
+     print(SysInfo.userName.toString());
+     await shell.run('''
+       #enable password expiry
+       #wmic UserAccount where "Name='${SysInfo.userName.toString()}'" set PasswordExpires=True
+  
+      netsh advfirewall set allprofiles state on
+  
+       #net accounts /maxpwage:90
+       #net accounts /minpwage:10
+       #net accounts /minpwlen:8
+       #net accounts 
+  
+  
+   ''');
+   }
+   static int getBootStartDriverPolicy() {
+     final key1 = Registry.openPath(RegistryHive.localMachine,
+         path: r'SYSTEM\CurrentControlSet\Policies\EarlyLaunch');
+
+     //final dword = const RegistryValue('DriverLoadPolicy', RegistryValueType.int32, 0x00000001);
+
+     final bootStart = key1.getValueAsInt("DriverLoadPolicy");
+     if (bootStart != null) {
+       //print(bootStart);
+       return bootStart;
+     }
+     return 0;
+   }
 }

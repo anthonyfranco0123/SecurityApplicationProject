@@ -191,6 +191,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 9,
                 title: 'Firewall State',
                 onTap:(page, _){
+                  //RegistryAccess.shellTest();
                   sideMenu.changePage(9);
                   // RegistryAccess.firewallState();
                 },

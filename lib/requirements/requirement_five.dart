@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_security_application/RegistryAccess.dart';
 
 class RequirementFiveWidget extends StatefulWidget {
 
@@ -15,7 +16,7 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget>{
   void initState() {
     super.initState();
   }
-
+int bootStart = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,14 +35,93 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget>{
             ],
           ),
         ),
-        child: const Text('Req five',
-          style: TextStyle(
-            fontSize: 35,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Check Your Boot-Start Driver Initialization',
+              style: TextStyle(
+                fontSize: 35,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const Padding(padding: EdgeInsets.all(8.0)),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              child: const Text('Boot-start Driver Initialization'),
+              onPressed: () {
+                setState(() {
+                  bootStart = RegistryAccess.getBootStartDriverPolicy();
+                });
+              },
+            ),
+            const Padding(padding: EdgeInsets.all(8.0)),
+            if (bootStart == 0)
+              const Text(
+                'Boot-Start Driver Initialization Policy is Not Configured',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            if (bootStart == 1)
+              const Text(
+                'Boot-Start Driver Initialization Policy is Good and Unknown',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            if (bootStart == 3)
+              const Text(
+                'Boot-Start Driver Initialization Policy is Good, Unknown, and Bad But Critical',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            if (bootStart == 7)
+              const Text(
+                'Boot-Start Driver Initialization Policy is Configured to All',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            if (bootStart == 8)
+              const Text(
+                'Boot-Start Driver Initialization Policy is Good',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+          ],
         ),
       ),
+      //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      //
+      //   floatingActionButton: SizedBox(
+      //     height: 100.0,
+      //     width: 100.0,
+      //     child: FloatingActionButton(
+      //       child: Text(result),
+      //       onPressed: () => {
+      //         setState((){
+      //          result = RegistryAccess.firewallState();
+      //       })
+      //
+      //   },
+      //     ),
+      //   ),
+      // backgroundColor: Colors.blue[600],
     );
   }
 }

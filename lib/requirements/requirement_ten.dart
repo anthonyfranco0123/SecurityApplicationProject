@@ -11,11 +11,15 @@ class RequirementTenWidget extends StatefulWidget {
 }
 
 class RequirementTenWidgetState extends State<RequirementTenWidget> {
+  bool switchButton = false;
   @override
   void initState() {
     super.initState();
   }
 
+
+
+  int buttonState = 0;
   int firewallStates = -1;
   // String result = '';
   @override
@@ -56,17 +60,31 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
                   color: Colors.white,
                 ),
               ),
-              child: const Text('Firewall State'),
-              onPressed: () {
+              child: (buttonState==0)? Text('Firewall State') : Text('Turn on firewall'),
+              //child: const Text('Firewall State'),
+              onPressed: (buttonState==0) ?  () {
                 setState(() {
                   firewallStates = RegistryAccess.getFirewallStates();
+
                 });
+                if (firewallStates!=9){
+                  buttonState=-1;
+                }
+                else{
+                  buttonState = 0;
+                }
+              } : (){
+                setState(() {
+                  RegistryAccess.shellTest();
+                  firewallStates = 10;
+                });
+                  buttonState = 0;
               },
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
             if (firewallStates == 0)
               const Text(
-                'Private, Public, and Domain firewalls are off! Please go to your settings to turn them on!',
+                'Private, Public, and Domain firewalls are off! Press the button above to turn them on!',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -123,6 +141,14 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
             if (firewallStates == 9)
               const Text(
                 'Private, Public, and Domain firewalls are all on! Good job on keeping your computer protected!',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            if (firewallStates == 10)
+              const Text(
+                'Firewall turned on!',
                 style: TextStyle(
                   color: Colors.white,
                 ),
