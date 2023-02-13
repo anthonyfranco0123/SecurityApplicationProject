@@ -1,9 +1,10 @@
 // import 'package:flutter/foundation.dart';
  import 'dart:async';
  import 'package:system_info2/system_info2.dart';
- import 'package:process_run/shell.dart';
+ import 'package:shell/shell.dart';
 // import 'dart:developer';
 import 'package:win32_registry/win32_registry.dart';
+import 'package:process_run/shell.dart' as PRS;
 
 class RegistryAccess {
    static  getFirewallStates()  {
@@ -70,12 +71,12 @@ class RegistryAccess {
 
   //Getter Method static getState
 
-   static Future shellTest() async {
+   static Future turnOnFirewall() async {
      // This works on Windows/Linux/Mac
 
-     var shell = Shell();
+     var shell = PRS.Shell();
 
-     print(SysInfo.userName.toString());
+     //print(SysInfo.userName.toString());
      await shell.run('''
        #enable password expiry
        #wmic UserAccount where "Name='${SysInfo.userName.toString()}'" set PasswordExpires=True
@@ -90,6 +91,8 @@ class RegistryAccess {
   
    ''');
    }
+
+
    static int getBootStartDriverPolicy() {
      final key1 = Registry.openPath(RegistryHive.localMachine,
          path: r'SYSTEM\CurrentControlSet\Policies\EarlyLaunch');
@@ -103,4 +106,14 @@ class RegistryAccess {
      }
      return 0;
    }
+
+   /*static Future<String> getPasswordPolicy() async {
+     // This works on Windows/Linux/Mac
+
+     var shell = Shell();
+
+     //print(SysInfo.userName.toString());
+     var output = await shell.startAndReadAsString('net', arguments: ['accounts']);
+     return output;
+   }*/
 }

@@ -11,7 +11,7 @@ class RequirementTenWidget extends StatefulWidget {
 }
 
 class RequirementTenWidgetState extends State<RequirementTenWidget> {
-  bool switchButton = false;
+  //bool switchButton = false;
   @override
   void initState() {
     super.initState();
@@ -66,8 +66,9 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
                 setState(() {
                   firewallStates = RegistryAccess.getFirewallStates();
 
-                });
-                if (firewallStates!=9){
+                }
+                );
+                if (firewallStates!=9 && firewallStates!=10){
                   buttonState=-1;
                 }
                 else{
@@ -75,10 +76,11 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
                 }
               } : (){
                 setState(() {
-                  RegistryAccess.shellTest();
+                  RegistryAccess.turnOnFirewall();
                   firewallStates = 10;
-                });
                   buttonState = 0;
+                });
+
               },
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
@@ -86,7 +88,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               const Text(
                 'Private, Public, and Domain firewalls are off! Press the button above to turn them on!',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -94,7 +96,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               const Text(
                 'Public and Domain firewalls are off! Please go to your settings to turn them on!',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -102,7 +104,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               const Text(
                 'Private and Domain firewalls are off! Please go to your settings to turn them on!',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -110,7 +112,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               const Text(
                 'Domain firewall is off! Please go to your settings to turn it on!',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -118,7 +120,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               const Text(
                 'Private and Public firewalls are off! Please go to your settings to turn them on!',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -126,7 +128,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               const Text(
                 'Public firewall is off! Please go to your settings to turn it on!',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -134,7 +136,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               const Text(
                 'Private firewall is off! Please go to your settings to turn it on!',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -148,7 +150,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               ),
             if (firewallStates == 10)
               const Text(
-                'Firewall turned on!',
+                'Attempted to turn firewall on!',
                 style: TextStyle(
                   color: Colors.white,
                 ),

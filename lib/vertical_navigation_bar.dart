@@ -101,8 +101,9 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
             items: [
               SideMenuItem(
                 priority: 0,
-                title: 'Password Resets',
+                title: 'Password Reset',
                 onTap: (page, _) {
+                  //RegistryAccess.getPasswordPolicy();
                   sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.home),

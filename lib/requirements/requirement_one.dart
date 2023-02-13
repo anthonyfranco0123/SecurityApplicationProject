@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shell/shell.dart';
+
+import '../RegistryAccess.dart';
 
 class RequirementOneWidget extends StatefulWidget {
   const RequirementOneWidget({
@@ -34,10 +37,10 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
           ),
         ),
         child: const Text('Req one',
-            style: TextStyle(
-              fontSize: 35,
-              color: Colors.white,
-            ),
+          style: TextStyle(
+            fontSize: 35,
+            color: Colors.white,
+          ),
           textAlign: TextAlign.center,
         ),
       ),
