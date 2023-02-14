@@ -11,17 +11,13 @@ class RequirementTenWidget extends StatefulWidget {
 }
 
 class RequirementTenWidgetState extends State<RequirementTenWidget> {
-  //bool switchButton = false;
   @override
   void initState() {
     super.initState();
   }
 
-
-
   int buttonState = 0;
   int firewallStates = -1;
-  // String result = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,22 +155,6 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
           ],
         ),
       ),
-      //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      //
-      //   floatingActionButton: SizedBox(
-      //     height: 100.0,
-      //     width: 100.0,
-      //     child: FloatingActionButton(
-      //       child: Text(result),
-      //       onPressed: () => {
-      //         setState((){
-      //          result = RegistryAccess.firewallState();
-      //       })
-      //
-      //   },
-      //     ),
-      //   ),
-      // backgroundColor: Colors.blue[600],
     );
   }
 }

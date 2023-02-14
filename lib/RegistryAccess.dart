@@ -1,14 +1,12 @@
 // import 'package:flutter/foundation.dart';
  import 'dart:async';
  import 'package:system_info2/system_info2.dart';
- import 'package:shell/shell.dart';
 // import 'dart:developer';
 import 'package:win32_registry/win32_registry.dart';
 import 'package:process_run/shell.dart' as PRS;
 
 class RegistryAccess {
    static  getFirewallStates()  {
-     // int pri, public, domain;
      int firewallStates = 0;
     final key1 = Registry.openPath(RegistryHive.localMachine,
         path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile');
@@ -17,13 +15,11 @@ class RegistryAccess {
     //key1.createValue();
     if (privateFirewall != null) {
       if (privateFirewall == 1) {
-        // pri = 1;
         print('Private firewall state: on');
         // return 'Private firewall state: on';
         firewallStates+=1;
       }
       else {
-        // pri = 0;
         print('Private firewall state: off');
         // return 'Private firewall state: off';
       }
@@ -34,13 +30,11 @@ class RegistryAccess {
     final publicFirewall = key2.getValueAsInt('EnableFirewall');
     if (publicFirewall != null) {
       if (publicFirewall == 1) {
-        // public = 1;
         print('Public firewall state: on');
         // return 'Public firewall state: on';
         firewallStates+=3;
       }
       else {
-        // public = 0;
         print('Public firewall state: off');
         // return 'Public firewall state: off';
       }
@@ -51,22 +45,16 @@ class RegistryAccess {
     final domainFirewall = key3.getValueAsInt('EnableFirewall');
     if (domainFirewall != null) {
       if (domainFirewall == 1) {
-        // domain = 1;
         print('Domain firewall state: on');
         // return'Domain firewall state: on';
         firewallStates+=5;
       }
       else {
-        // domain = 0;
         print('Domain firewall state: off');
         // return'Domain firewall state: off';
       }
       return firewallStates;
     }
-
-   // if (domain == 1){
-
-    //}
   }
 
   //Getter Method static getState
@@ -106,14 +94,4 @@ class RegistryAccess {
      }
      return 0;
    }
-
-   /*static Future<String> getPasswordPolicy() async {
-     // This works on Windows/Linux/Mac
-
-     var shell = Shell();
-
-     //print(SysInfo.userName.toString());
-     var output = await shell.startAndReadAsString('net', arguments: ['accounts']);
-     return output;
-   }*/
 }
