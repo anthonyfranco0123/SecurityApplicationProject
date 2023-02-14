@@ -16,33 +16,41 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
     super.initState();
   }
 
-  Text firewallStateText(int firewallStates){
+  Text firewallStateText(int firewallStates) {
     String firewallStatesText = '';
     Color c = Colors.red;
-    switch(firewallStates){
+    switch (firewallStates) {
       case 0:
-        firewallStatesText = 'Private, Public, and Domain firewalls are off! Press the button above to turn them on!';
+        firewallStatesText =
+            'Private, Public, and Domain firewalls are off! Press the button above to turn them on!';
         break;
       case 1:
-        firewallStatesText = 'Public and Domain firewalls are off! Please go to your settings to turn them on!';
+        firewallStatesText =
+            'Public and Domain firewalls are off! Please go to your settings to turn them on!';
         break;
       case 3:
-        firewallStatesText = 'Private and Domain firewalls are off! Please go to your settings to turn them on!';
+        firewallStatesText =
+            'Private and Domain firewalls are off! Please go to your settings to turn them on!';
         break;
       case 4:
-        firewallStatesText = 'Domain firewall is off! Please go to your settings to turn it on!';
+        firewallStatesText =
+            'Domain firewall is off! Please go to your settings to turn it on!';
         break;
       case 5:
-        firewallStatesText = 'Private and Public firewalls are off! Please go to your settings to turn them on!';
+        firewallStatesText =
+            'Private and Public firewalls are off! Please go to your settings to turn them on!';
         break;
       case 6:
-        firewallStatesText = 'Public firewall is off! Please go to your settings to turn it on!';
+        firewallStatesText =
+            'Public firewall is off! Please go to your settings to turn it on!';
         break;
       case 8:
-        firewallStatesText = 'Private firewall is off! Please go to your settings to turn it on!';
+        firewallStatesText =
+            'Private firewall is off! Please go to your settings to turn it on!';
         break;
       case 9:
-        firewallStatesText = 'Private, Public, and Domain firewalls are all on! Good job on keeping your computer protected!';
+        firewallStatesText =
+            'Private, Public, and Domain firewalls are all on! Good job on keeping your computer protected!';
         c = Colors.white;
         break;
       case 10:
@@ -101,45 +109,38 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: (buttonState==0) ?  () {
-                setState(() {
-                  firewallStates = RegistryAccess.getFirewallStates();
-                }
-                );
-                if (firewallStates!=9 && firewallStates!=10){
-                  buttonState=-1;
-                }
-                else{
-                  buttonState = 0;
-                }
-              } : (){
-                setState(() {
-                  RegistryAccess.turnOnFirewall();
-                  firewallStates = 10;
-                  buttonState = 0;
-                });
-              },
-              child: (buttonState==0)? const Text('Firewall State') : const Text('Turn on firewall'),
+              onPressed: (buttonState == 0)
+                  ? () {
+                      setState(() {
+                        firewallStates = RegistryAccess.getFirewallStates();
+                      });
+                      if (firewallStates != 9 && firewallStates != 10) {
+                        buttonState = -1;
+                      } else {
+                        buttonState = 0;
+                      }
+                    }
+                  : () {
+                      setState(() {
+                        RegistryAccess.turnOnFirewall();
+                        firewallStates = 10;
+                        buttonState = 0;
+                      });
+                    },
+              child: (buttonState == 0)
+                  ? const Text('Firewall State')
+                  : const Text('Turn on firewall'),
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            if (firewallStates == 0)
-              firewallStateText(firewallStates),
-            if (firewallStates == 1)
-              firewallStateText(firewallStates),
-            if (firewallStates == 3)
-              firewallStateText(firewallStates),
-            if (firewallStates == 4)
-              firewallStateText(firewallStates),
-            if (firewallStates == 5)
-              firewallStateText(firewallStates),
-            if (firewallStates == 6)
-              firewallStateText(firewallStates),
-            if (firewallStates == 8)
-              firewallStateText(firewallStates),
-            if (firewallStates == 9)
-              firewallStateText(firewallStates),
-            if (firewallStates == 10)
-              firewallStateText(firewallStates),
+            if (firewallStates == 0) firewallStateText(firewallStates),
+            if (firewallStates == 1) firewallStateText(firewallStates),
+            if (firewallStates == 3) firewallStateText(firewallStates),
+            if (firewallStates == 4) firewallStateText(firewallStates),
+            if (firewallStates == 5) firewallStateText(firewallStates),
+            if (firewallStates == 6) firewallStateText(firewallStates),
+            if (firewallStates == 8) firewallStateText(firewallStates),
+            if (firewallStates == 9) firewallStateText(firewallStates),
+            if (firewallStates == 10) firewallStateText(firewallStates),
           ],
         ),
       ),
