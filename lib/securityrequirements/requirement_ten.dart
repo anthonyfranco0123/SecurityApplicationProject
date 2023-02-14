@@ -14,6 +14,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
   @override
   void initState() {
     super.initState();
+    firewallStates = RegistryAccess.getFirewallStates();
   }
 
   Text firewallStateText(int firewallStates) {
@@ -53,10 +54,6 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
             'Private, Public, and Domain firewalls are all on! Good job on keeping your computer protected!';
         c = Colors.white;
         break;
-      case 10:
-        firewallStatesText = 'Turned firewall on!';
-        c = Colors.white;
-        break;
       default:
         firewallStatesText = 'Error: Unable to determine the firewall states!';
     }
@@ -94,42 +91,12 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              'Check Your Firewall State',
+              'Your Firewall State:',
               style: TextStyle(
                 fontSize: 35,
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: (buttonState == 0)
-                  ? () {
-                      setState(() {
-                        firewallStates = RegistryAccess.getFirewallStates();
-                      });
-                      if (firewallStates != 9 && firewallStates != 10) {
-                        buttonState = -1;
-                      } else {
-                        buttonState = 0;
-                      }
-                    }
-                  : () {
-                      setState(() {
-                        RegistryAccess.turnOnFirewall();
-                        firewallStates = 10;
-                        buttonState = 0;
-                      });
-                    },
-              child: (buttonState == 0)
-                  ? const Text('Firewall State')
-                  : const Text('Turn on firewall'),
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
             if (firewallStates == 0) firewallStateText(firewallStates),
@@ -141,6 +108,45 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
             if (firewallStates == 8) firewallStateText(firewallStates),
             if (firewallStates == 9) firewallStateText(firewallStates),
             if (firewallStates == 10) firewallStateText(firewallStates),
+            const Padding(padding: EdgeInsets.all(8.0)),
+            Visibility(
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              visible: false,
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        firewallStates = RegistryAccess.getFirewallStates();
+                      });
+                    },
+                    child: const Text('Turn On Firewall'),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        firewallStates = RegistryAccess.getFirewallStates();
+                      });
+                    },
+                    child: const Text('Turn Off Firewall'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
