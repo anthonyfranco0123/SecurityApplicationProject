@@ -11,7 +11,7 @@ import 'package:flutter_security_application/securityrequirements/requirement_si
 import 'package:flutter_security_application/securityrequirements/requirement_seven.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_eight.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_nine.dart';
-import 'package:flutter_security_application/securityrequirements/requirement_ten.dart';
+import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
 
 class VerticalNavigationBar  extends StatefulWidget{
   const VerticalNavigationBar({super.key});
