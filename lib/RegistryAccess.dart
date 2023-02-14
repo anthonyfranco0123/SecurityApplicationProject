@@ -11,17 +11,13 @@ class RegistryAccess {
     final key1 = Registry.openPath(RegistryHive.localMachine,
         path: r'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile');
     final privateFirewall = key1.getValueAsInt('EnableFirewall');
-    //RegistryValue('EnableFirewall', RegistryValueType REG_SZ, 0);
-    //key1.createValue();
     if (privateFirewall != null) {
       if (privateFirewall == 1) {
         print('Private firewall state: on');
-        // return 'Private firewall state: on';
         firewallStates+=1;
       }
       else {
         print('Private firewall state: off');
-        // return 'Private firewall state: off';
       }
     }
 
@@ -31,12 +27,10 @@ class RegistryAccess {
     if (publicFirewall != null) {
       if (publicFirewall == 1) {
         print('Public firewall state: on');
-        // return 'Public firewall state: on';
         firewallStates+=3;
       }
       else {
         print('Public firewall state: off');
-        // return 'Public firewall state: off';
       }
     }
 
@@ -46,25 +40,19 @@ class RegistryAccess {
     if (domainFirewall != null) {
       if (domainFirewall == 1) {
         print('Domain firewall state: on');
-        // return'Domain firewall state: on';
         firewallStates+=5;
       }
       else {
         print('Domain firewall state: off');
-        // return'Domain firewall state: off';
       }
       return firewallStates;
     }
   }
 
-  //Getter Method static getState
-
+   //Getter Method static getState
    static Future turnOnFirewall() async {
      // This works on Windows/Linux/Mac
-
      var shell = PRS.Shell();
-
-     //print(SysInfo.userName.toString());
      await shell.run('''
        #enable password expiry
        #wmic UserAccount where "Name='${SysInfo.userName.toString()}'" set PasswordExpires=True
@@ -75,17 +63,12 @@ class RegistryAccess {
        #net accounts /minpwage:10
        #net accounts /minpwlen:8
        #net accounts 
-  
-  
    ''');
    }
-
 
    static int getBootStartDriverPolicy() {
      final key1 = Registry.openPath(RegistryHive.localMachine,
          path: r'SYSTEM\CurrentControlSet\Policies\EarlyLaunch');
-
-     //final dword = const RegistryValue('DriverLoadPolicy', RegistryValueType.int32, 0x00000001);
 
      final bootStart = key1.getValueAsInt("DriverLoadPolicy");
      if (bootStart != null) {

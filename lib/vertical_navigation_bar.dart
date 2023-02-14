@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
-import 'package:flutter_security_application/requirements/requirement_one.dart';
-import 'package:flutter_security_application/requirements/requirement_two.dart';
-import 'package:flutter_security_application/requirements/requirement_three.dart';
-import 'package:flutter_security_application/requirements/requirement_four.dart';
-import 'package:flutter_security_application/requirements/requirement_five.dart';
-import 'package:flutter_security_application/requirements/requirement_six.dart';
-import 'package:flutter_security_application/requirements/requirement_seven.dart';
-import 'package:flutter_security_application/requirements/requirement_eight.dart';
-import 'package:flutter_security_application/requirements/requirement_nine.dart';
-import 'package:flutter_security_application/requirements/requirement_ten.dart';
-
-import 'RegistryAccess.dart';
-
+import 'package:flutter_security_application/securityrequirements/requirement_one.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_two.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_three.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_four.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_five.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_six.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_seven.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_eight.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_nine.dart';
+import 'package:flutter_security_application/securityrequirements/requirement_ten.dart';
 
 class VerticalNavigationBar  extends StatefulWidget{
   const VerticalNavigationBar({super.key});
