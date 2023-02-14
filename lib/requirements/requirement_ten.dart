@@ -16,6 +16,85 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
     super.initState();
   }
 
+  Text firewallStateText(int firewallStates){
+    switch(firewallStates){
+      case 0:
+        return const Text(
+          'Private, Public, and Domain firewalls are off! Press the button above to turn them on!',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 1:
+        return const Text(
+          'Public and Domain firewalls are off! Please go to your settings to turn them on!',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 3:
+        return const Text(
+          'Private and Domain firewalls are off! Please go to your settings to turn them on!',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 4:
+        return const Text(
+          'Domain firewall is off! Please go to your settings to turn it on!',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 5:
+        return const Text(
+          'Private and Public firewalls are off! Please go to your settings to turn them on!',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 6:
+        return const Text(
+          'Public firewall is off! Please go to your settings to turn it on!',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 8:
+        return const Text(
+          'Private firewall is off! Please go to your settings to turn it on!',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 9:
+        return const Text(
+          'Private, Public, and Domain firewalls are all on! Good job on keeping your computer protected!',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        );
+      case 10:
+        return const Text(
+          'Attempted to turn firewall on!',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        );
+      default:
+        return const Text('Error: Unable to determine the firewall states!');
+    }
+  }
+
   int buttonState = 0;
   int firewallStates = -1;
   @override
@@ -81,77 +160,23 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
             if (firewallStates == 0)
-              const Text(
-                'Private, Public, and Domain firewalls are off! Press the button above to turn them on!',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 1)
-              const Text(
-                'Public and Domain firewalls are off! Please go to your settings to turn them on!',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 3)
-              const Text(
-                'Private and Domain firewalls are off! Please go to your settings to turn them on!',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 4)
-              const Text(
-                'Domain firewall is off! Please go to your settings to turn it on!',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 5)
-              const Text(
-                'Private and Public firewalls are off! Please go to your settings to turn them on!',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 6)
-              const Text(
-                'Public firewall is off! Please go to your settings to turn it on!',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 8)
-              const Text(
-                'Private firewall is off! Please go to your settings to turn it on!',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 9)
-              const Text(
-                'Private, Public, and Domain firewalls are all on! Good job on keeping your computer protected!',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
             if (firewallStates == 10)
-              const Text(
-                'Attempted to turn firewall on!',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              firewallStateText(firewallStates),
           ],
         ),
       ),
