@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
-import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
+//import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
 
 class RequirementTenWidget extends StatefulWidget {
   const RequirementTenWidget({
@@ -103,18 +103,18 @@ class _RequirementTenWidgetState extends State<RequirementTenWidget> {
   }
 
   Future<void> turningOnAllFirewallStates() async {
-    await FirewallStateChanger().allFirewallStatesOn();
+    //await FirewallStateChanger().allFirewallStatesOn();
   }
 
   Future<void> settingCurrentFirewallStates() async {
-    await FirewallStateChanger().allFirewallStatesOn();
+    //await FirewallStateChanger().allFirewallStatesOn();
   }
 
   void setCurrentFirewallStates() {
     setState(() {
       // FirewallStateChanger().allFirewallStatesOn();
       print(currentFirewallStates);
-      FirewallStateChanger().allFirewallStatesOn();
+      //FirewallStateChanger().allFirewallStatesOn();
       settingCurrentFirewallStates();
       // currentFirewallStates = FirewallAccess().getFirewallStates();
       print(currentFirewallStates);
