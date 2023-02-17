@@ -13,21 +13,21 @@ import 'package:flutter_security_application/securityrequirements/requirement_ei
 import 'package:flutter_security_application/securityrequirements/requirement_nine.dart';
 import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
 
-class VerticalNavigationBar  extends StatefulWidget{
+class VerticalNavigationBar  extends StatefulWidget {
   const VerticalNavigationBar({super.key});
 
   @override
   State<VerticalNavigationBar> createState() => _VerticalNavigationBarState();
-
 }
 
 class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
-  PageController page = PageController();
-  SideMenuController sideMenu = SideMenuController();
+  final PageController _page = PageController();
+  final SideMenuController _sideMenu = SideMenuController();
+
   @override
   void initState() {
-    sideMenu.addListener((p0) {
-      page.jumpToPage(p0);
+    _sideMenu.addListener((p0) {
+      _page.jumpToPage(p0);
     });
     super.initState();
   }
@@ -41,7 +41,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SideMenu(
-            controller: sideMenu,
+            controller: _sideMenu,
             style: SideMenuStyle(
               // showTooltip: false,
               displayMode: SideMenuDisplayMode.auto,
@@ -101,7 +101,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 title: 'Password Reset',
                 onTap: (page, _) {
                   //RegistryAccess.getPasswordPolicy();
-                  sideMenu.changePage(page);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.home),
                 badgeContent: const Text(
@@ -113,7 +113,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 1,
                 title: 'Password Restrictions',
                 onTap: (page, _) {
-                  sideMenu.changePage(page);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.supervisor_account),
               ),
@@ -121,7 +121,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 2,
                 title: 'Event Logs',
                 onTap: (page, _) {
-                  sideMenu.changePage(page);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.file_copy_rounded),
                 trailing: Container(
@@ -141,7 +141,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 3,
                 title: 'Logging Tests',
                 onTap: (page, _) {
-                  sideMenu.changePage(page);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.download),
               ),
@@ -149,7 +149,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 4,
                 title: 'Initialization Policies',
                 onTap: (page, _) {
-                  sideMenu.changePage(page);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.settings),
               ),
@@ -157,7 +157,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 5,
                 title: 'Auto Updates',
                 onTap:(page, _){
-                  sideMenu.changePage(5);
+                  _sideMenu.changePage(5);
                 },
                 icon: const Icon(Icons.image_rounded),
               ),
@@ -165,7 +165,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 6,
                 title: 'Removable Devices',
                 onTap:(page, _){
-                  sideMenu.changePage(6);
+                  _sideMenu.changePage(6);
                 },
                 icon: const Icon(Icons.add_circle),
               ),
@@ -173,7 +173,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 7,
                 title: 'System Privileges',
                 onTap:(page, _){
-                  sideMenu.changePage(7);
+                  _sideMenu.changePage(7);
                 },
                 icon: const Icon(Icons.wallet),
               ),
@@ -181,7 +181,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 8,
                 title: 'Installation Restrictions',
                 onTap:(page, _){
-                  sideMenu.changePage(8);
+                  _sideMenu.changePage(8);
                 },
                 icon: const Icon(Icons.zoom_in),
               ),
@@ -189,9 +189,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 9,
                 title: 'Firewall State',
                 onTap:(page, _){
-                  //RegistryAccess.shellTest();
-                  sideMenu.changePage(9);
-                  // RegistryAccess.firewallState();
+                  _sideMenu.changePage(9);
                 },
                 icon: const Icon(Icons.qr_code),
               ),
@@ -199,7 +197,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
           ),
           Expanded(
             child: PageView(
-              controller: page,
+              controller: _page,
               children: const [
                 RequirementOneWidget(),
                 RequirementTwoWidget(),

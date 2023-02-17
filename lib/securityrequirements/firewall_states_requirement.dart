@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_security_application/RegistryAccess.dart';
+import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
+import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
 
 class RequirementTenWidget extends StatefulWidget {
   const RequirementTenWidget({
@@ -7,67 +8,161 @@ class RequirementTenWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<RequirementTenWidget> createState() => RequirementTenWidgetState();
+  State<RequirementTenWidget> createState() => _RequirementTenWidgetState();
 }
 
-class RequirementTenWidgetState extends State<RequirementTenWidget> {
+class _RequirementTenWidgetState extends State<RequirementTenWidget> {
+  static int initialFirewallStates = FirewallAccess().getFirewallStates();
+  int currentFirewallStates = -1;
+
   @override
   void initState() {
     super.initState();
-    firewallStates = RegistryAccess.getFirewallStates();
   }
 
-  Text firewallStateText(int firewallStates) {
+  String _initialFirewallStateText(int firewallStates) {
     String firewallStatesText = '';
-    Color c = Colors.red;
     switch (firewallStates) {
       case 0:
         firewallStatesText =
-            'Private, Public, and Domain firewalls are off! Press the button above to turn them on!';
+        'Initial Status: Private, Public, and Domain firewalls are off!';
         break;
       case 1:
         firewallStatesText =
-            'Public and Domain firewalls are off! Please go to your settings to turn them on!';
+        'Initial Status: Public and Domain firewalls are off!';
         break;
       case 3:
         firewallStatesText =
-            'Private and Domain firewalls are off! Please go to your settings to turn them on!';
+        'Initial Status: Private and Domain firewalls are off!';
         break;
       case 4:
         firewallStatesText =
-            'Domain firewall is off! Please go to your settings to turn it on!';
+        'Initial Status: Domain firewall is off!';
         break;
       case 5:
         firewallStatesText =
-            'Private and Public firewalls are off! Please go to your settings to turn them on!';
+        'Initial Status: Private and Public firewalls are off!';
         break;
       case 6:
         firewallStatesText =
-            'Public firewall is off! Please go to your settings to turn it on!';
+        'Initial Status: Public firewall is off!';
         break;
       case 8:
         firewallStatesText =
-            'Private firewall is off! Please go to your settings to turn it on!';
+        'Initial Status: Private firewall is off!';
         break;
       case 9:
         firewallStatesText =
-            'Private, Public, and Domain firewalls are all on! Good job on keeping your computer protected!';
-        c = Colors.white;
+        'Initial Status: Private, Public, and Domain firewalls are all on!';
         break;
       default:
         firewallStatesText = 'Error: Unable to determine the firewall states!';
     }
+    return firewallStatesText;
+  }
+
+  String _currentFirewallStateText(int firewallStates) {
+    String firewallStatesText = '';
+    switch (firewallStates) {
+      case 0:
+        firewallStatesText =
+            'Current Status: Private, Public, and Domain firewalls are off!';
+        break;
+      case 1:
+        firewallStatesText =
+            'Current Status: Public and Domain firewalls are off!';
+        break;
+      case 3:
+        firewallStatesText =
+            'Current Status: Private and Domain firewalls are off!';
+        break;
+      case 4:
+        firewallStatesText =
+            'Current Status: Domain firewall is off!';
+        break;
+      case 5:
+        firewallStatesText =
+            'Current Status: Private and Public firewalls are off!';
+        break;
+      case 6:
+        firewallStatesText =
+            'Current Status: Public firewall is off!';
+        break;
+      case 8:
+        firewallStatesText =
+            'Current Status: Private firewall is off!';
+        break;
+      case 9:
+        firewallStatesText =
+            'Current Status: Private, Public, and Domain firewalls are all on!';
+        break;
+      default:
+        firewallStatesText = 'Error: Unable to determine the firewall states!';
+    }
+    return firewallStatesText;
+  }
+
+  Future<void> turningOnAllFirewallStates() async {
+    await FirewallStateChanger().allFirewallStatesOn();
+  }
+
+  Future<void> settingCurrentFirewallStates() async {
+    await FirewallStateChanger().allFirewallStatesOn();
+  }
+
+  void setCurrentFirewallStates() {
+    setState(() {
+      // FirewallStateChanger().allFirewallStatesOn();
+      print(currentFirewallStates);
+      FirewallStateChanger().allFirewallStatesOn();
+      settingCurrentFirewallStates();
+      // currentFirewallStates = FirewallAccess().getFirewallStates();
+      print(currentFirewallStates);
+    });
+  }
+
+  Text _textToDisplayForInitialFirewallStates(int initialFirewallStates) {
+    String textToDisplayForInitialFirewallStates = '';
+    Color c = Colors.yellow;
+    if(initialFirewallStates != 9) {
+      c = Colors.red;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText(initialFirewallStates);
+    } else {
+      c = Colors.white;
+      currentFirewallStates = initialFirewallStates;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText(initialFirewallStates);
+    }
     return Text(
-      firewallStatesText,
+      textToDisplayForInitialFirewallStates,
       style: TextStyle(
         color: c,
+        fontSize: 16,
       ),
       textAlign: TextAlign.center,
     );
   }
 
-  int buttonState = 0;
-  int firewallStates = -1;
+  Text _textToDisplayForCurrentFirewallStates() {
+    Color c = Colors.yellow;
+    turningOnAllFirewallStates();
+    setCurrentFirewallStates();
+    if(currentFirewallStates != 9) {
+      c = Colors.red;
+    } else {
+      c = Colors.white;
+    }
+    print('-');
+    print(currentFirewallStates);
+    return Text(
+      _currentFirewallStateText(currentFirewallStates),
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,15 +194,8 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
               textAlign: TextAlign.center,
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            if (firewallStates == 0) firewallStateText(firewallStates),
-            if (firewallStates == 1) firewallStateText(firewallStates),
-            if (firewallStates == 3) firewallStateText(firewallStates),
-            if (firewallStates == 4) firewallStateText(firewallStates),
-            if (firewallStates == 5) firewallStateText(firewallStates),
-            if (firewallStates == 6) firewallStateText(firewallStates),
-            if (firewallStates == 8) firewallStateText(firewallStates),
-            if (firewallStates == 9) firewallStateText(firewallStates),
-            if (firewallStates == 10) firewallStateText(firewallStates),
+            _textToDisplayForInitialFirewallStates(initialFirewallStates),
+            _textToDisplayForCurrentFirewallStates(),
             const Padding(padding: EdgeInsets.all(8.0)),
             Visibility(
               maintainSize: true,
@@ -125,7 +213,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
                     ),
                     onPressed: () {
                       setState(() {
-                        firewallStates = RegistryAccess.getFirewallStates();
+                        // firewallStates = RegistryAccess.getFirewallStates();
                       });
                     },
                     child: const Text('Turn On Firewall'),
@@ -139,7 +227,7 @@ class RequirementTenWidgetState extends State<RequirementTenWidget> {
                     ),
                     onPressed: () {
                       setState(() {
-                        firewallStates = RegistryAccess.getFirewallStates();
+                        // firewallStates = RegistryAccess.getFirewallStates();
                       });
                     },
                     child: const Text('Turn Off Firewall'),
