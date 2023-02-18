@@ -80,7 +80,6 @@ class RegistryAccess {
      } catch (e){
        //final key2 = Registry.openPath(RegistryHive.localMachine,
           // path: r'SYSTEM\CurrentControlSet\Policies\');
-       print("In here");
        var shell = PRS.Shell();
            await shell.run('''
        
@@ -90,6 +89,35 @@ class RegistryAccess {
            return -1;
      }
 
-     return 0;
+
+   }
+
+   static Future changeMaxPwAge() async {
+         // This works on Windows/Linux/Mac
+         var shell = PRS.Shell();
+         await shell.run('''
+    
+            net accounts /maxpwage:90
+
+       ''');
+       }
+   static Future changeMinPwLen() async {
+     // This works on Windows/Linux/Mac
+     var shell = PRS.Shell();
+     await shell.run('''
+    
+            net accounts /minpwlen:8
+
+       ''');
+   }
+
+   static Future changePwHist() async {
+     // This works on Windows/Linux/Mac
+     var shell = PRS.Shell();
+     await shell.run('''
+    
+            net accounts /uniquepw:10
+
+       ''');
    }
 }
