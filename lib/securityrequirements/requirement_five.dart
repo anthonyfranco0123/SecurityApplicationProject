@@ -16,7 +16,7 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget>{
   void initState() {
     super.initState();
   }
-int bootStart = -1;
+int bootStart = -2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,13 +56,22 @@ int bootStart = -1;
                 ),
               ),
               child: const Text('Boot-start Driver Initialization'),
-              onPressed: () {
-                setState(() {
-                  bootStart = RegistryAccess.getBootStartDriverPolicy();
+              onPressed: () async {
+                bootStart = await RegistryAccess.getBootStartDriverPolicy();
+                setState(()  {
+
                 });
               },
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
+            if (bootStart == -1)
+              const Text(
+                'Boot-Start Driver Initialization Policy is Not Configured, But now set to All',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
             if (bootStart == 0)
               const Text(
                 'Boot-Start Driver Initialization Policy is Not Configured',
