@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
+import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_one.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_two.dart';
@@ -12,6 +15,7 @@ import 'package:flutter_security_application/securityrequirements/requirement_se
 import 'package:flutter_security_application/securityrequirements/requirement_eight.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_nine.dart';
 import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
+import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
 
 class VerticalNavigationBar  extends StatefulWidget {
   const VerticalNavigationBar({super.key});
@@ -29,7 +33,22 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
     });
+    FirewallInitialState.initialFirewallStates = FirewallAccess().getFirewallStates();
+    if(_sideMenu.currentPage != 10) {
+      _periodicallyUpdateCurrentFirewallStatus();
+    }
     super.initState();
+  }
+
+  void _periodicallyUpdateCurrentFirewallStatus() {
+    int currentFirewallStates = FirewallAccess().getFirewallStates();
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        if(currentFirewallStates != 9) {
+          FirewallStateChanger().allFirewallStatesOn();
+        }
+      });
+    });
   }
 
   @override
@@ -208,7 +227,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 RequirementSevenWidget(),
                 RequirementEightWidget(),
                 RequirementNineWidget(),
-                RequirementTenWidget(),
+                FirewallStatesRequirementWidget(),
               ],
             ),
           ),
