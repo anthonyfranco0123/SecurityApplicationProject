@@ -1,28 +1,38 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
-//import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
+import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
+import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
 
-class RequirementTenWidget extends StatefulWidget {
-  const RequirementTenWidget({
-    Key? key,
-  }) : super(key: key);
+class FirewallStatesRequirementWidget extends StatefulWidget {
+  const FirewallStatesRequirementWidget({super.key});
 
   @override
-  State<RequirementTenWidget> createState() => _RequirementTenWidgetState();
+  State<FirewallStatesRequirementWidget> createState() => _FirewallStatesRequirementWidgetState();
 }
 
-class _RequirementTenWidgetState extends State<RequirementTenWidget> {
-  static int initialFirewallStates = FirewallAccess().getFirewallStates();
+class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirementWidget> with AutomaticKeepAliveClientMixin {
+  int initialFirewallStates = -1;
   int currentFirewallStates = -1;
+  late Timer timer;
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
+    initialFirewallStates = FirewallInitialState.initialFirewallStates;
     super.initState();
   }
 
-  String _initialFirewallStateText(int firewallStates) {
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  String _initialFirewallStateText() {
     String firewallStatesText = '';
-    switch (firewallStates) {
+    switch (initialFirewallStates) {
       case 0:
         firewallStatesText =
         'Initial Status: Private, Public, and Domain firewalls are off!';
@@ -61,9 +71,9 @@ class _RequirementTenWidgetState extends State<RequirementTenWidget> {
     return firewallStatesText;
   }
 
-  String _currentFirewallStateText(int firewallStates) {
+  String _currentFirewallStateText() {
     String firewallStatesText = '';
-    switch (firewallStates) {
+    switch (currentFirewallStates) {
       case 0:
         firewallStatesText =
             'Current Status: Private, Public, and Domain firewalls are off!';
@@ -102,35 +112,16 @@ class _RequirementTenWidgetState extends State<RequirementTenWidget> {
     return firewallStatesText;
   }
 
-  Future<void> turningOnAllFirewallStates() async {
-    //await FirewallStateChanger().allFirewallStatesOn();
-  }
-
-  Future<void> settingCurrentFirewallStates() async {
-    //await FirewallStateChanger().allFirewallStatesOn();
-  }
-
-  void setCurrentFirewallStates() {
-    setState(() {
-      // FirewallStateChanger().allFirewallStatesOn();
-      print(currentFirewallStates);
-      //FirewallStateChanger().allFirewallStatesOn();
-      settingCurrentFirewallStates();
-      // currentFirewallStates = FirewallAccess().getFirewallStates();
-      print(currentFirewallStates);
-    });
-  }
-
-  Text _textToDisplayForInitialFirewallStates(int initialFirewallStates) {
+  Text _textToDisplayForInitialFirewallStates() {
     String textToDisplayForInitialFirewallStates = '';
     Color c = Colors.yellow;
     if(initialFirewallStates != 9) {
       c = Colors.red;
-      textToDisplayForInitialFirewallStates = _initialFirewallStateText(initialFirewallStates);
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
     } else {
       c = Colors.white;
       currentFirewallStates = initialFirewallStates;
-      textToDisplayForInitialFirewallStates = _initialFirewallStateText(initialFirewallStates);
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
     }
     return Text(
       textToDisplayForInitialFirewallStates,
@@ -144,17 +135,15 @@ class _RequirementTenWidgetState extends State<RequirementTenWidget> {
 
   Text _textToDisplayForCurrentFirewallStates() {
     Color c = Colors.yellow;
-    turningOnAllFirewallStates();
-    setCurrentFirewallStates();
+    _periodicallyUpdateCurrentFirewallStatus();
     if(currentFirewallStates != 9) {
       c = Colors.red;
+      FirewallStateChanger().allFirewallStatesOn();
     } else {
       c = Colors.white;
     }
-    print('-');
-    print(currentFirewallStates);
     return Text(
-      _currentFirewallStateText(currentFirewallStates),
+      _currentFirewallStateText(),
       style: TextStyle(
         color: c,
         fontSize: 16,
@@ -163,8 +152,20 @@ class _RequirementTenWidgetState extends State<RequirementTenWidget> {
     );
   }
 
+  void _periodicallyUpdateCurrentFirewallStatus() {
+    currentFirewallStates = FirewallAccess().getFirewallStates();
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        if(currentFirewallStates != 9) {
+          FirewallStateChanger().allFirewallStatesOn();
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -194,7 +195,7 @@ class _RequirementTenWidgetState extends State<RequirementTenWidget> {
               textAlign: TextAlign.center,
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            _textToDisplayForInitialFirewallStates(initialFirewallStates),
+            _textToDisplayForInitialFirewallStates(),
             _textToDisplayForCurrentFirewallStates(),
             const Padding(padding: EdgeInsets.all(8.0)),
             Visibility(
