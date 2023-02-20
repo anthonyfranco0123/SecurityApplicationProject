@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_security_application/admin_mode.dart';
+import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_one.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_two.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_three.dart';
@@ -17,7 +17,7 @@ import 'package:flutter_security_application/securityrequirements/requirement_ni
 import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
 
-class VerticalNavigationBar  extends StatefulWidget {
+class VerticalNavigationBar extends StatefulWidget {
   const VerticalNavigationBar({super.key});
 
   @override
@@ -33,8 +33,9 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
     });
-    FirewallInitialState.initialFirewallStates = FirewallAccess().getFirewallStates();
-    if(_sideMenu.currentPage != 10) {
+    FirewallInitialState.initialFirewallStates =
+        FirewallAccess().getFirewallStates();
+    if (_sideMenu.currentPage != 10) {
       _periodicallyUpdateCurrentFirewallStatus();
     }
     super.initState();
@@ -44,7 +45,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     int currentFirewallStates = FirewallAccess().getFirewallStates();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if(currentFirewallStates != 9) {
+        if (currentFirewallStates != 9) {
           FirewallStateChanger().allFirewallStatesOn();
         }
       });
@@ -62,7 +63,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
           SideMenu(
             controller: _sideMenu,
             style: SideMenuStyle(
-              // showTooltip: false,
               displayMode: SideMenuDisplayMode.auto,
               hoverColor: Colors.black12,
               selectedColor: Colors.black,
@@ -82,7 +82,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                   ]),
               backgroundColor: const Color(0xFF0f0530),
             ),
-            // title: Image.asset('assets/Application_Logo.png')
             title: Container(
               margin: const EdgeInsets.only(top: 14),
               alignment: Alignment.center,
@@ -91,29 +90,49 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               child: Column(
                 children: <Widget>[
                   Expanded(
-                    child: SvgPicture.asset('assets/Chip_Shield.svg',
-                    colorBlendMode: BlendMode.softLight,),
+                    child: SvgPicture.asset(
+                      'assets/Chip_Shield.svg',
+                      colorBlendMode: BlendMode.softLight,
+                    ),
                   ),
-                  if(sh>720 && sw>720) Container(
-                    margin: const EdgeInsets.only(bottom: 14),
-                    child: const Text(
-                      "IPRO Security Application",
-                      style: TextStyle(
+                  if (sh > 720 && sw > 720)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 14),
+                      child: const Text(
+                        "IPRO Security Application",
+                        style: TextStyle(
                           color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
+                    ),
+                  Container(
+                    margin: const EdgeInsets.all(8),
+                    alignment: Alignment.center,
+                    height: sh * 0.02,
+                    child: FilledButton.tonal(
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.black26,
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40)),
+                              elevation: 1,
+                              child: const AdminMode(),
+                            );
+                          },
+                        );
+                      },
+                      child: null,
                     ),
                   ),
                 ],
               ),
             ),
-            // footer: const Padding(
-            //   padding: EdgeInsets.all(8.0),
-            //   child: Text(
-            //     'mohada',
-            //     style: TextStyle(fontSize: 15),
-            //   ),
-            // ),
             items: [
               SideMenuItem(
                 priority: 0,
@@ -175,7 +194,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 5,
                 title: 'Auto Updates',
-                onTap:(page, _){
+                onTap: (page, _) {
                   _sideMenu.changePage(5);
                 },
                 icon: const Icon(Icons.image_rounded),
@@ -183,7 +202,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 6,
                 title: 'Removable Devices',
-                onTap:(page, _){
+                onTap: (page, _) {
                   _sideMenu.changePage(6);
                 },
                 icon: const Icon(Icons.add_circle),
@@ -191,7 +210,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 7,
                 title: 'System Privileges',
-                onTap:(page, _){
+                onTap: (page, _) {
                   _sideMenu.changePage(7);
                 },
                 icon: const Icon(Icons.wallet),
@@ -199,7 +218,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 8,
                 title: 'Installation Restrictions',
-                onTap:(page, _){
+                onTap: (page, _) {
                   _sideMenu.changePage(8);
                 },
                 icon: const Icon(Icons.zoom_in),
@@ -207,7 +226,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               SideMenuItem(
                 priority: 9,
                 title: 'Firewall State',
-                onTap:(page, _){
+                onTap: (page, _) {
                   _sideMenu.changePage(9);
                 },
                 icon: const Icon(Icons.qr_code),
