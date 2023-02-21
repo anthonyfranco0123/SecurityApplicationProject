@@ -52,22 +52,6 @@ class AdminMode {
             errorMessage:
             'Must contain a letter!',
           ),
-          // content: TextField(
-          //   controller: _textFieldController,
-          //   decoration: InputDecoration(hintText: "Text Field in Dialog",
-          //     hintStyle: const TextStyle(color: Colors.black26),
-          //     filled: true,
-          //     fillColor: Colors.white,
-          //     border: OutlineInputBorder(
-          //         borderSide: BorderSide.none,
-          //         borderRadius: BorderRadius.circular(3)
-          //     ),
-          //   ),
-          //   style: const TextStyle(
-          //     color: Colors.black,
-          //   ),
-          //   textAlign: TextAlign.center,
-          // ),
           actions: <Widget>[
             TextButton(
               child: const Text('CANCEL'),
