@@ -8,9 +8,7 @@ class AdminMode {
 
   void _verifyAdminPassword(String adminPassword) {
     if(adminPassword == 'admin') {
-      print(AdminState.adminState);
       AdminState.adminState = !AdminState.adminState;
-      print(AdminState.adminState);
     }
   }
 
