@@ -114,18 +114,25 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                       style: FilledButton.styleFrom(
                         backgroundColor: Colors.black26,
                       ),
-                      onPressed: () {
-                        showDialog(
+                      onPressed: () async {
+                        final result = await showDialog(
                           context: context,
-                          builder: (context) {
-                            return Dialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40)),
-                              elevation: 1,
-                              child: const AdminMode(),
-                            );
-                          },
+                          builder: (_) => const AdminMode(),
                         );
+                        return result;
+                        // onPressed: () {
+                        //   showDialog(
+                        //     context: context,
+                        //     // builder: (_) => const AdminMode(),
+                        //     // builder: (_) {
+                        //     //   return Dialog(
+                        //     //     shape: RoundedRectangleBorder(
+                        //     //         borderRadius: BorderRadius.circular(40)),
+                        //     //     elevation: 1,
+                        //     //     child: const AdminMode(),
+                        //     //   );
+                        //     // },
+                        //   );
                       },
                       child: null,
                     ),
