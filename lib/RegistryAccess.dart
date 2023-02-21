@@ -1,7 +1,3 @@
-// import 'package:flutter/foundation.dart';
-// import 'dart:async';
-// import 'package:system_info2/system_info2.dart';
-// import 'dart:developer';
 import 'package:win32_registry/win32_registry.dart';
 import 'package:process_run/shell.dart' as PRS;
 
