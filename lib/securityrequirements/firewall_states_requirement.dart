@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_security_application/admin/admin_state.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
@@ -202,7 +203,7 @@ class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirem
               maintainSize: true,
               maintainAnimation: true,
               maintainState: true,
-              visible: false,
+              visible: AdminState.adminState,
               child: Row(
                 children: [
                   ElevatedButton(

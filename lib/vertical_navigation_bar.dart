@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_security_application/admin_mode.dart';
+import 'package:flutter_security_application/admin/admin_mode.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
@@ -114,25 +114,8 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                       style: FilledButton.styleFrom(
                         backgroundColor: Colors.black26,
                       ),
-                      onPressed: () async {
-                        final result = await showDialog(
-                          context: context,
-                          builder: (_) => const AdminMode(),
-                        );
-                        return result;
-                        // onPressed: () {
-                        //   showDialog(
-                        //     context: context,
-                        //     // builder: (_) => const AdminMode(),
-                        //     // builder: (_) {
-                        //     //   return Dialog(
-                        //     //     shape: RoundedRectangleBorder(
-                        //     //         borderRadius: BorderRadius.circular(40)),
-                        //     //     elevation: 1,
-                        //     //     child: const AdminMode(),
-                        //     //   );
-                        //     // },
-                        //   );
+                        onPressed: () {
+                          AdminMode().displayTextInputDialog(context);
                       },
                       child: null,
                     ),
