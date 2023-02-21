@@ -9,10 +9,13 @@ class FirewallStatesRequirementWidget extends StatefulWidget {
   const FirewallStatesRequirementWidget({super.key});
 
   @override
-  State<FirewallStatesRequirementWidget> createState() => _FirewallStatesRequirementWidgetState();
+  State<FirewallStatesRequirementWidget> createState() =>
+      _FirewallStatesRequirementWidgetState();
 }
 
-class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirementWidget> with AutomaticKeepAliveClientMixin {
+class _FirewallStatesRequirementWidgetState
+    extends State<FirewallStatesRequirementWidget>
+    with AutomaticKeepAliveClientMixin {
   int initialFirewallStates = -1;
   int currentFirewallStates = -1;
   late Timer timer;
@@ -36,35 +39,32 @@ class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirem
     switch (initialFirewallStates) {
       case 0:
         firewallStatesText =
-        'Initial Status: Private, Public, and Domain firewalls are off!';
+            'Initial Status: Private, Public, and Domain firewalls are off!';
         break;
       case 1:
         firewallStatesText =
-        'Initial Status: Public and Domain firewalls are off!';
+            'Initial Status: Public and Domain firewalls are off!';
         break;
       case 3:
         firewallStatesText =
-        'Initial Status: Private and Domain firewalls are off!';
+            'Initial Status: Private and Domain firewalls are off!';
         break;
       case 4:
-        firewallStatesText =
-        'Initial Status: Domain firewall is off!';
+        firewallStatesText = 'Initial Status: Domain firewall is off!';
         break;
       case 5:
         firewallStatesText =
-        'Initial Status: Private and Public firewalls are off!';
+            'Initial Status: Private and Public firewalls are off!';
         break;
       case 6:
-        firewallStatesText =
-        'Initial Status: Public firewall is off!';
+        firewallStatesText = 'Initial Status: Public firewall is off!';
         break;
       case 8:
-        firewallStatesText =
-        'Initial Status: Private firewall is off!';
+        firewallStatesText = 'Initial Status: Private firewall is off!';
         break;
       case 9:
         firewallStatesText =
-        'Initial Status: Private, Public, and Domain firewalls are all on!';
+            'Initial Status: Private, Public, and Domain firewalls are all on!';
         break;
       default:
         firewallStatesText = 'Error: Unable to determine the firewall states!';
@@ -88,20 +88,17 @@ class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirem
             'Current Status: Private and Domain firewalls are off!';
         break;
       case 4:
-        firewallStatesText =
-            'Current Status: Domain firewall is off!';
+        firewallStatesText = 'Current Status: Domain firewall is off!';
         break;
       case 5:
         firewallStatesText =
             'Current Status: Private and Public firewalls are off!';
         break;
       case 6:
-        firewallStatesText =
-            'Current Status: Public firewall is off!';
+        firewallStatesText = 'Current Status: Public firewall is off!';
         break;
       case 8:
-        firewallStatesText =
-            'Current Status: Private firewall is off!';
+        firewallStatesText = 'Current Status: Private firewall is off!';
         break;
       case 9:
         firewallStatesText =
@@ -116,7 +113,7 @@ class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirem
   Text _textToDisplayForInitialFirewallStates() {
     String textToDisplayForInitialFirewallStates = '';
     Color c = Colors.yellow;
-    if(initialFirewallStates != 9) {
+    if (initialFirewallStates != 9) {
       c = Colors.red;
       textToDisplayForInitialFirewallStates = _initialFirewallStateText();
     } else {
@@ -137,7 +134,7 @@ class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirem
   Text _textToDisplayForCurrentFirewallStates() {
     Color c = Colors.yellow;
     _periodicallyUpdateCurrentFirewallStatus();
-    if(currentFirewallStates != 9) {
+    if (currentFirewallStates != 9) {
       c = Colors.red;
       FirewallStateChanger().allFirewallStatesOn();
     } else {
@@ -157,7 +154,7 @@ class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirem
     currentFirewallStates = FirewallAccess().getFirewallStates();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if(currentFirewallStates != 9) {
+        if (currentFirewallStates != 9) {
           FirewallStateChanger().allFirewallStatesOn();
         }
       });
@@ -205,6 +202,8 @@ class _FirewallStatesRequirementWidgetState extends State<FirewallStatesRequirem
               maintainState: true,
               visible: AdminState.adminState,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
