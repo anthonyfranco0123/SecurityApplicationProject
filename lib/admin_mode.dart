@@ -10,8 +10,12 @@ class AdminMode extends StatefulWidget {
 class _AdminModeState extends State<AdminMode> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text(
+    final sh = MediaQuery.of(context).size.height;
+    final sw = MediaQuery.of(context).size.width;
+    return Container(
+      width: sw * 0.1,
+      height: sh * 0.1,
+      child: const Text(
         'Your Firewall State:',
         style: TextStyle(
           fontSize: 35,
