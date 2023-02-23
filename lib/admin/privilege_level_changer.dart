@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/admin/hidePasswordField/passwordfield.dart';
+import 'package:flutter_security_application/admin/hidePasswordField/password_field.dart';
 
 class PrivilegeLevelChanger {
   final TextEditingController _textFieldController = TextEditingController();

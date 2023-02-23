@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../hover_builder.dart';
-import 'privilege_level_changer.dart';
-import 'admin_state.dart';
+import 'package:flutter_security_application/hover_builder.dart';
+import 'package:flutter_security_application/admin/privilege_level_changer.dart';
+import 'package:flutter_security_application/admin/admin_state.dart';
 
 class PrivilegeLevelButton extends StatefulWidget {
   const PrivilegeLevelButton({super.key});

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_security_application/admin/privilege_level_button.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
@@ -15,8 +16,6 @@ import 'package:flutter_security_application/securityrequirements/requirement_ei
 import 'package:flutter_security_application/securityrequirements/requirement_nine.dart';
 import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
-
-import 'admin/privilege_level_button.dart';
 
 class VerticalNavigationBar extends StatefulWidget {
   const VerticalNavigationBar({super.key});
