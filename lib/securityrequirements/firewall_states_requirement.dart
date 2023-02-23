@@ -180,63 +180,67 @@ class _FirewallStatesRequirementWidgetState
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Your Firewall State:',
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            _textToDisplayForInitialFirewallStates(),
-            _textToDisplayForCurrentFirewallStates(),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            Visibility(
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              visible: AdminState.adminState,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      textStyle: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        // firewallStates = RegistryAccess.getFirewallStates();
-                      });
-                    },
-                    child: const Text('Turn On Firewall'),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Your Firewall State:',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      textStyle: const TextStyle(
-                        color: Colors.white,
+                  textAlign: TextAlign.center,
+                ),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForInitialFirewallStates(),
+                _textToDisplayForCurrentFirewallStates(),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            // firewallStates = RegistryAccess.getFirewallStates();
+                          });
+                        },
+                        child: const Text('Turn On Firewall'),
                       ),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        // firewallStates = RegistryAccess.getFirewallStates();
-                      });
-                    },
-                    child: const Text('Turn Off Firewall'),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            // firewallStates = RegistryAccess.getFirewallStates();
+                          });
+                        },
+                        child: const Text('Turn Off Firewall'),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

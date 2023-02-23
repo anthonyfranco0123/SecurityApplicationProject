@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_security_application/admin/admin_mode.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
@@ -16,6 +15,8 @@ import 'package:flutter_security_application/securityrequirements/requirement_ei
 import 'package:flutter_security_application/securityrequirements/requirement_nine.dart';
 import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
+
+import 'admin/privilege_level_button.dart';
 
 class VerticalNavigationBar extends StatefulWidget {
   const VerticalNavigationBar({super.key});
@@ -56,6 +57,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   Widget build(BuildContext context) {
     final sh = MediaQuery.of(context).size.height;
     final sw = MediaQuery.of(context).size.width;
+    // bool isHovering = false;
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -92,12 +94,11 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                   Expanded(
                     child: SvgPicture.asset(
                       'assets/Chip_Shield.svg',
-                      colorBlendMode: BlendMode.softLight,
                     ),
                   ),
                   if (sh > 720 && sw > 720)
                     Container(
-                      margin: const EdgeInsets.only(bottom: 14),
+                      margin: const EdgeInsets.only(bottom: 10),
                       child: const Text(
                         "IPRO Security Application",
                         style: TextStyle(
@@ -106,18 +107,11 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    alignment: Alignment.center,
-                    height: sh * 0.02,
-                    child: FilledButton.tonal(
-                      style: FilledButton.styleFrom(
-                        backgroundColor: Colors.black26,
-                      ),
-                        onPressed: () {
-                          AdminMode().displayTextInputDialog(context);
-                      },
-                      child: null,
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(2),
+                      child: const PrivilegeLevelButton(),
                     ),
                   ),
                 ],
