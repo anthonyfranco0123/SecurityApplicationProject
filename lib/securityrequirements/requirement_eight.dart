@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shell/shell.dart';
+import 'package:flutter_security_application/SystemPrivileges.dart';
+
 class RequirementEightWidget extends StatefulWidget {
 
   const RequirementEightWidget({
@@ -63,11 +65,11 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
                 var shell = Shell();
 
                 //print(SysInfo.userName.toString());
-                var output = await shell.startAndReadAsString('Get-LocalUser', arguments: ['']);
+                var output = await shell.startAndReadAsString('net', arguments:['user']);
                 setState(() {
                   isShown = true;
+                  SystemPrivileges.systemPrivilegesState();
                   display = output;
-
                 });
 
 

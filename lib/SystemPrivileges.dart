@@ -1,19 +1,20 @@
-//import 'package:win32_registry/win32_registry.dart';
-//import 'dart:async';
-//import 'package:system_info2/system_info2.dart';
-//import 'package:process_run/shell.dart';
-//class SystemPrivileges {
-// void systemPrivilegesState(){
-  //final key1 = Registry.openPath(RegistryHive.localMachine,
-   //   path: r');
-  //final AlwaysInstallElevated = key1.getValueAsInt('');
-  //if (AlwaysInstallElevated != null) {
-   // if (AlwaysInstallElevated == 1) {
-    //  print('AlwaysInstallElevated state: on');
-    //}
-    //else {
-    //  print('AlwaysInstallElevated state: off');
-    //}
-  //}
- //}/
-//}
+import 'package:win32_registry/win32_registry.dart';
+  class SystemPrivileges {
+    static systemPrivilegesState(){
+      int state;
+      final key1 = Registry.openPath(RegistryHive.localMachine,
+
+      path: r'SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\MSIAlwaysInstallWithElevatedPrivileges');
+          final alwaysInstallElevated = key1.getValueAsInt('value');
+      print(alwaysInstallElevated);
+        if (alwaysInstallElevated == 1) {
+            print('AlwaysInstallElevated state: on');
+            state = 1;
+          }
+          else {
+            print('AlwaysInstallElevated state: off');
+            state = 0;
+          }
+
+    }
+  }
