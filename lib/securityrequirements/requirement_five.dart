@@ -74,7 +74,7 @@ int bootStart = -2;
               ),
             if (bootStart == 0)
               const Text(
-                'Boot-Start Driver Initialization Policy is Not Configured',
+                'Boot-Start Driver Initialization Policy is Not Configured, but now set to All',
                 style: TextStyle(
                   color: Colors.white,
                 ),

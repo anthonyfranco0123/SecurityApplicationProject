@@ -64,43 +64,67 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget>{
               child: const Text('Get Password Policy'),
               onPressed: () async {
                 display = '';
-                var shell = Shell();
 
-                //print(SysInfo.userName.toString());
-                output = await shell.startAndReadAsString('net', arguments: ['accounts']);
-                var forceLogOff =  output.substring(output.indexOf("Force user logoff how long after time expires?:") + 54, output.indexOf("Minimum password age (days):") - 2 );
-                var minpwage = output.substring(output.indexOf("Minimum password age (days):") + 54, output.indexOf("Maximum password age (days):")-2 );
-                var maxpwage = output.substring(output.indexOf("Maximum password age (days):") + 54, output.indexOf("Minimum password length:")-2 );
-                var minpwlen = output.substring(output.indexOf("Minimum password length:") + 54, output.indexOf("Length of password history maintained:")-2 );
-                var pwhist = output.substring(output.indexOf("Length of password history maintained:") + 54, output.indexOf("Lockout threshold:")-2 );
-                var lockoutThreshold = output.substring(output.indexOf("Lockout threshold:") + 54, output.indexOf("Lockout duration (minutes):")-2 );
-                var lockoutDur = output.substring(output.indexOf("Lockout duration (minutes):") + 54, output.indexOf("Lockout observation window (minutes):")-2 );
-                var lockoutObservation = output.substring(output.indexOf("Lockout observation window (minutes):") + 54, output.indexOf("Computer role:")-2 );
-               // print(output);
+                int minLength = await RegistryAccess.getMinPwLen();
+                int maxLength = await RegistryAccess.getMaxPwLen();
+                int upperCase = await RegistryAccess.getUpperCaseSetting();
+                int lowerCase = await RegistryAccess.getLowerCaseSetting();
+                int special = await RegistryAccess.getSpecialCharSetting();
                 setState(() {
                   isShown = true;
                   //print(output);
-                  if (int.parse(maxpwage)!=90){
-                    display +="Password's max age is not ensured. Changed max age to 3 months.\n";
-                    RegistryAccess.changeMaxPwAge();
-                  }
 
-                  if (int.parse(minpwlen)!=8){
+                  if (minLength!=8){
                     display +="Password's min length is not ensured. Changed min length to at least 8 characters.\n";
-                    RegistryAccess.changeMinPwLen();
+                    RegistryAccess.setMinPwLen();
+                  }
+                  if (maxLength!=32){
+                    display +="Password's max length is not ensured. Changed max length to at most 32 characters.\n";
+                    RegistryAccess.setMaxPwLen();
                   }
 
-                  if(pwhist!="None"){
-                    if (int.parse(pwhist)!=10){
-                      display +="Password's history is not ensured. Changed number of stored password to 10.\n";
-                      RegistryAccess.changePwHist();
+                  if(upperCase != 1){
+                      if (upperCase == 0){
+                        RegistryAccess.setUpperCaseSetting();
+                        display+="Password does not require Uppercase letters. Changed to required!\n";
+                      }
+                      else if (upperCase > 1){
+                        RegistryAccess.setUpperCaseSetting();
+                        display+="Uppercase setting corrupted. Changed to required!\n";
+                      }
+                      else{
+                        display+="Uppercase setting not configured. Changed to required!\n";
+                      }
+                  }
+
+                  if(lowerCase != 1){
+                    if (lowerCase == 0){
+                      RegistryAccess.setLowerCaseSetting();
+                      display+="Password does not require lowercase letters. Changed to required!\n";
+                    }
+                    else if (lowerCase > 1){
+                      RegistryAccess.setLowerCaseSetting();
+                      display+="Lowercase setting corrupted. Changed to required!\n";
+                    }
+                    else{
+                      display+="Lowercase setting not configured. Changed to required!\n";
                     }
                   }
-                  else{
-                    display +="Password's history is not ensured. Changed number of stored password to 10.\n";
-                    RegistryAccess.changePwHist();
+                  if(special != 1){
+                    if (special == 0){
+                      RegistryAccess.setSpecialCharSetting();
+                      display+="Password does not require special characters. Changed to required!\n";
+                    }
+                    else if (upperCase > 1){
+                      RegistryAccess.setSpecialCharSetting();
+                      display+="Special characters setting corrupted. Changed to required!\n";
+                    }
+                    else{
+                      display+="Special characters setting not configured. Changed to required!\n";
+                    }
                   }
-                  print(display.length);
+
+                  //print(display.length);
                 });
 
 

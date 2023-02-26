@@ -124,7 +124,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                   //RegistryAccess.getPasswordPolicy();
                   _sideMenu.changePage(page);
                 },
-                icon: const Icon(Icons.home),
+                icon: const Icon(Icons.password),
                 badgeContent: const Text(
                   '3',
                   style: TextStyle(color: Colors.white),
@@ -180,7 +180,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 onTap: (page, _) {
                   _sideMenu.changePage(5);
                 },
-                icon: const Icon(Icons.image_rounded),
+                icon: const Icon(Icons.autorenew),
               ),
               SideMenuItem(
                 priority: 6,
