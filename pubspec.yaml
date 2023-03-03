@@ -36,6 +36,8 @@ dependencies:
   win32_registry: ^1.0.2
   process_run: ^0.12.5+2
   shell: ^2.0.0
+  path_provider: ^2.0.13
+  file_picker: ^5.2.5
 
 dev_dependencies:
   flutter_test:

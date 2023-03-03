@@ -42,7 +42,7 @@ class _PrivilegeLevelButtonWidget extends State<PrivilegeLevelButton> {
                 padding:
                     const EdgeInsets.only(left: 8, top: 2, right: 8, bottom: 2),
                 child: const Text(
-                  "User Mode",
+                  "User Mode", //Make a choosetext method and have a set state? look at firewall code
                   style: TextStyle(
                     color: Colors.white,
                   ),

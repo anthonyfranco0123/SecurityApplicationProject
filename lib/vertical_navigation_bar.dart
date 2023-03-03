@@ -13,7 +13,7 @@ import 'package:flutter_security_application/securityrequirements/requirement_fi
 import 'package:flutter_security_application/securityrequirements/requirement_six.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_seven.dart';
 import 'package:flutter_security_application/securityrequirements/requirement_eight.dart';
-import 'package:flutter_security_application/securityrequirements/requirement_nine.dart';
+import 'package:flutter_security_application/securityrequirements/download_restrictions_requirement.dart';
 import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
 

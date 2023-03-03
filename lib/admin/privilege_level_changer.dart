@@ -8,9 +8,7 @@ class PrivilegeLevelChanger {
 
   void _verifyAdminPassword(String adminPassword) {
     if(adminPassword == 'admin') {
-      print(adminPassword);
       AdminState.adminState = !AdminState.adminState;
-      print(adminPassword);
     }
   }
 
