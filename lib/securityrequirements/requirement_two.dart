@@ -75,11 +75,11 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget>{
                   //print(output);
 
                   if (minLength!=8){
-                    display +="Password's min length is not ensured. Changed min length to at least 8 characters.\n";
+                    display +="Password's min length is not ensured. Changed min length to at least 8 characters!\n";
                     RegistryAccess.setMinPwLen();
                   }
                   if (maxLength!=32){
-                    display +="Password's max length is not ensured. Changed max length to at most 32 characters.\n";
+                    display +="Password's max length is not ensured. Changed max length to at most 32 characters!\n";
                     RegistryAccess.setMaxPwLen();
                   }
 
