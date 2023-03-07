@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'download_restrictions/downloads_getter.dart';
 
 class RequirementNineWidget extends StatefulWidget {
-
   const RequirementNineWidget({
     Key? key,
   }) : super(key: key);
@@ -14,7 +13,7 @@ class RequirementNineWidget extends StatefulWidget {
   State<RequirementNineWidget> createState() => RequirementNineWidgetState();
 }
 
-class RequirementNineWidgetState extends State<RequirementNineWidget>{
+class RequirementNineWidgetState extends State<RequirementNineWidget> {
   final platformOperatingSystem = Platform.operatingSystem;
 
   @override
@@ -31,22 +30,27 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>{
       case 'windows':
         return Platform.environment['USERPROFILE'];
       case 'android':
-      // Probably want internal storage.
+        // Probably want internal storage.
         return '/storage/sdcard0';
       case 'ios':
-      // iOS doesn't really have a home directory.
+        // iOS doesn't really have a home directory.
         return null;
       case 'fuchsia':
-      // I have no idea.
+        // I have no idea.
         return null;
       default:
         return null;
     }
   }
 
+  Widget getDownloadsAsTextWidgets(List<String> strings) {
+    return Row(children: strings.map((item) => Text(item)).toList());
+  }
+
   @override
   Widget build(BuildContext context) {
-    DownloadsGetter().downloadsList(getHomeDirectory(), platformOperatingSystem);
+    DownloadsGetter()
+        .downloadsList(getHomeDirectory(), platformOperatingSystem);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -65,13 +69,15 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>{
         ),
         child: Column(
           children: const [
-            Text('Req nine',
+            Text(
+              'Req nine',
               style: TextStyle(
                 fontSize: 35,
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
+            // getDownloadsAsTextWidgets(DownloadsGetter.getFilesList()),
           ],
         ),
       ),
