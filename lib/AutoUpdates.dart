@@ -21,6 +21,3 @@ class AutoUpdates{
       }
 }
 
-
-uj6
-
