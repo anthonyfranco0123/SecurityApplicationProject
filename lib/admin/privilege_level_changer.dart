@@ -7,7 +7,7 @@ class PrivilegeLevelChanger {
   bool passwordVisible = false;
 
   void _verifyAdminPassword(String adminPassword) {
-    if(adminPassword == 'admin') {
+    if (adminPassword == 'admin') {
       AdminState.adminState = !AdminState.adminState;
     }
   }
@@ -33,36 +33,37 @@ class PrivilegeLevelChanger {
                 autoFocus: true,
                 color: const Color(0xFF5e48ab),
                 inputDecoration: PasswordDecoration(
-                    inputStyle: const TextStyle(
-                      color: Colors.white,
-                    ),
+                  inputStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
                 border: PasswordBorder(
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.lime,
+                      color: Color(0xFF5e48ab),
                     ),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(2.75),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                       color: Color(0xFF5e48ab),
                     ),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(2.75),
                   ),
                 ),
-                errorMessage:
-                'Must contain a letter!',
+                errorMessage: 'Must contain a letter!',
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('CANCEL'),
+                  child: const Text('CANCEL',
+                      style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
                 TextButton(
-                  child: const Text('ENTER'),
+                  child: const Text('ENTER',
+                      style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     _verifyAdminPassword(_textFieldController.text);
                     Navigator.pop(context);
