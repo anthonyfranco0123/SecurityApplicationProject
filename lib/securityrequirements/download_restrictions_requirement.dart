@@ -14,33 +14,9 @@ class RequirementNineWidget extends StatefulWidget {
 }
 
 class RequirementNineWidgetState extends State<RequirementNineWidget> {
-  final platformOperatingSystem = Platform.operatingSystem;
-
   @override
   void initState() {
     super.initState();
-  }
-
-  // Get the home directory or null if unknown.
-  String? getHomeDirectory() {
-    switch (platformOperatingSystem) {
-      case 'linux':
-      case 'macos':
-        return Platform.environment['HOME'];
-      case 'windows':
-        return Platform.environment['USERPROFILE'];
-      case 'android':
-        // Probably want internal storage.
-        return '/storage/sdcard0';
-      case 'ios':
-        // iOS doesn't really have a home directory.
-        return null;
-      case 'fuchsia':
-        // I have no idea.
-        return null;
-      default:
-        return null;
-    }
   }
 
   Widget getDownloadsAsTextWidgets(List<String> strings) {
@@ -49,8 +25,9 @@ class RequirementNineWidgetState extends State<RequirementNineWidget> {
 
   @override
   Widget build(BuildContext context) {
-    DownloadsGetter()
-        .downloadsList(getHomeDirectory(), platformOperatingSystem);
+    // DownloadsGetter()
+    //     .downloadsList(getHomeDirectory(), platformOperatingSystem);
+    // DownloadsGetter().getAllFilesWithExtension(getHomeDirectory(), platformOperatingSystem);
     return Scaffold(
       body: Container(
         width: double.infinity,

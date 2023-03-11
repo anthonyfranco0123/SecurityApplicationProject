@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_security_application/admin/privilege_level_button.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
@@ -16,6 +15,10 @@ import 'package:flutter_security_application/securityrequirements/system_privile
 import 'package:flutter_security_application/securityrequirements/download_restrictions_requirement.dart';
 import 'package:flutter_security_application/securityrequirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
+
+import 'admin/admin_state.dart';
+import 'admin/privilege_level_changer.dart';
+import 'hover_builder.dart';
 
 class VerticalNavigationBar extends StatefulWidget {
   const VerticalNavigationBar({super.key});
@@ -110,7 +113,44 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                     child: Container(
                       alignment: Alignment.center,
                       margin: const EdgeInsets.all(2),
-                      child: const PrivilegeLevelButton(),
+                      child: HoverBuilder(builder: (isHovering) {
+                        return InkWell(
+                          onTap: () {
+                            PrivilegeLevelChanger().displayTextInputDialog(context);
+                          },
+                          child: AdminState.adminState
+                              ? Container(
+                            decoration: BoxDecoration(
+                              color: isHovering ? Colors.black12 : null,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            padding:
+                            const EdgeInsets.only(left: 8, top: 2, right: 8, bottom: 2),
+                            child: const Text(
+                              "Admin Mode",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                              : Container(
+                            decoration: BoxDecoration(
+                              color: isHovering ? Colors.black12 : null,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding:
+                            const EdgeInsets.only(left: 8, top: 2, right: 8, bottom: 2),
+                            child: const Text(
+                              "User Mode", //Make a choosetext method and have a set state? look at firewall code
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }),
                     ),
                   ),
                 ],
