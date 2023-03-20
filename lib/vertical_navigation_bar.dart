@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_security_application/securityrequirements/download_restrictions/download_restrictions_file_info_getter.dart';
+import 'package:flutter_security_application/securityrequirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
@@ -41,6 +44,15 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     if (_sideMenu.currentPage != 10) {
       _periodicallyUpdateCurrentFirewallStatus();
     }
+    DownloadRestrictionsSystemInfo.userPath =
+        DownloadRestrictionsSystemInfo().getHomeDirectory();
+    DownloadRestrictionsSystemInfo.userDownloadsPath =
+        '${DownloadRestrictionsSystemInfo.userPath}' '\\Downloads\\';
+    DownloadRestrictionsSystemInfo().futureStringListToStringList(
+        DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+            DownloadRestrictionsSystemInfo.userDownloadsPath,
+            Platform.operatingSystem));
+    print(DownloadRestrictionsSystemInfo.filesList);
     super.initState();
   }
 
