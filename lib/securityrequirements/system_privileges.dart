@@ -1,12 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shell/shell.dart';
+import 'package:flutter_security_application/admin/admin_state.dart';
 import 'package:flutter_security_application/SystemPrivileges.dart';
+import 'package:flutter_security_application/SystemPrivChanger.dart';
 
 class RequirementEightWidget extends StatefulWidget {
-
-  const RequirementEightWidget({
-    Key? key,
-  }) : super(key: key);
+  const RequirementEightWidget({super.key});
 
   @override
   State<RequirementEightWidget> createState() => RequirementEightWidgetState();
@@ -14,13 +14,111 @@ class RequirementEightWidget extends StatefulWidget {
 
 class RequirementEightWidgetState extends State<RequirementEightWidget>{
   //var output;
-  var display="";
-  bool isShown = false;
+  //var display="";
+  //bool isShown = false;
+  //int a = SystemPrivileges.systemPrivilegesState();
+  int initialSystemState = -1;
+  int currentSystemState = -1;
+  late Timer timer;
+  @override
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     super.initState();
   }
 
+  @override
+  void dispose(){
+    timer.cancel();
+    super.dispose();
+  }
+
+  String _initialSystemStateText(){
+    String systemStateText = '';
+    switch (initialSystemState){
+      case 0:
+        systemStateText =
+            'Initial Status: Always Elevated is Off';
+        break;
+      case 1:
+        systemStateText =
+            'Initial Status: Always Elevated is On';
+        break;
+      default:
+        systemStateText =
+            'Error: Unable to find Always Elevated Status';
+    }
+    return systemStateText;
+  }
+
+  String _currentSystemStateText(){
+    String  systemStateText = '';
+    switch (currentSystemState){
+      case 0:
+        systemStateText =
+            'Current Status: Always Elevated is Off';
+        break;
+      case 1:
+        systemStateText =
+          'Current Status: Always Elevated is On';
+        break;
+      default:
+        systemStateText =
+        'Error: Unable to find Always Elevated Status';
+    }
+    return systemStateText;
+  }
+
+  Text _textToDisplayForInitialSystemState() {
+    String textToDisplayForInitialSystemState = '';
+    Color c = Colors.yellow;
+    if (initialSystemState != 1) {
+      c = Colors.red;
+      textToDisplayForInitialSystemState = _initialSystemStateText();
+    } else {
+      c = Colors.white;
+      currentSystemState = initialSystemState;
+      textToDisplayForInitialSystemState = _initialSystemStateText();
+    }
+    return Text(
+      textToDisplayForInitialSystemState,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Text _textToDisplayForCurrentSystemState() {
+    Color c = Colors.yellow;
+    _periodicallyUpdateCurrentSystemStatus();
+    if (currentSystemState != 0) {
+      c = Colors.red;
+      SystemPrivChanger().alwaysElevatedOff();
+    } else {
+      c = Colors.white;
+    }
+    return Text(
+      _currentSystemStateText(),
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  void _periodicallyUpdateCurrentSystemStatus() {
+    currentSystemState = SystemPrivileges().systemPrivilegesState();
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        if (currentSystemState != 1) {
+          SystemPrivChanger().alwaysElevatedOff();
+        }
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,58 +137,69 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Check System Privilege Policy',
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                textStyle: const TextStyle(
-                  color: Colors.white,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Your System Privileges State:',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              child: const Text('Get System Privilege Policy'),
-              onPressed: () async {
-                display = '';
-                var shell = Shell();
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForInitialSystemState(),
+                _textToDisplayForCurrentSystemState(),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
 
-                //print(SysInfo.userName.toString());
-                var output = await shell.startAndReadAsString('net', arguments:['user']);
-                setState(() {
-                  isShown = true;
-                  SystemPrivileges.systemPrivilegesState();
-                  display = output;
-                });
-
-
-              },
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            Visibility(
-              visible: isShown,
-              child: Text(
-                //'$output',
-                display.length!=0 ? "$display" : "System Privilege Policy is Set!",
-                style: TextStyle(
-                  color:display.length!=0 ? Colors.red : Colors.white,
+                          });
+                        },
+                        child: const Text('Turn On Always Elevated'),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            //
+                          });
+                        },
+                        child: const Text('Turn Off Always Elevated'),
+                      ),
+                    ],
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-
     );
   }
 }
