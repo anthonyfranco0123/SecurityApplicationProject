@@ -10,7 +10,7 @@ class Mysql{
       Mysql();
 
       Future<MySqlConnection> getConnection() async {
-        var settings = new ConnectionSettings(
+        var settings = ConnectionSettings(
             host: host,
             port: port,
             user: user,
