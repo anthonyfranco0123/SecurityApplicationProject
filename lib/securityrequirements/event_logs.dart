@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:shell/shell.dart';
+
+import '../RegistryAccess.dart';
 class RequirementThreeWidget extends StatefulWidget {
 
   const RequirementThreeWidget({
@@ -15,7 +18,9 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
   void initState() {
     super.initState();
   }
-
+  var output="";
+  var display;
+  var shell = Shell();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,14 +39,63 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
             ],
           ),
         ),
-        child: const Text('Req three',
-          style: TextStyle(
-            fontSize: 35,
-            color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Check Event Log',
+              style: TextStyle(
+                fontSize: 35,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const Padding(padding: EdgeInsets.all(8.0)),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              child: const Text('Check Event Log'),
+              onPressed: () async {
+
+
+
+                //print(SysInfo.userName.toString());
+                output = await shell.startAndReadAsString('sc', arguments: ['query', "eventlog"]);
+
+                 print(output);
+
+                setState(() {
+                });
+
+
+              },
+            ),
+            const Padding(padding: EdgeInsets.all(8.0)),
+          if (output.contains("RUNNING"))
+            const Text(
+              'Event Log Is Running',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
+          if (output.contains("STOPPED"))
+            const Text(
+            'Event Log Is Stopped',
+            style: TextStyle(
+            color: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+            ),
+
+  ],
+  ),
+  ),
+  );
+}
 }

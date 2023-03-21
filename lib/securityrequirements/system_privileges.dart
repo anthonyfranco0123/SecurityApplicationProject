@@ -12,7 +12,8 @@ class RequirementEightWidget extends StatefulWidget {
   State<RequirementEightWidget> createState() => RequirementEightWidgetState();
 }
 
-class RequirementEightWidgetState extends State<RequirementEightWidget>{
+class RequirementEightWidgetState extends State<RequirementEightWidget>
+    with AutomaticKeepAliveClientMixin{
   //var output;
   //var display="";
   //bool isShown = false;
@@ -24,6 +25,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
   bool get wantKeepAlive => true;
   @override
   void initState() {
+    initialSystemState = SystemPrivileges().systemPrivilegesState();
     super.initState();
   }
 
@@ -38,11 +40,11 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
     switch (initialSystemState){
       case 0:
         systemStateText =
-            'Initial Status: Always Elevated is Off';
+            'Initial Status: Always Elevated is On';
         break;
       case 1:
         systemStateText =
-            'Initial Status: Always Elevated is On';
+            'Initial Status: Always Elevated is Off';
         break;
       default:
         systemStateText =
@@ -56,11 +58,11 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
     switch (currentSystemState){
       case 0:
         systemStateText =
-            'Current Status: Always Elevated is Off';
+            'Current Status: Always Elevated is On';
         break;
       case 1:
         systemStateText =
-          'Current Status: Always Elevated is On';
+          'Current Status: Always Elevated is Off';
         break;
       default:
         systemStateText =
@@ -72,7 +74,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
   Text _textToDisplayForInitialSystemState() {
     String textToDisplayForInitialSystemState = '';
     Color c = Colors.yellow;
-    if (initialSystemState != 1) {
+    if (initialSystemState != 2) {
       c = Colors.red;
       textToDisplayForInitialSystemState = _initialSystemStateText();
     } else {
@@ -93,7 +95,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
   Text _textToDisplayForCurrentSystemState() {
     Color c = Colors.yellow;
     _periodicallyUpdateCurrentSystemStatus();
-    if (currentSystemState != 0) {
+    if (currentSystemState != 2) {
       c = Colors.red;
       SystemPrivChanger().alwaysElevatedOff();
     } else {
@@ -113,7 +115,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>{
     currentSystemState = SystemPrivileges().systemPrivilegesState();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if (currentSystemState != 1) {
+        if (currentSystemState != 2) {
           SystemPrivChanger().alwaysElevatedOff();
         }
       });
