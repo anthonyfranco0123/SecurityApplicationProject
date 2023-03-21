@@ -47,7 +47,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     DownloadRestrictionsSystemInfo.userPath =
         DownloadRestrictionsSystemInfo().getHomeDirectory();
     DownloadRestrictionsSystemInfo.userDownloadsPath =
-        '${DownloadRestrictionsSystemInfo.userPath}' '\\Downloads\\';
+    '${DownloadRestrictionsSystemInfo.userPath}' '\\Downloads\\';
     DownloadRestrictionsSystemInfo().futureStringListToStringList(
         DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
             DownloadRestrictionsSystemInfo.userDownloadsPath,
@@ -87,7 +87,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               selectedIconColor: Colors.white,
               unselectedIconColor: Colors.white,
               decoration: const BoxDecoration(
-                  // borderRadius: BorderRadius.all(Radius.circular(8)),
+                // borderRadius: BorderRadius.all(Radius.circular(8)),
                   boxShadow: [
                     BoxShadow(
                       color: Color.fromARGB(255, 79, 117, 134),
@@ -133,35 +133,35 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                           },
                           child: AdminState.adminState
                               ? Container(
-                                  decoration: BoxDecoration(
-                                    color: isHovering ? Colors.black12 : null,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  padding: const EdgeInsets.only(
-                                      left: 8, top: 2, right: 8, bottom: 2),
-                                  child: const Text(
-                                    "Admin Mode",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
+                            decoration: BoxDecoration(
+                              color: isHovering ? Colors.black12 : null,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            padding: const EdgeInsets.only(
+                                left: 8, top: 2, right: 8, bottom: 2),
+                            child: const Text(
+                              "Admin Mode",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
                               : Container(
-                                  decoration: BoxDecoration(
-                                    color: isHovering ? Colors.black12 : null,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  padding: const EdgeInsets.only(
-                                      left: 8, top: 2, right: 8, bottom: 2),
-                                  child: const Text(
-                                    "User Mode",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
+                            decoration: BoxDecoration(
+                              color: isHovering ? Colors.black12 : null,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.only(
+                                left: 8, top: 2, right: 8, bottom: 2),
+                            child: const Text(
+                              "User Mode",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         );
                       }),
                     ),

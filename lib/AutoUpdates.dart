@@ -1,23 +1,29 @@
 import 'package:win32_registry/win32_registry.dart';
-import 'dart:async';
+//import 'dart:async';
 //import 'package:system_info2/system_info2.dart';
-import 'package:process_run/shell.dart';
+//import 'package:process_run/shell.dart';
 class AutoUpdates{
-        static getSystemUpdates() {
+        getSystemUpdates() {
         int AUStates = 0;
         final key1 = Registry.openPath(RegistryHive.localMachine,
             path: r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU');
         final privateSUpdates = key1.getValueAsInt('NoAutoUpdate');
-        print(privateSUpdates);
-        if (privateSUpdates != null) {
-          if (privateSUpdates == 0) {
-            print('Auto Updates : on');
+        //print(privateSUpdates);
+          if (privateSUpdates == 1) {
+            //print('Auto Updates : off');
+            AUStates = 0;
+            //return 0;
             //AUStates = 0;
           }
-          else {
-            print('Auto Updates : off');
+          else if (privateSUpdates == 0) {
+            //print(' Auto Updates : on');
+            AUStates = 1;
           }
+          else {
+            //print('Auto Updates registry value does not exist');
+            AUStates = 2;
+          }
+          return AUStates;
         }
-      }
 }
 
