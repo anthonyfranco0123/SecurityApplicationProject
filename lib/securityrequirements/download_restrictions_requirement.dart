@@ -22,12 +22,22 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
   // String userPath = '';
   @override
   bool get wantKeepAlive => true;
+  String deviceName= "Test Device";
+  String macAddress= "AA:BB:CC:DD:EE:FF";
+  String timestamp= "2023-04-01 12:34:56";
+  String password= "test_password";
+  int passwordRestriction= 1;
+  int passwordExpiration= 1;
+  int autoUpdates= 1;
+  String systemPrivilege= "user";
+  int firewall= 1;
 
   @override
   void initState() {
     // userPath = _getHomeDirectory();
     // DownloadsGetter().setDownloadsPathInfo(_getHomeDirectory(), platformOperatingSystem);
     SQLTest().getmySQLData();
+    SQLTest().setMySQLData(deviceName, macAddress, timestamp, password, passwordRestriction, passwordExpiration, autoUpdates, systemPrivilege, firewall);
     super.initState();
   }
 
