@@ -78,7 +78,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
             const Padding(padding: EdgeInsets.all(8.0)),
           if (output.contains("RUNNING"))
             const Text(
-              'Event Log Checked',
+              'Event Log Is Running',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -86,7 +86,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
           ),
           if (output.contains("STOPPED"))
             const Text(
-            'Something went wrong when checking the Event Log',
+            'Event Log Is Stopped',
             style: TextStyle(
             color: Colors.white,
             ),
@@ -96,22 +96,6 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
   ],
   ),
   ),
-  //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-  //
-  //   floatingActionButton: SizedBox(
-  //     height: 100.0,
-  //     width: 100.0,
-  //     child: FloatingActionButton(
-  //       child: Text(result),
-  //       onPressed: () => {
-  //         setState((){
-  //          result = RegistryAccess.firewallState();
-  //       })
-  //
-  //   },
-  //     ),
-  //   ),
-  // backgroundColor: Colors.blue[600],
   );
 }
 }
