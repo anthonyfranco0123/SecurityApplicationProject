@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../database/sqltest.dart';
 import 'download_restrictions/download_restrictions_file_info_getter.dart';
 import 'download_restrictions/download_restrictions_system_info.dart';
 
@@ -26,6 +27,7 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
   void initState() {
     // userPath = _getHomeDirectory();
     // DownloadsGetter().setDownloadsPathInfo(_getHomeDirectory(), platformOperatingSystem);
+    SQLTest().getmySQLData();
     super.initState();
   }
 
