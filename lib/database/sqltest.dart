@@ -1,10 +1,10 @@
 import 'mysql.dart';
 //test
 
-class MyApp {
+class SQLTest {
   Future<List<String>> getmySQLData() async {
     var db = Mysql();
-    String sql = 'select * from jobbazar_flutter.users;';
+    String sql = 'select * from user_compliances limit 100';
     final List<String> myList = [];
 
     await db.getConnection().then((conn) async {
