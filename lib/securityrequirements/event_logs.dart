@@ -86,7 +86,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
           ),
           if (output.contains("STOPPED"))
             const Text(
-            'Boot-Start Driver Initialization Policy is Not Configured, but now set to All',
+            'Something went wrong when checking the Event Log',
             style: TextStyle(
             color: Colors.white,
             ),
