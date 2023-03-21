@@ -14,15 +14,13 @@ class RequirementThreeWidget extends StatefulWidget {
 }
 
 class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
-  var output;
-  var temp;
-  var display="";
-  bool isShown = false;
   @override
   void initState() {
     super.initState();
   }
-
+  var output="";
+  var display;
+  var shell = Shell();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +44,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              'Check Password Reset',
+              'Check Event Log',
               style: TextStyle(
                 fontSize: 35,
                 color: Colors.white,
@@ -61,39 +59,59 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
                   color: Colors.white,
                 ),
               ),
-              child: const Text('Get Password Reset Configuration'),
+              child: const Text('Check Event Log'),
               onPressed: () async {
-                display = '';
-                var shell = Shell();
+
+
 
                 //print(SysInfo.userName.toString());
-                output = await shell.startAndReadAsString('Get-Service', arguments: ['-Name', "eventlog"]);
+                output = await shell.startAndReadAsString('sc', arguments: ['query', "eventlog"]);
 
-                // print(output);
+                 print(output);
+
                 setState(() {
-
                 });
 
 
               },
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            Visibility(
-              //if (bootStart == 0)
-              visible: isShown,
-              child: Text(
-                //'$output',
-                display.length!=0 ? "$display" : "All password policies are now ensured!",
-                style: TextStyle(
-                  color:display.length!=0 ? Colors.red : Colors.white,
-                ),
-                textAlign: TextAlign.center,
+          if (output.contains("RUNNING"))
+            const Text(
+              'Event Log Checked',
+              style: TextStyle(
+                color: Colors.white,
               ),
+              textAlign: TextAlign.center,
+          ),
+          if (output.contains("STOPPED"))
+            const Text(
+            'Boot-Start Driver Initialization Policy is Not Configured, but now set to All',
+            style: TextStyle(
+            color: Colors.white,
             ),
-          ],
-        ),
-      ),
+            textAlign: TextAlign.center,
+            ),
 
-    );
-  }
+  ],
+  ),
+  ),
+  //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+  //
+  //   floatingActionButton: SizedBox(
+  //     height: 100.0,
+  //     width: 100.0,
+  //     child: FloatingActionButton(
+  //       child: Text(result),
+  //       onPressed: () => {
+  //         setState((){
+  //          result = RegistryAccess.firewallState();
+  //       })
+  //
+  //   },
+  //     ),
+  //   ),
+  // backgroundColor: Colors.blue[600],
+  );
+}
 }
