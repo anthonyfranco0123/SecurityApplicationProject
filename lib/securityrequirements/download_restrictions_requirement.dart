@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -18,10 +19,10 @@ class RequirementNineWidget extends StatefulWidget {
 class RequirementNineWidgetState extends State<RequirementNineWidget>
     with AutomaticKeepAliveClientMixin {
   final platformOperatingSystem = Platform.operatingSystem;
-  // List<String> filesList = [];
-  // String userPath = '';
+  late Timer timer;
   @override
   bool get wantKeepAlive => true;
+  // bool firstInitialization = false;
   String deviceName= "Test Device";
   String macAddress= "AA:BB:CC:DD:EE:FF";
   String timestamp= "2023-04-01 12:34:56";
@@ -36,38 +37,20 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
   void initState() {
     // userPath = _getHomeDirectory();
     // DownloadsGetter().setDownloadsPathInfo(_getHomeDirectory(), platformOperatingSystem);
-    SQLTest().getmySQLData();
-    SQLTest().setMySQLData(deviceName, macAddress, timestamp, password, passwordRestriction, passwordExpiration, autoUpdates, systemPrivilege, firewall);
+    // SQLTest().getmySQLData();
+    // SQLTest().setMySQLData(deviceName, macAddress, timestamp, password, passwordRestriction, passwordExpiration, autoUpdates, systemPrivilege, firewall);
+    // DownloadRestrictionsSystemInfo().futureStringListToStringList(
+    //     DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+    //         DownloadRestrictionsSystemInfo.userDownloadsPath,
+    //         platformOperatingSystem));
     super.initState();
   }
 
   @override
   void dispose() {
-    // timer.cancel();
+    timer.cancel();
     super.dispose();
   }
-
-  // String _getHomeDirectory() {
-  //   switch (platformOperatingSystem) {
-  //     case 'linux':
-  //     case 'macos':
-  //       return Platform.environment['HOME']!;
-  //     case 'windows':
-  //       return Platform.environment['USERPROFILE']!;
-  //     case 'android':
-  //       return '/storage/sdcard0';
-  //     case 'ios':
-  //     // iOS doesn't really have a home directory.
-  //     case 'fuchsia':
-  //     // I have no idea.
-  //     default:
-  //       return '';
-  //   }
-  // }
-
-  // Future<void> _futureStringListToStringList(Future<List<String>> fsl) async {
-  //   filesList = await fsl;
-  // }
 
   String _restrictedFilesInfoText() {
     String restrictedFilesInfoText = '';
@@ -85,7 +68,7 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
 
   Text _textToDisplayForRestrictedFilesInfo() {
     Color c = Colors.yellow;
-    // _periodicallyUpdateCurrentFirewallStatus();
+    _periodicallyUpdateDownloadRestrictions();
     if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
       c = Colors.red;
     } else {
@@ -98,17 +81,44 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
         fontSize: 35,
       ),
       textAlign: TextAlign.center,
+      overflow: TextOverflow.fade,
     );
+  }
+
+  void _periodicallyUpdateDownloadRestrictions() {
+    // DownloadRestrictionsSystemInfo.filesList = [];
+    // DownloadRestrictionsSystemInfo().futureStringListToStringList(
+    //     DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+    //         DownloadRestrictionsSystemInfo.userDownloadsPath,
+    //         Platform.operatingSystem));
+    // if(firstInitialization!) {
+    //   firstInitialization = true;
+    //   DownloadRestrictionsSystemInfo().futureStringListToStringList(
+    //       DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+    //           DownloadRestrictionsSystemInfo.userDownloadsPath,
+    //           Platform.operatingSystem));
+    // }
+      Timer.periodic(const Duration(seconds: 4), (timer) {
+        setState(() {
+          // if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
+          // DownloadRestrictionsSystemInfo.filesList = [];
+          DownloadRestrictionsSystemInfo().futureStringListToStringList(
+              DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+                  DownloadRestrictionsSystemInfo.userDownloadsPath,
+                  Platform.operatingSystem));
+          // }
+        });
+      });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    DownloadRestrictionsSystemInfo().futureStringListToStringList(
-        DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
-            DownloadRestrictionsSystemInfo.userDownloadsPath,
-            platformOperatingSystem));
-    print(DownloadRestrictionsSystemInfo.filesList);
+    // DownloadRestrictionsSystemInfo().futureStringListToStringList(
+    //     DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+    //         DownloadRestrictionsSystemInfo.userDownloadsPath,
+    //         platformOperatingSystem));
+    // print(DownloadRestrictionsSystemInfo.filesList);
     final sh = MediaQuery.of(context).size.height;
     final sw = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -142,6 +152,7 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
                 children: [
                   _textToDisplayForRestrictedFilesInfo(),
                   const Padding(padding: EdgeInsets.all(8.0)),
+                  if (sh > 240 && sw > 240)
                   SizedBox(
                     width: sw * 0.4,
                     height: sh * 0.4,
@@ -150,6 +161,7 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
                       children: <Widget>[
                         ListView.builder(
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount:
                               DownloadRestrictionsSystemInfo.filesList.length,
                           itemBuilder: (context, index) {

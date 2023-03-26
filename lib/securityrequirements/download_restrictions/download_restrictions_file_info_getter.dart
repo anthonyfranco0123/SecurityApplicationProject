@@ -5,27 +5,37 @@ import 'download_restrictions_system_info.dart';
 // import 'package:path/path.dart' as p;
 
 class DownloadRestrictionsFileInfoGetter {
-  String pattern = r"\.(txt|jar|pdf)$";
-  String filesPath = '';
-  int filesPathLength = -1;
+  // String pattern = r"\.(txt|jar|pdf)$";
+  RegExp regExp = RegExp(r"\.(txt|jar|pdf)$");
+  // String filesPath = '';
+  // int filesPathLength = -1;
 
   Future<List<String>> getAllFilesWithExtension(
       String? pathToDownloads, String platformOperatingSystem) async {
-    // setDownloadsPathInfo(pathToDownloads, platformOperatingSystem);
+    DownloadRestrictionsSystemInfo.filesList = [];
+    // DownloadRestrictionsSystemInfo.filesSizeList = [];
     final List<FileSystemEntity> filesFromDownloads =
         await Directory('$pathToDownloads').list().toList();
-    for (int i = 1; i < filesFromDownloads.length; i++) {
-      DownloadRestrictionsSystemInfo.filesList.add(
-          (filesFromDownloads.elementAt(i) as File)
-              .path
-              .split(Platform.pathSeparator)
-              .last);
+    for (int i = 0; i < filesFromDownloads.length; i++) {
+      String fileExtension = (filesFromDownloads.elementAt(i) as File)
+          .path.substring((filesFromDownloads.elementAt(i) as File)
+          .path.lastIndexOf('.'));
+      if(regExp.hasMatch(fileExtension)) {
+        DownloadRestrictionsSystemInfo.filesList.add(
+            (filesFromDownloads.elementAt(i) as File)
+                .path
+                .split(Platform.pathSeparator)
+                .last);
+        // DownloadRestrictionsSystemInfo().futureStringToStringList(getFileSize((filesFromDownloads.elementAt(i) as File)
+        //     .path, 2));
+      }
     }
-    print(DownloadRestrictionsSystemInfo.filesList);
+    // print('Before');
+    // print(DownloadRestrictionsSystemInfo.filesSizeList);
     return DownloadRestrictionsSystemInfo.filesList;
   }
 
-  getFileSize(String filepath, int decimals) async {
+  Future<String> getFileSize(String filepath, int decimals) async {
     var file = File(filepath);
     int bytes = await file.length();
     if (bytes <= 0) return "0 B";

@@ -4,6 +4,7 @@ class DownloadRestrictionsSystemInfo {
   static String userPath = '';
   static String userDownloadsPath = '';
   static List<String> filesList = [];
+  static List<String> filesSizeList = [];
 
   String getHomeDirectory() {
     switch (Platform.operatingSystem) {
@@ -25,5 +26,10 @@ class DownloadRestrictionsSystemInfo {
 
   Future<void> futureStringListToStringList(Future<List<String>> fsl) async {
     filesList = await fsl;
+  }
+
+  Future<void> futureStringToStringList(Future<String> fsl) async {
+    String awaitedString = await fsl;
+    filesSizeList.add(awaitedString);
   }
 }

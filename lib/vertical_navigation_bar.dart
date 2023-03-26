@@ -48,13 +48,30 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
         DownloadRestrictionsSystemInfo().getHomeDirectory();
     DownloadRestrictionsSystemInfo.userDownloadsPath =
         '${DownloadRestrictionsSystemInfo.userPath}' '\\Downloads\\';
-    DownloadRestrictionsSystemInfo().futureStringListToStringList(
-        DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
-            DownloadRestrictionsSystemInfo.userDownloadsPath,
-            Platform.operatingSystem));
-    print(DownloadRestrictionsSystemInfo.filesList);
+    if(_sideMenu.currentPage != 9) {
+      DownloadRestrictionsSystemInfo().futureStringListToStringList(
+          DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+              DownloadRestrictionsSystemInfo.userDownloadsPath,
+              Platform.operatingSystem));
+    }
+    // if (_sideMenu.currentPage != 9) {
+    //   _periodicallyUpdateDownloadRestrictions();
+    // }
     super.initState();
   }
+
+  // void _periodicallyUpdateDownloadRestrictions() {
+  //     Timer.periodic(const Duration(seconds: 4, milliseconds: 3), (timer) {
+  //       setState(() {
+  //         if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
+  //           DownloadRestrictionsSystemInfo().futureStringListToStringList(
+  //               DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+  //                   DownloadRestrictionsSystemInfo.userDownloadsPath,
+  //                   Platform.operatingSystem));
+  //         }
+  //       });
+  //     });
+  // }
 
   void _periodicallyUpdateCurrentFirewallStatus() {
     int currentFirewallStates = FirewallAccess().getFirewallStates();
