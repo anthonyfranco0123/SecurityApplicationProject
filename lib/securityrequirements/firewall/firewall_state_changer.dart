@@ -9,5 +9,5 @@ class FirewallStateChanger {
 
   allFirewallStatesOff() {
     _shell.run('''netsh advfirewall set allprofiles state off''');
-  }
+  }//'
 }
