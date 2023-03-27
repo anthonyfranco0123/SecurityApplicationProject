@@ -147,7 +147,7 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Your System Privileges State:',
+                  'Your Auto Updates State:',
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.white,

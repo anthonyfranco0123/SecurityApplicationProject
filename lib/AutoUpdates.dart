@@ -7,15 +7,15 @@ class AutoUpdates{
         int AUStates = 0;
         final key1 = Registry.openPath(RegistryHive.localMachine,
             path: r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU');
-        final privateSUpdates = key1.getValueAsInt('NoAutoUpdate');
+        final privateSUpdates = key1.getValueAsString('NoAutoUpdate');
         //print(privateSUpdates);
-          if (privateSUpdates == 1) {
+          if (privateSUpdates == "0x00000001") {
             //print('Auto Updates : off');
             AUStates = 0;
             //return 0;
             //AUStates = 0;
           }
-          else if (privateSUpdates == 0) {
+          else if (privateSUpdates == "0x00000000") {
             //print(' Auto Updates : on');
             AUStates = 1;
           }
