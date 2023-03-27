@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shell/shell.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/SystemPrivileges.dart';
-import 'package:flutter_security_application/SystemPrivChanger.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivileges.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivChanger.dart';
 
 class RequirementEightWidget extends StatefulWidget {
   const RequirementEightWidget({super.key});

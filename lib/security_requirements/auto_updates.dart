@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:shell/shell.dart';
-import 'package:flutter_security_application/AutoUpdates.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdates.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/securityrequirements/AutoUpdatesChanger.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdatesChanger.dart';
 
 
 class RequirementSixWidget extends StatefulWidget {
