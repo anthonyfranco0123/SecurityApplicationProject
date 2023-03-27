@@ -53,4 +53,8 @@ class RequirementsDataCollector {
   String get getPasswordReset {
     return _passwordReset;
   }
+
+  String get getPasswordRestrictions {
+    return _passwordRestrictions;
+  }
 }

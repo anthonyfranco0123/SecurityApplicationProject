@@ -124,6 +124,7 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
