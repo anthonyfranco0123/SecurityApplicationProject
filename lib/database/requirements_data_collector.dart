@@ -49,4 +49,8 @@ class RequirementsDataCollector {
   set firewallStates(int firewallStates) {
     _firewallStates = firewallStates;
   }
+
+  String get getPasswordReset {
+    return _passwordReset;
+  }
 }
