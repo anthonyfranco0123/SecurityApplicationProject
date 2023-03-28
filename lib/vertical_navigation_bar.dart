@@ -21,6 +21,7 @@ import 'package:flutter_security_application/security_requirements/firewall/fire
 
 import 'admin/admin_state.dart';
 import 'admin/privilege_level_changer.dart';
+import 'database/requirements_data_sender.dart';
 import 'hover_builder.dart';
 
 class VerticalNavigationBar extends StatefulWidget {
@@ -57,7 +58,17 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // if (_sideMenu.currentPage != 9) {
     //   _periodicallyUpdateDownloadRestrictions();
     // }
+    _periodicallyUpdateDatabase();
     super.initState();
+  }
+
+  void _periodicallyUpdateDatabase() {
+    // int currentFirewallStates = FirewallAccess().getFirewallStates();
+    Timer.periodic(const Duration(seconds: 10), (timer) {
+      setState(() {
+        RequirementsDataSender().sendRequirementData();
+      });
+    });
   }
 
   // void _periodicallyUpdateDownloadRestrictions() {

@@ -10,7 +10,7 @@ class AutoUpdates{
         final privateSUpdates = key1.getValueAsString('NoAutoUpdate');
         //print(privateSUpdates);
           if (privateSUpdates == "0x00000001") {
-            //print('Auto Updates : off');
+            //print('Auto Updates : off')
             AUStates = 0;
             //return 0;
             //AUStates = 0;
