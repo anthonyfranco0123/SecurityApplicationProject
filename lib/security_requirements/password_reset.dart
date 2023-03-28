@@ -63,6 +63,8 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
               ),
               child: const Text('Get Password Reset Configuration'),
               onPressed: () async {
+                var MAC = RegistryAccess.initPlatformState();
+
                 display = '';
                 var shell = Shell();
 
@@ -77,6 +79,7 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
                 //var lockoutObservation = output.substring(output.indexOf("Lockout observation window (minutes):") + 54, output.indexOf("Computer role:")-2 );
                 // print(output);
                 setState(() {
+                  print(MAC);
                   isShown = true;
                   //print(output);
                   if (int.parse(maxpwage)!=90){
