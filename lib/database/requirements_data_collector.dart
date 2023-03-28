@@ -57,4 +57,28 @@ class RequirementsDataCollector {
   String get getPasswordRestrictions {
     return _passwordRestrictions;
   }
+
+  bool get getEventLogs {
+    return _eventLogs;
+  }
+
+  String get getInitializationPolicies {
+    return _initializationPolicies;
+  }
+
+  int get getAutoUpdates {
+    return _autoUpdates;
+  }
+
+  String get getSystemPrivileges {
+    return _systemPrivileges;
+  }
+
+  String get getDownloadRestrictions {
+    return _downloadRestrictions;
+  }
+
+  int get getFirewallStates {
+    return _firewallStates;
+  }
 }
