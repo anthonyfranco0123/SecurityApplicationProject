@@ -67,7 +67,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
                 //print(SysInfo.userName.toString());
                 output = await shell.startAndReadAsString('sc', arguments: ['query', "eventlog"]);
 
-                 print(output);
+                 //print(output);
 
                 setState(() {
                 });

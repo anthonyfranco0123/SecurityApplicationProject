@@ -16,10 +16,12 @@ class DownloadRestrictionsFileInfoGetter {
     // DownloadRestrictionsSystemInfo.filesSizeList = [];
     final List<FileSystemEntity> filesFromDownloads =
         await Directory('$pathToDownloads').list().toList();
+    print(filesFromDownloads);
     for (int i = 0; i < filesFromDownloads.length; i++) {
       String fileExtension = (filesFromDownloads.elementAt(i) as File)
           .path.substring((filesFromDownloads.elementAt(i) as File)
           .path.lastIndexOf('.'));
+      print(fileExtension);
       if(regExp.hasMatch(fileExtension)) {
         DownloadRestrictionsSystemInfo.filesList.add(
             (filesFromDownloads.elementAt(i) as File)
