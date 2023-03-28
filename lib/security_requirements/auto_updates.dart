@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_security_application/security_requirements/password/RegistryAccess.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdates.dart';
 
 class RequirementSixWidget extends StatefulWidget {
 
@@ -57,7 +57,7 @@ class RequirementSixWidgetState extends State<RequirementSixWidget>{
               ),
               child: const Text('AutoUpdates'),
               onPressed: () async {
-                privateSUpdates  = await RegistryAccess.getAutoUpdatesKey();
+                privateSUpdates  = await AutoUpdates.getAutoUpdatesKey();
                 setState(()  {
 
                 });
@@ -99,22 +99,7 @@ class RequirementSixWidgetState extends State<RequirementSixWidget>{
           ],
         ),
       ),
-      //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      //
-      //   floatingActionButton: SizedBox(
-      //     height: 100.0,
-      //     width: 100.0,
-      //     child: FloatingActionButton(
-      //       child: Text(result),
-      //       onPressed: () => {
-      //         setState((){
-      //          result = RegistryAccess.firewallState();
-      //       })
-      //
-      //   },
-      //     ),
-      //   ),
-      // backgroundColor: Colors.blue[600],
+
     );
   }
 }
