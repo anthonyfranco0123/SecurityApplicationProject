@@ -16,6 +16,7 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
   var output;
   var temp;
   var display="";
+
   bool isShown = false;
   @override
   void initState() {
@@ -65,7 +66,6 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
                 display = '';
                 var shell = Shell();
 
-                //print(SysInfo.userName.toString());
                 output = await shell.startAndReadAsString('net', arguments: ['accounts']);
                 //var forceLogOff =  output.substring(output.indexOf("Force user logoff how long after time expires?:") + 54, output.indexOf("Minimum password age (days):") - 2 );
                 //var minpwage = output.substring(output.indexOf("Minimum password age (days):") + 54, output.indexOf("Maximum password age (days):")-2 );
