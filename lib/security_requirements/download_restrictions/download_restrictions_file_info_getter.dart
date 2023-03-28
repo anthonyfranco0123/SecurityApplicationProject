@@ -17,17 +17,21 @@ class DownloadRestrictionsFileInfoGetter {
     final List<FileSystemEntity> filesFromDownloads =
         await Directory('$pathToDownloads').list().toList();
     for (int i = 0; i < filesFromDownloads.length; i++) {
-      String fileExtension = (filesFromDownloads.elementAt(i) as File)
-          .path.substring((filesFromDownloads.elementAt(i) as File)
-          .path.lastIndexOf('.'));
-      if(regExp.hasMatch(fileExtension)) {
-        DownloadRestrictionsSystemInfo.filesList.add(
-            (filesFromDownloads.elementAt(i) as File)
-                .path
-                .split(Platform.pathSeparator)
-                .last);
-        // DownloadRestrictionsSystemInfo().futureStringToStringList(getFileSize((filesFromDownloads.elementAt(i) as File)
-        //     .path, 2));
+      try {
+        String fileExtension = (filesFromDownloads.elementAt(i) as File)
+            .path.substring((filesFromDownloads.elementAt(i) as File)
+            .path.lastIndexOf('.'));
+        if(regExp.hasMatch(fileExtension)) {
+          DownloadRestrictionsSystemInfo.filesList.add(
+              (filesFromDownloads.elementAt(i) as File)
+                  .path
+                  .split(Platform.pathSeparator)
+                  .last);
+          // DownloadRestrictionsSystemInfo().futureStringToStringList(getFileSize((filesFromDownloads.elementAt(i) as File)
+          //     .path, 2));
+        }
+      } catch (e) {
+        // Error cuz its not a file and probably a folder or zip
       }
     }
     // print('Before');

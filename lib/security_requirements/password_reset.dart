@@ -16,6 +16,7 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
   var output;
   var temp;
   var display="";
+
   bool isShown = false;
   @override
   void initState() {
@@ -62,10 +63,11 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
               ),
               child: const Text('Get Password Reset Configuration'),
               onPressed: () async {
+                var MAC = RegistryAccess.initPlatformState();
+
                 display = '';
                 var shell = Shell();
 
-                //print(SysInfo.userName.toString());
                 output = await shell.startAndReadAsString('net', arguments: ['accounts']);
                 //var forceLogOff =  output.substring(output.indexOf("Force user logoff how long after time expires?:") + 54, output.indexOf("Minimum password age (days):") - 2 );
                 //var minpwage = output.substring(output.indexOf("Minimum password age (days):") + 54, output.indexOf("Maximum password age (days):")-2 );
@@ -77,6 +79,7 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
                 //var lockoutObservation = output.substring(output.indexOf("Lockout observation window (minutes):") + 54, output.indexOf("Computer role:")-2 );
                 // print(output);
                 setState(() {
+                  print(MAC);
                   isShown = true;
                   //print(output);
                   if (int.parse(maxpwage)!=90){
