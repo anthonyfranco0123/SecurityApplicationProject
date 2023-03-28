@@ -3,19 +3,9 @@ import 'package:flutter_security_application/database/requirements_data_collecto
 import 'mysql.dart';
 
 class RequirementsDataSender {
-  Future<void> setMySQLData(
-    String deviceName,
-    String macAddress,
-    String timestamp,
-    String password,
-    int passwordRestriction,
-    int passwordExpiration,
-    int autoUpdates,
-    String systemPrivilege,
-    int firewall,
+  Future<void> sendRequirementData(
   ) async {
     var db = Mysql();
-
     await db.getConnection().then((conn) async {
       await conn.query(
         'insert into user_compliances_test (password_reset, password_restrictions, event_logs, initialization_policies, auto_updates, system_privileges, download_restrictions, firewall_states) values (?, ?, ?, ?, ?, ?, ?, ?)',
