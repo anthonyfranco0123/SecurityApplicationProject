@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shell/shell.dart';
 
-import '../RegistryAccess.dart';
+import 'password/RegistryAccess.dart';
 
 class RequirementOneWidget extends StatefulWidget {
   const RequirementOneWidget({

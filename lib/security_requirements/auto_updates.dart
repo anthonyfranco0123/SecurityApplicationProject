@@ -1,18 +1,19 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:shell/shell.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdates.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/SystemPrivileges.dart';
-import 'package:flutter_security_application/SystemPrivChanger.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdatesChanger.dart';
 
-class RequirementEightWidget extends StatefulWidget {
-  const RequirementEightWidget({super.key});
+
+class RequirementSixWidget extends StatefulWidget {
+  const RequirementSixWidget({super.key});
 
   @override
-  State<RequirementEightWidget> createState() => RequirementEightWidgetState();
+  State<RequirementSixWidget> createState() => _RequirementSixWidgetState();
 }
 
-class RequirementEightWidgetState extends State<RequirementEightWidget>
+class _RequirementSixWidgetState extends State<RequirementSixWidget>
     with AutomaticKeepAliveClientMixin{
   //var output;
   //var display="";
@@ -25,7 +26,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   bool get wantKeepAlive => true;
   @override
   void initState() {
-    initialSystemState = SystemPrivileges().systemPrivilegesState();
+    initialSystemState = AutoUpdates().getSystemUpdates();
     super.initState();
   }
 
@@ -40,15 +41,15 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     switch (initialSystemState){
       case 0:
         systemStateText =
-            'Initial Status: Always Elevated is On';
+        'Initial Status: Always Elevated is Off';
         break;
       case 1:
         systemStateText =
-            'Initial Status: Always Elevated is Off';
+        'Initial Status: Always Elevated is On';
         break;
       default:
         systemStateText =
-            'Error: Unable to find Always Elevated Status';
+        'Error: Unable to find Always Elevated Status';
     }
     return systemStateText;
   }
@@ -58,11 +59,11 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     switch (currentSystemState){
       case 0:
         systemStateText =
-            'Current Status: Always Elevated is On';
+        'Current Status: Always Elevated is Off';
         break;
       case 1:
         systemStateText =
-          'Current Status: Always Elevated is Off';
+        'Current Status: Always Elevated is On';
         break;
       default:
         systemStateText =
@@ -97,7 +98,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     _periodicallyUpdateCurrentSystemStatus();
     if (currentSystemState != 1) {
       c = Colors.red;
-      SystemPrivChanger().alwaysElevatedOff();
+      AutoUpdatesChanger().autoUpdatesOn();
     } else {
       c = Colors.white;
     }
@@ -112,17 +113,18 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   }
 
   void _periodicallyUpdateCurrentSystemStatus() {
-    currentSystemState = SystemPrivileges().systemPrivilegesState();
+    currentSystemState = AutoUpdates().getSystemUpdates();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {
-          SystemPrivChanger().alwaysElevatedOff();
+          AutoUpdatesChanger().autoUpdatesOn();
         }
       });
     });
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -146,7 +148,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Your System Privileges State:',
+                  'Your Auto Updates State:',
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.white,
@@ -205,3 +207,4 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     );
   }
 }
+

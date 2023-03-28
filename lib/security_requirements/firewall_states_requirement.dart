@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/securityrequirements/firewall/firewall_access.dart';
-import 'package:flutter_security_application/securityrequirements/firewall/firewall_initial_state.dart';
-import 'package:flutter_security_application/securityrequirements/firewall/firewall_state_changer.dart';
+import 'package:flutter_security_application/security_requirements/firewall/firewall_access.dart';
+import 'package:flutter_security_application/security_requirements/firewall/firewall_initial_state.dart';
+import 'package:flutter_security_application/security_requirements/firewall/firewall_state_changer.dart';
 
 class FirewallStatesRequirementWidget extends StatefulWidget {
   const FirewallStatesRequirementWidget({super.key});

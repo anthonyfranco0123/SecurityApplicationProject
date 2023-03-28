@@ -1,19 +1,18 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:shell/shell.dart';
-import 'package:flutter_security_application/AutoUpdates.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/securityrequirements/AutoUpdatesChanger.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivileges.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivChanger.dart';
 
-
-class RequirementSixWidget extends StatefulWidget {
-  const RequirementSixWidget({super.key});
+class RequirementEightWidget extends StatefulWidget {
+  const RequirementEightWidget({super.key});
 
   @override
-  State<RequirementSixWidget> createState() => _RequirementSixWidgetState();
+  State<RequirementEightWidget> createState() => RequirementEightWidgetState();
 }
 
-class _RequirementSixWidgetState extends State<RequirementSixWidget>
+class RequirementEightWidgetState extends State<RequirementEightWidget>
     with AutomaticKeepAliveClientMixin{
   //var output;
   //var display="";
@@ -26,7 +25,7 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
   bool get wantKeepAlive => true;
   @override
   void initState() {
-    initialSystemState = AutoUpdates().getSystemUpdates();
+    initialSystemState = SystemPrivileges().systemPrivilegesState();
     super.initState();
   }
 
@@ -41,15 +40,15 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
     switch (initialSystemState){
       case 0:
         systemStateText =
-        'Initial Status: Always Elevated is Off';
+            'Initial Status: Always Elevated is On';
         break;
       case 1:
         systemStateText =
-        'Initial Status: Always Elevated is On';
+            'Initial Status: Always Elevated is Off';
         break;
       default:
         systemStateText =
-        'Error: Unable to find Always Elevated Status';
+            'Error: Unable to find Always Elevated Status';
     }
     return systemStateText;
   }
@@ -59,11 +58,11 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
     switch (currentSystemState){
       case 0:
         systemStateText =
-        'Current Status: Always Elevated is Off';
+            'Current Status: Always Elevated is On';
         break;
       case 1:
         systemStateText =
-        'Current Status: Always Elevated is On';
+          'Current Status: Always Elevated is Off';
         break;
       default:
         systemStateText =
@@ -98,7 +97,7 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
     _periodicallyUpdateCurrentSystemStatus();
     if (currentSystemState != 1) {
       c = Colors.red;
-      AutoUpdatesChanger().autoUpdatesOn();
+      SystemPrivChanger().alwaysElevatedOff();
     } else {
       c = Colors.white;
     }
@@ -113,11 +112,11 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
   }
 
   void _periodicallyUpdateCurrentSystemStatus() {
-    currentSystemState = AutoUpdates().getSystemUpdates();
+    currentSystemState = SystemPrivileges().systemPrivilegesState();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {
-          AutoUpdatesChanger().autoUpdatesOn();
+          SystemPrivChanger().alwaysElevatedOff();
         }
       });
     });
@@ -147,7 +146,7 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Your Auto Updates State:',
+                  'Your System Privileges State:',
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.white,
@@ -206,4 +205,3 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
     );
   }
 }
-
