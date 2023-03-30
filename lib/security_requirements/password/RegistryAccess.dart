@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+import 'package:mac_address/mac_address.dart';
 import 'package:win32_registry/win32_registry.dart';
 import 'package:process_run/shell.dart' as PRS;
 
@@ -216,35 +218,18 @@ class RegistryAccess {
 
   }
 
-  static Future<int> getAutoUpdatesKey() async {
+  static Future<String> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      final key1 = Registry.openPath(RegistryHive.localMachine,
-          path: r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU');
-
-      final bootStart = key1.getValueAsInt("NoAutoUpdate");
-      if (bootStart != null) {
-        //print(bootStart);
-        return bootStart;
-      }
-      var shell = PRS.Shell();
-      await shell.run('''
-       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate  /t REG_SZ  /d 0x00000000 /f
-       
-         ''');
-      return 0;
-    } catch (e){
-      //final key2 = Registry.openPath(RegistryHive.localMachine,
-      // path: r'SYSTEM\CurrentControlSet\Policies\');
-      var shell = PRS.Shell();
-      await shell.run('''
-      
-       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate  /t REG_SZ  /d 0x00000000 /f
-       
-       
-         ''');
-      return -1;
+      platformVersion = await GetMac.macAddress;
+    } on PlatformException {
+      platformVersion = 'Failed to get Device MAC Address.';
     }
 
-
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    return platformVersion;
   }
 }
