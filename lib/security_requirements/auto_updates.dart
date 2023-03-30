@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_security_application/requirment_variables.dart';
+import 'package:flutter_security_application/requirement_variables.dart';
 import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdates.dart';
 
 class RequirementSixWidget extends StatefulWidget {
@@ -48,8 +48,8 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> {
       c = Colors.red;
     } else {
       c = Colors.white;
-      RequirementVariables.autoUpdates = true;
     }
+    RequirementVariables.autoUpdates = privateSUpdates;
     return Text(
       _currentAutoUpdatesStateText(),
       style: TextStyle(

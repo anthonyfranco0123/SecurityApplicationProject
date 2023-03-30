@@ -1,4 +1,4 @@
-import '../requirment_variables.dart';
+import '../requirement_variables.dart';
 import 'mysql.dart';
 
 class RequirementsDataSender {

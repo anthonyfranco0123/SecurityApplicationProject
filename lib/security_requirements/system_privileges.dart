@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:shell/shell.dart';
+import 'package:flutter_security_application/requirement_variables.dart';
+// import 'package:shell/shell.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
 import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivileges.dart';
 import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivChanger.dart';
@@ -82,6 +83,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
       currentSystemState = initialSystemState;
       textToDisplayForInitialSystemState = _initialSystemStateText();
     }
+    RequirementVariables.systemPrivileges = currentSystemState;
     return Text(
       textToDisplayForInitialSystemState,
       style: TextStyle(
@@ -123,6 +125,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         width: double.infinity,

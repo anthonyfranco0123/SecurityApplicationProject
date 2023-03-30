@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_security_application/requirment_variables.dart';
+import 'package:flutter_security_application/requirement_variables.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -41,7 +41,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   @override
   void initState() {
     initInfo();
-    // initPlatformState();
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
     });

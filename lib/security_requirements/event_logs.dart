@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_security_application/requirment_variables.dart';
+import 'package:flutter_security_application/requirement_variables.dart';
 import 'package:shell/shell.dart';
 
 class RequirementThreeWidget extends StatefulWidget {

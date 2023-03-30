@@ -11,8 +11,8 @@ class RequirementVariables {
   static bool specialChars = false;
   static bool eventLogs = false; //'check if logging is on'
   static int initializationPolicies = -1; //if driver can boot and doesn't have malware
-  static bool autoUpdates = false; //windows is set to auto-update
-  static bool systemPrivileges = false; //if download prevention is on
+  static int autoUpdates = -1; //windows is set to auto-update
+  static int systemPrivileges = -1; //if download prevention is on
   static bool downloadRestrictions = false; //if restricted file is detected
   static int firewallStates = -1; //if all three firewalls are on
 }

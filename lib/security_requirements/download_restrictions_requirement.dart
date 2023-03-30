@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 // import '../database/sqltest.dart';
+import '../requirement_variables.dart';
 import 'download_restrictions/download_restrictions_file_info_getter.dart';
 import 'download_restrictions/download_restrictions_system_info.dart';
 
@@ -71,8 +72,10 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
     _periodicallyUpdateDownloadRestrictions();
     if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
       c = Colors.red;
+      RequirementVariables.downloadRestrictions = true;
     } else {
       c = Colors.white;
+      RequirementVariables.downloadRestrictions = false;
     }
     return Text(
       _restrictedFilesInfoText(),
