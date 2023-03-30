@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_security_application/requirment_variables.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
@@ -18,13 +19,13 @@ import 'package:flutter_security_application/security_requirements/system_privil
 import 'package:flutter_security_application/security_requirements/download_restrictions_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_initial_state.dart';
+import 'package:mac_address/mac_address.dart';
 import 'package:windows_system_info/windows_system_info.dart';
 
 import 'admin/admin_state.dart';
 import 'admin/privilege_level_changer.dart';
 import 'database/requirements_data_sender.dart';
 import 'hover_builder.dart';
-
 
 class VerticalNavigationBar extends StatefulWidget {
   const VerticalNavigationBar({super.key});
@@ -37,13 +38,12 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   final PageController _page = PageController();
   final SideMenuController _sideMenu = SideMenuController();
 
-
   @override
   void initState() {
     initInfo();
+    // initPlatformState();
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
-
     });
     FirewallInitialState.initialFirewallStates =
         FirewallAccess().getFirewallStates();
@@ -54,7 +54,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
         DownloadRestrictionsSystemInfo().getHomeDirectory();
     DownloadRestrictionsSystemInfo.userDownloadsPath =
         '${DownloadRestrictionsSystemInfo.userPath}' '\\Downloads\\';
-    if(_sideMenu.currentPage != 9) {
+    if (_sideMenu.currentPage != 9) {
       DownloadRestrictionsSystemInfo().futureStringListToStringList(
           DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
               DownloadRestrictionsSystemInfo.userDownloadsPath,
@@ -72,9 +72,32 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     if (await WindowsSystemInfo.isInitilized) {
       setState(() {
         RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
+        RequirementVariables.macAddress = WindowsSystemInfo.network[1].mac;
         // print(RequirementVariables.deviceName);
+        // print(RequirementVariables.macAddress);
       });
     }
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      platformVersion = await GetMac.macAddress;
+    } on PlatformException {
+      platformVersion = 'Failed to get Device MAC Address.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      RequirementVariables.macAddress = platformVersion;
+      print(RequirementVariables.macAddress);
+    });
   }
 
   void _periodicallyUpdateDatabase() {
@@ -218,7 +241,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 priority: 0,
                 title: 'Password Reset',
                 onTap: (page, _) {
-
                   //RegistryAccess.getPasswordPolicy();
                   _sideMenu.changePage(page);
                 },
@@ -336,6 +358,3 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     );
   }
 }
-
-
-
