@@ -22,7 +22,7 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> {
   String _currentAutoUpdatesStateText() {
     String firewallStatesText = '';
     switch (privateSUpdates) {
-      case -1:
+      case 2:
         firewallStatesText =
             'Auto Update Policy is Not Configured because of Path';
         break;
