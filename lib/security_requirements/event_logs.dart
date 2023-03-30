@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirment_variables.dart';
 import 'package:shell/shell.dart';
@@ -11,29 +13,38 @@ class RequirementThreeWidget extends StatefulWidget {
   State<RequirementThreeWidget> createState() => RequirementThreeWidgetState();
 }
 
-class RequirementThreeWidgetState extends State<RequirementThreeWidget> {
+class RequirementThreeWidgetState extends State<RequirementThreeWidget> with AutomaticKeepAliveClientMixin {
   String output = '';
+  late Timer timer;
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    runShellCommand();
+    _runShellCommand();
     super.initState();
   }
 
-  Future<String> runShellCommand() async {
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  Future<String> _runShellCommand() async {
     var shell = Shell();
     return await shell.startAndReadAsString('sc',
         arguments: ['query', "eventlog"]);
   }
 
-  Future<void> futureStringToString(Future<String> fs) async {
+  Future<void> _futureStringToString(Future<String> fs) async {
     output = await fs;
   }
 
   Text _textToDisplayForCurrentEventLogsState() {
     Color c = Colors.yellow;
     String text = '';
-    futureStringToString(runShellCommand());
+    _periodicallyUpdateCurrentEventLogsStatus();
     if (output.contains("STOPPED")) {
       c = Colors.red;
       text = 'Event Log Is Stopped';
@@ -53,8 +64,18 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> {
     );
   }
 
+  void _periodicallyUpdateCurrentEventLogsStatus() {
+    _futureStringToString(_runShellCommand());
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         width: double.infinity,

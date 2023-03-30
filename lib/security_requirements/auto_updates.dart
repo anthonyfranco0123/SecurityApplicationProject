@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_security_application/requirment_variables.dart';
 import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdates.dart';
 
 class RequirementSixWidget extends StatefulWidget {
-
   const RequirementSixWidget({
     Key? key,
   }) : super(key: key);
@@ -11,12 +11,55 @@ class RequirementSixWidget extends StatefulWidget {
   State<RequirementSixWidget> createState() => RequirementSixWidgetState();
 }
 
-class RequirementSixWidgetState extends State<RequirementSixWidget>{
+class RequirementSixWidgetState extends State<RequirementSixWidget> {
+  int privateSUpdates = -2;
+
   @override
   void initState() {
     super.initState();
   }
-  int privateSUpdates  = -2;
+
+  String _currentAutoUpdatesStateText() {
+    String firewallStatesText = '';
+    switch (privateSUpdates) {
+      case -1:
+        firewallStatesText =
+            'Auto Update Policy is Not Configured because of Path';
+        break;
+      case 1:
+        firewallStatesText = 'Auto Update Policy is Not Configured';
+        break;
+      case 0:
+        firewallStatesText = 'Auto Update Policy is Good';
+        break;
+      case 3:
+        firewallStatesText = 'Path exists, wrong type';
+        break;
+      default:
+        firewallStatesText =
+            'Error: Unable to determine the auto-updates state!';
+    }
+    return firewallStatesText;
+  }
+
+  Text _textToDisplayForAutoUpdatesState() {
+    Color c = Colors.yellow;
+    if (privateSUpdates != 0) {
+      c = Colors.red;
+    } else {
+      c = Colors.white;
+      RequirementVariables.autoUpdates = true;
+    }
+    return Text(
+      _currentAutoUpdatesStateText(),
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,51 +100,47 @@ class RequirementSixWidgetState extends State<RequirementSixWidget>{
               ),
               child: const Text('AutoUpdates'),
               onPressed: () async {
-                privateSUpdates  = await AutoUpdates.getAutoUpdatesKey();
-                setState(()  {
-
-                });
+                privateSUpdates = await AutoUpdates.getAutoUpdatesKey();
+                setState(() {});
               },
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            if (privateSUpdates  == -1)
-              const Text(
-                'Auto Update Policy is Not Configured because of Path',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (privateSUpdates  == 1)
-              const Text(
-                'Auto Update Policy is Not Configured',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (privateSUpdates  == 0)
-              const Text(
-                'Auto Update Policy is Good',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (privateSUpdates  == 3)
-              const Text(
-                'Path exists, wrong type',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
+            _textToDisplayForAutoUpdatesState(),
+            // if (privateSUpdates == -1)
+            //   const Text(
+            //     'Auto Update Policy is Not Configured because of Path',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //     textAlign: TextAlign.center,
+            //   ),
+            // if (privateSUpdates == 1)
+            //   const Text(
+            //     'Auto Update Policy is Not Configured',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //     textAlign: TextAlign.center,
+            //   ),
+            // if (privateSUpdates == 0)
+            //   const Text(
+            //     'Auto Update Policy is Good',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //     textAlign: TextAlign.center,
+            //   ),
+            // if (privateSUpdates == 3)
+            //   const Text(
+            //     'Path exists, wrong type',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //     textAlign: TextAlign.center,
+            //   ),
           ],
         ),
       ),
-
     );
   }
 }
-
-
