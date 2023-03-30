@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_security_application/requirment_variables.dart';
 import 'package:shell/shell.dart';
 
-import 'password/RegistryAccess.dart';
 class RequirementThreeWidget extends StatefulWidget {
-
   const RequirementThreeWidget({
     Key? key,
   }) : super(key: key);
@@ -13,14 +11,48 @@ class RequirementThreeWidget extends StatefulWidget {
   State<RequirementThreeWidget> createState() => RequirementThreeWidgetState();
 }
 
-class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
+class RequirementThreeWidgetState extends State<RequirementThreeWidget> {
+  String output = '';
+
   @override
   void initState() {
+    runShellCommand();
     super.initState();
   }
-  var output="";
-  var display;
-  var shell = Shell();
+
+  Future<String> runShellCommand() async {
+    var shell = Shell();
+    return await shell.startAndReadAsString('sc',
+        arguments: ['query', "eventlog"]);
+  }
+
+  Future<void> futureStringToString(Future<String> fs) async {
+    output = await fs;
+  }
+
+  Text _textToDisplayForCurrentEventLogsState() {
+    Color c = Colors.yellow;
+    String text = '';
+    futureStringToString(runShellCommand());
+    if (output.contains("STOPPED")) {
+      c = Colors.red;
+      text = 'Event Log Is Stopped';
+      RequirementVariables.eventLogs = false;
+    } else {
+      c = Colors.white;
+      text = 'Event Log Is Running';
+      RequirementVariables.eventLogs = true;
+    }
+    return Text(
+      text,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,50 +84,11 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget>{
               textAlign: TextAlign.center,
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              child: const Text('Check Event Log'),
-              onPressed: () async {
-
-
-
-                //print(SysInfo.userName.toString());
-                output = await shell.startAndReadAsString('sc', arguments: ['query', "eventlog"]);
-
-                 //print(output);
-
-                setState(() {
-                });
-
-
-              },
-            ),
             const Padding(padding: EdgeInsets.all(8.0)),
-          if (output.contains("RUNNING"))
-            const Text(
-              'Event Log Is Running',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
-          ),
-          if (output.contains("STOPPED"))
-            const Text(
-            'Event Log Is Stopped',
-            style: TextStyle(
-            color: Colors.white,
-            ),
-            textAlign: TextAlign.center,
-            ),
-
-  ],
-  ),
-  ),
-  );
-}
+            _textToDisplayForCurrentEventLogsState(),
+          ],
+        ),
+      ),
+    );
+  }
 }

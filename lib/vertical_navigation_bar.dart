@@ -63,7 +63,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // if (_sideMenu.currentPage != 9) {
     //   _periodicallyUpdateDownloadRestrictions();
     // }
-    // _periodicallyUpdateDatabase();
+    _periodicallyUpdateDatabase();
     super.initState();
   }
 
@@ -104,8 +104,26 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // int currentFirewallStates = FirewallAccess().getFirewallStates();
     RequirementVariables.timeStamp = DateTime.now().millisecondsSinceEpoch;
     Timer.periodic(const Duration(seconds: 10), (timer) {
+      print('***');
+      print(RequirementVariables.timeStamp);
+      print(RequirementVariables.deviceName);
+      print(RequirementVariables.macAddress);
+      print(RequirementVariables.maxPasswordAge);
+      print(RequirementVariables.passwordHistory);
+      print(RequirementVariables.minPasswordLength);
+      print(RequirementVariables.maxPasswordLength);
+      print(RequirementVariables.uppercaseChars);
+      print(RequirementVariables.lowercaseChars);
+      print(RequirementVariables.specialChars);
+      print(RequirementVariables.eventLogs);
+      print(RequirementVariables.initializationPolicies);
+      print(RequirementVariables.autoUpdates);
+      print(RequirementVariables.systemPrivileges);
+      print(RequirementVariables.downloadRestrictions);
+      print(RequirementVariables.firewallStates);
+      print('----');
       setState(() {
-        RequirementsDataSender().sendRequirementData();
+        // RequirementsDataSender().sendRequirementData();
       });
     });
   }

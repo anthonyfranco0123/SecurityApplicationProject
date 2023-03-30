@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_security_application/requirment_variables.dart';
 import 'package:flutter_security_application/security_requirements/password/RegistryAccess.dart';
 
 class RequirementFiveWidget extends StatefulWidget {
@@ -58,6 +59,7 @@ int bootStart = -2;
               child: const Text('Boot-start Driver Initialization'),
               onPressed: () async {
                 bootStart = await RegistryAccess.getBootStartDriverPolicy();
+                RequirementVariables.initializationPolicies = bootStart;
                 setState(()  {
 
                 });
