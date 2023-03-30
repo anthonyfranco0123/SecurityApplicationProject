@@ -72,11 +72,11 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
                 output = await shell.startAndReadAsString('net', arguments: ['accounts']);
                 //var forceLogOff =  output.substring(output.indexOf("Force user logoff how long after time expires?:") + 54, output.indexOf("Minimum password age (days):") - 2 );
                 //var minpwage = output.substring(output.indexOf("Minimum password age (days):") + 54, output.indexOf("Maximum password age (days):")-2 );
-                var maxpwage = RequirementVariables.maxPasswordAge = output.substring(output.indexOf("Maximum password age (days):") + 54, output.indexOf("Minimum password length:")-2 );
-                print(maxpwage);
+                var maxpwage = output.substring(output.indexOf("Maximum password age (days):") + 54, output.indexOf("Minimum password length:")-2 );
+                RequirementVariables.maxPasswordAge = int.parse(maxpwage);
                 //var minpwlen = output.substring(output.indexOf("Minimum password length:") + 54, output.indexOf("Length of password history maintained:")-2 );
-                var pwhist = RequirementVariables.passwordHistory = output.substring(output.indexOf("Length of password history maintained:") + 54, output.indexOf("Lockout threshold:")-2 );
-                print(pwhist);
+                var pwhist = output.substring(output.indexOf("Length of password history maintained:") + 54, output.indexOf("Lockout threshold:")-2 );
+                RequirementVariables.passwordHistory = int.parse(pwhist);
                 //var lockoutThreshold = output.substring(output.indexOf("Lockout threshold:") + 54, output.indexOf("Lockout duration (minutes):")-2 );
                 //var lockoutDur = output.substring(output.indexOf("Lockout duration (minutes):") + 54, output.indexOf("Lockout observation window (minutes):")-2 );
                 //var lockoutObservation = output.substring(output.indexOf("Lockout observation window (minutes):") + 54, output.indexOf("Computer role:")-2 );
