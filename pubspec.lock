@@ -89,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -168,14 +176,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  mac_address:
-    dependency: "direct main"
-    description:
-      name: mac_address
-      sha256: "630aca295b6c525c1f79d38c8669a65aa06a3e9ff870f73780a8d9694ba789ff"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   matcher:
     dependency: transitive
     description:
@@ -405,6 +405,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  windows_system_info:
+    dependency: "direct main"
+    description:
+      name: windows_system_info
+      sha256: "9d1556289e054a564fb99628f908151c3c29d6f73efb1dc9b7d99c247477c211"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   xml:
     dependency: transitive
     description:

@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_security_application/requirment_variables.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_access.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_state_changer.dart';
-import 'package:flutter_security_application/security_requirements/password_reset.dart';
 import 'package:flutter_security_application/security_requirements/password_restrictions.dart';
 import 'package:flutter_security_application/security_requirements/event_logs.dart';
 import 'package:flutter_security_application/security_requirements/logging_tests.dart';
@@ -19,7 +18,7 @@ import 'package:flutter_security_application/security_requirements/system_privil
 import 'package:flutter_security_application/security_requirements/download_restrictions_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_initial_state.dart';
-import 'package:mac_address/mac_address.dart';
+import 'package:windows_system_info/windows_system_info.dart';
 
 import 'admin/admin_state.dart';
 import 'admin/privilege_level_changer.dart';
@@ -41,6 +40,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
 
   @override
   void initState() {
+    initInfo();
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
 
@@ -63,14 +63,23 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // if (_sideMenu.currentPage != 9) {
     //   _periodicallyUpdateDownloadRestrictions();
     // }
-    _periodicallyUpdateDatabase();
+    // _periodicallyUpdateDatabase();
     super.initState();
   }
 
-
+  Future<void> initInfo() async {
+    await WindowsSystemInfo.initWindowsInfo();
+    if (await WindowsSystemInfo.isInitilized) {
+      setState(() {
+        RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
+        // print(RequirementVariables.deviceName);
+      });
+    }
+  }
 
   void _periodicallyUpdateDatabase() {
     // int currentFirewallStates = FirewallAccess().getFirewallStates();
+    RequirementVariables.timeStamp = DateTime.now().millisecondsSinceEpoch;
     Timer.periodic(const Duration(seconds: 10), (timer) {
       setState(() {
         RequirementsDataSender().sendRequirementData();

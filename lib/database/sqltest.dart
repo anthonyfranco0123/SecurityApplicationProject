@@ -9,7 +9,6 @@ class SQLTest {
     await db.getConnection().then((conn) async {
       await conn.query(sql).then((results) {
         for (var res in results) {
-          print(res);
           myList.add('');
         }
       }).onError((error, stackTrace) {
