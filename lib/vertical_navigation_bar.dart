@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
+import 'package:flutter_security_application/security_requirements/password_reset.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_access.dart';
@@ -295,16 +296,16 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                       ),
                     )),
               ),
+              // SideMenuItem(
+              //   priority: 3,
+              //   title: 'Logging Tests',
+              //   onTap: (page, _) {
+              //     _sideMenu.changePage(page);
+              //   },
+              //   icon: const Icon(Icons.download),
+              // ),
               SideMenuItem(
                 priority: 3,
-                title: 'Logging Tests',
-                onTap: (page, _) {
-                  _sideMenu.changePage(page);
-                },
-                icon: const Icon(Icons.download),
-              ),
-              SideMenuItem(
-                priority: 4,
                 title: 'Initialization Policies',
                 onTap: (page, _) {
                   _sideMenu.changePage(page);
@@ -312,42 +313,42 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 icon: const Icon(Icons.settings),
               ),
               SideMenuItem(
-                priority: 5,
+                priority: 4,
                 title: 'Auto Updates',
                 onTap: (page, _) {
-                  _sideMenu.changePage(5);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.autorenew),
               ),
+              // SideMenuItem(
+              //   priority: 6,
+              //   title: 'Removable Devices',
+              //   onTap: (page, _) {
+              //     _sideMenu.changePage(6);
+              //   },
+              //   icon: const Icon(Icons.add_circle),
+              // ),
               SideMenuItem(
-                priority: 6,
-                title: 'Removable Devices',
-                onTap: (page, _) {
-                  _sideMenu.changePage(6);
-                },
-                icon: const Icon(Icons.add_circle),
-              ),
-              SideMenuItem(
-                priority: 7,
+                priority: 5,
                 title: 'System Privileges',
                 onTap: (page, _) {
-                  _sideMenu.changePage(7);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.wallet),
               ),
               SideMenuItem(
-                priority: 8,
+                priority: 6,
                 title: 'Installation Restrictions',
                 onTap: (page, _) {
-                  _sideMenu.changePage(8);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.zoom_in),
               ),
               SideMenuItem(
-                priority: 9,
+                priority: 7,
                 title: 'Firewall State',
                 onTap: (page, _) {
-                  _sideMenu.changePage(9);
+                  _sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.qr_code),
               ),
@@ -357,13 +358,13 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
             child: PageView(
               controller: _page,
               children: const [
-                RequirementTwoWidget(),
+                RequirementOneWidget(),
                 RequirementTwoWidget(),
                 RequirementThreeWidget(),
-                RequirementFourWidget(),
+                // RequirementFourWidget(),
                 RequirementFiveWidget(),
                 RequirementSixWidget(),
-                RequirementSevenWidget(),
+                // RequirementSevenWidget(),
                 RequirementEightWidget(),
                 RequirementNineWidget(),
                 FirewallStatesRequirementWidget(),
