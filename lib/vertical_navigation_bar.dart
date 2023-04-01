@@ -60,9 +60,9 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               DownloadRestrictionsSystemInfo.userDownloadsPath,
               Platform.operatingSystem));
     }
-    // if (_sideMenu.currentPage != 9) {
-    //   _periodicallyUpdateDownloadRestrictions();
-    // }
+    if (_sideMenu.currentPage != 6) {
+      // _periodicallyUpdateDownloadRestrictions();
+    }
     _periodicallyUpdateDatabase();
     super.initState();
   }
