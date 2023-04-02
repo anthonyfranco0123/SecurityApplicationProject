@@ -127,7 +127,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       // print(RequirementVariables.firewallStates);
       // print('----');
       setState(() {
-        RequirementsDataSender().sendRequirementData();
+        // RequirementsDataSender().sendRequirementData();
       });
     });
   }
@@ -160,7 +160,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   Widget build(BuildContext context) {
     final sh = MediaQuery.of(context).size.height;
     final sw = MediaQuery.of(context).size.width;
-    // bool isHovering = false;
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,

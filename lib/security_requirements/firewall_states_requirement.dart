@@ -223,6 +223,7 @@ class _FirewallStatesRequirementWidgetState
                         },
                         child: const Text('Turn On Firewall'),
                       ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,

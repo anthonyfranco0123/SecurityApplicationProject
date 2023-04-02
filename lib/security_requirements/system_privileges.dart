@@ -183,6 +183,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
                         },
                         child: const Text('Turn On Always Elevated'),
                       ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,

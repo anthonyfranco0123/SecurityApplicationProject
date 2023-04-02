@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
 import 'package:shell/shell.dart';
 
+import '../admin/admin_state.dart';
+
 class RequirementThreeWidget extends StatefulWidget {
   const RequirementThreeWidget({
     Key? key,
@@ -92,21 +94,67 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Check Event Log',
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Check Event Log',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForCurrentEventLogsState(),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            // firewallStates = RegistryAccess.getFirewallStates();
+                          });
+                        },
+                        child: const Text('Turn On Event Logs'),
+                      ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+
+                          });
+                        },
+                        child: const Text('Turn Off Event Logs'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            _textToDisplayForCurrentEventLogsState(),
-          ],
+          ),
         ),
       ),
     );

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
 import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
 
+import '../admin/admin_state.dart';
+
 class RequirementSixWidget extends StatefulWidget {
   const RequirementSixWidget({
     Key? key,
@@ -17,12 +19,6 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    AutoUpdatesState().futureIntToInt();
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -101,21 +97,67 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Check Your Auto Updates',
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Check Your Auto Updates',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForAutoUpdatesState(),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+
+                          });
+                        },
+                        child: const Text('Turn On Auto-Updates'),
+                      ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            // firewallStates = RegistryAccess.getFirewallStates();
+                          });
+                        },
+                        child: const Text('Turn Off Auto-Updates'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            _textToDisplayForAutoUpdatesState(),
-          ],
+          ),
         ),
       ),
     );

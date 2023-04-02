@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
-
+import '../admin/admin_state.dart';
 import 'initialization_policies/intialization_policies_state.dart';
 
 class RequirementFiveWidget extends StatefulWidget {
@@ -19,11 +19,6 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -107,22 +102,67 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Check Your Boot-Start Driver Initialization',
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Check Your Boot-Start Driver Initialization',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForInitializationPoliciesStates(),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+
+                          });
+                        },
+                        child: const Text('Turn On Initialization Policies'),
+                      ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+
+                          });
+                        },
+                        child: const Text('Turn Off Initialization Policies'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            _textToDisplayForInitializationPoliciesStates(),
-          ],
+          ),
         ),
       ),
     );

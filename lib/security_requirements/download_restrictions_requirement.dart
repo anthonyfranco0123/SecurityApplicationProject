@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../admin/admin_state.dart';
 import '../requirement_variables.dart';
 import 'download_restrictions/download_restrictions_file_info_getter.dart';
 import 'download_restrictions/download_restrictions_system_info.dart';
@@ -162,7 +163,48 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  Visibility(
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    visible: AdminState.adminState,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+
+                            });
+                          },
+                          child: const Text('Turn On Installation Restrictions'),
+                        ),
+                        const Padding(padding: EdgeInsets.all(8.0)),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+
+                            });
+                          },
+                          child: const Text('Turn Off Installation Restrictions'),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
