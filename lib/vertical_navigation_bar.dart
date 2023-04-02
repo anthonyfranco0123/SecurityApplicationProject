@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
@@ -40,6 +41,7 @@ class VerticalNavigationBar extends StatefulWidget {
 class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   final PageController _page = PageController();
   final SideMenuController _sideMenu = SideMenuController();
+  final player = AudioPlayer();
 
   @override
   void initState() {
@@ -67,8 +69,17 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     }
     AutoUpdatesState().futureIntToInt();
     InitializationPoliciesState().futureIntToInt();
+    setSound();
     _periodicallyUpdateDatabase();
     super.initState();
+  }
+
+  Future<void> setSound() async {
+    await player.setSource(AssetSource('Goose_Honk.mp3'));
+  }
+
+  void playSound() {
+    player.play(AssetSource('Goose_Honk.mp3'));
   }
 
   Future<void> initInfo() async {
@@ -126,6 +137,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       // print(RequirementVariables.downloadRestrictions);
       // print(RequirementVariables.firewallStates);
       // print('----');
+      playSound();
       setState(() {
         // RequirementsDataSender().sendRequirementData();
       });

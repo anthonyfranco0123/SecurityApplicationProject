@@ -31,15 +31,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_svg: ^2.0.3
-  badges: ^3.0.2
-  win32_registry: ^1.1.0
-  process_run: ^0.12.5+2
-  shell: ^2.0.0
-  mysql1: ^0.20.0
-  device_info_plus: ^8.1.0
-  windows_system_info: ^0.0.3
-  mac_address: ^1.0.0
+  flutter_svg: any
+  badges: any
+  win32_registry: any
+  process_run: any
+  shell: any
+  mysql1: any
+  device_info_plus: any
+  windows_system_info: any
+  mac_address: any
+  audioplayers: any
 
 dev_dependencies:
   flutter_test:
