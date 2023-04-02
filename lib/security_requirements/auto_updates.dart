@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
-import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdates.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
 
 class RequirementSixWidget extends StatefulWidget {
   const RequirementSixWidget({
@@ -11,45 +13,55 @@ class RequirementSixWidget extends StatefulWidget {
   State<RequirementSixWidget> createState() => RequirementSixWidgetState();
 }
 
-class RequirementSixWidgetState extends State<RequirementSixWidget> {
-  int privateSUpdates = -2;
+class RequirementSixWidgetState extends State<RequirementSixWidget> with AutomaticKeepAliveClientMixin {
+  late Timer timer;
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
+    AutoUpdatesState().futureIntToInt();
     super.initState();
   }
 
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   String _currentAutoUpdatesStateText() {
-    String firewallStatesText = '';
-    switch (privateSUpdates) {
-      case 2:
-        firewallStatesText =
-            'Auto Update Policy is Not Configured because of Path';
+    String autoUpdatesStateText = '';
+    switch (AutoUpdatesState.privateSUpdates) {
+      case 0:
+        autoUpdatesStateText = 'Auto Update Policy is Good';
         break;
       case 1:
-        firewallStatesText = 'Auto Update Policy is Not Configured';
+        autoUpdatesStateText = 'Auto Update Policy is Not Configured';
         break;
-      case 0:
-        firewallStatesText = 'Auto Update Policy is Good';
+      case 2:
+        autoUpdatesStateText =
+        'Auto Update Policy is Not Configured because of Path';
         break;
       case 3:
-        firewallStatesText = 'Path exists, wrong type';
+        autoUpdatesStateText = 'Path exists, wrong type';
         break;
       default:
-        firewallStatesText =
+        autoUpdatesStateText =
             'Error: Unable to determine the auto-updates state!';
     }
-    return firewallStatesText;
+    return autoUpdatesStateText;
   }
 
   Text _textToDisplayForAutoUpdatesState() {
     Color c = Colors.yellow;
-    if (privateSUpdates != 0) {
+    _periodicallyUpdateAutoUpdatesStatus();
+    if (AutoUpdatesState.privateSUpdates != 0) {
       c = Colors.red;
     } else {
       c = Colors.white;
     }
-    RequirementVariables.autoUpdates = privateSUpdates;
+    RequirementVariables.autoUpdates = AutoUpdatesState.privateSUpdates;
     return Text(
       _currentAutoUpdatesStateText(),
       style: TextStyle(
@@ -60,8 +72,19 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> {
     );
   }
 
+  void _periodicallyUpdateAutoUpdatesStatus() {
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        if (AutoUpdatesState.privateSUpdates != 1) {
+          AutoUpdatesState().futureIntToInt();
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -91,53 +114,7 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> {
               textAlign: TextAlign.center,
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              child: const Text('AutoUpdates'),
-              onPressed: () async {
-                privateSUpdates = await AutoUpdates.getAutoUpdatesKey();
-                setState(() {});
-              },
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
             _textToDisplayForAutoUpdatesState(),
-            // if (privateSUpdates == -1)
-            //   const Text(
-            //     'Auto Update Policy is Not Configured because of Path',
-            //     style: TextStyle(
-            //       color: Colors.white,
-            //     ),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // if (privateSUpdates == 1)
-            //   const Text(
-            //     'Auto Update Policy is Not Configured',
-            //     style: TextStyle(
-            //       color: Colors.white,
-            //     ),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // if (privateSUpdates == 0)
-            //   const Text(
-            //     'Auto Update Policy is Good',
-            //     style: TextStyle(
-            //       color: Colors.white,
-            //     ),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // if (privateSUpdates == 3)
-            //   const Text(
-            //     'Path exists, wrong type',
-            //     style: TextStyle(
-            //       color: Colors.white,
-            //     ),
-            //     textAlign: TextAlign.center,
-            //   ),
           ],
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_security_application/security_requirements/password/RegistryAccess.dart';
+import 'package:flutter_security_application/security_requirements/password/registry_access.dart';
 
 import '../requirement_variables.dart';
 // import 'package:shell/shell.dart';

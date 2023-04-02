@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
 // import 'package:shell/shell.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivileges.dart';
-import 'package:flutter_security_application/security_requirements/system_privileges/SystemPrivChanger.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/system_privileges_state.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/system_priv_changer.dart';
 
 class RequirementEightWidget extends StatefulWidget {
   const RequirementEightWidget({super.key});
@@ -26,7 +26,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   bool get wantKeepAlive => true;
   @override
   void initState() {
-    initialSystemState = SystemPrivileges().systemPrivilegesState();
+    initialSystemState = SystemPrivilegesState().systemPrivilegesState();
     super.initState();
   }
 
@@ -114,7 +114,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   }
 
   void _periodicallyUpdateCurrentSystemStatus() {
-    currentSystemState = SystemPrivileges().systemPrivilegesState();
+    currentSystemState = SystemPrivilegesState().systemPrivilegesState();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {

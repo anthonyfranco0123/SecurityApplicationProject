@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
-import 'package:flutter_security_application/security_requirements/password/RegistryAccess.dart';
+
+import 'initialization_policies/intialization_policies_state.dart';
 
 class RequirementFiveWidget extends StatefulWidget {
 
@@ -12,14 +15,82 @@ class RequirementFiveWidget extends StatefulWidget {
   State<RequirementFiveWidget> createState() => RequirementFiveWidgetState();
 }
 
-class RequirementFiveWidgetState extends State<RequirementFiveWidget>{
+class RequirementFiveWidgetState extends State<RequirementFiveWidget> with AutomaticKeepAliveClientMixin {
+  late Timer timer;
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
   }
-int bootStart = -2;
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  String _initializationPoliciesStateText() {
+    String initializationPoliciesStatesText = '';
+    switch (InitializationPoliciesState.bootStart) {
+      case 0:
+        initializationPoliciesStatesText =
+        'Boot-Start Driver Initialization Policy is Not Configured';
+        break;
+      case 1:
+        initializationPoliciesStatesText =
+        'Boot-Start Driver Initialization Policy is Good and Unknown';
+        break;
+      case 3:
+        initializationPoliciesStatesText =
+        'Boot-Start Driver Initialization Policy is Good, Unknown, and Bad But Critical';
+        break;
+      case 7:
+        initializationPoliciesStatesText =
+        'Boot-Start Driver Initialization Policy is Configured to All';
+        break;
+      case 8:
+        initializationPoliciesStatesText = 'Boot-Start Driver Initialization Policy is Good';
+        break;
+      default:
+        initializationPoliciesStatesText = 'Error: Unable to determine the initialization policies states!';
+    }
+    return initializationPoliciesStatesText;
+  }
+
+  Text _textToDisplayForInitializationPoliciesStates() {
+    Color c = Colors.yellow;
+    _periodicallyUpdateInitializationPoliciesStatus();
+    if (InitializationPoliciesState.bootStart != 8) {
+      c = Colors.red;
+    } else {
+      c = Colors.white;
+    }
+    RequirementVariables.initializationPolicies = InitializationPoliciesState.bootStart;
+    return Text(
+      _initializationPoliciesStateText(),
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  void _periodicallyUpdateInitializationPoliciesStatus() {
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        if (InitializationPoliciesState.bootStart != 8) {
+          InitializationPoliciesState().futureIntToInt();
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -49,90 +120,11 @@ int bootStart = -2;
               textAlign: TextAlign.center,
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              child: const Text('Boot-start Driver Initialization'),
-              onPressed: () async {
-                bootStart = await RegistryAccess.getBootStartDriverPolicy();
-                RequirementVariables.initializationPolicies = bootStart;
-                setState(()  {
-
-                });
-              },
-            ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            if (bootStart == -1)
-              const Text(
-                'Boot-Start Driver Initialization Policy is Not Configured, But now set to All',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (bootStart == 0)
-              const Text(
-                'Boot-Start Driver Initialization Policy is Not Configured, but now set to All',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (bootStart == 1)
-              const Text(
-                'Boot-Start Driver Initialization Policy is Good and Unknown',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (bootStart == 3)
-              const Text(
-                'Boot-Start Driver Initialization Policy is Good, Unknown, and Bad But Critical',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (bootStart == 7)
-              const Text(
-                'Boot-Start Driver Initialization Policy is Configured to All',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            if (bootStart == 8)
-              const Text(
-                'Boot-Start Driver Initialization Policy is Good',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
+            _textToDisplayForInitializationPoliciesStates(),
           ],
         ),
       ),
-      //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      //
-      //   floatingActionButton: SizedBox(
-      //     height: 100.0,
-      //     width: 100.0,
-      //     child: FloatingActionButton(
-      //       child: Text(result),
-      //       onPressed: () => {
-      //         setState((){
-      //          result = RegistryAccess.firewallState();
-      //       })
-      //
-      //   },
-      //     ),
-      //   ),
-      // backgroundColor: Colors.blue[600],
     );
   }
 }

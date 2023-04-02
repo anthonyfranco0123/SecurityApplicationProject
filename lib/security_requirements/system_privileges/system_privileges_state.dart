@@ -1,5 +1,5 @@
 import 'package:win32_registry/win32_registry.dart';
-  class SystemPrivileges {
+  class SystemPrivilegesState {
     systemPrivilegesState() {
       int state = 0;
       final key1 = Registry.openPath(RegistryHive.localMachine,

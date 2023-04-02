@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
+import 'package:flutter_security_application/security_requirements/initialization_policies/intialization_policies_state.dart';
 import 'package:flutter_security_application/security_requirements/password_reset.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
@@ -63,6 +65,8 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     if (_sideMenu.currentPage != 6) {
       // _periodicallyUpdateDownloadRestrictions();
     }
+    AutoUpdatesState().futureIntToInt();
+    InitializationPoliciesState().futureIntToInt();
     _periodicallyUpdateDatabase();
     super.initState();
   }

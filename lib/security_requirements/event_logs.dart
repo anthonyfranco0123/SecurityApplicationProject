@@ -105,7 +105,6 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
               textAlign: TextAlign.center,
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
-            const Padding(padding: EdgeInsets.all(8.0)),
             _textToDisplayForCurrentEventLogsState(),
           ],
         ),
