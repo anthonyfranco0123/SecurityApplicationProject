@@ -28,7 +28,6 @@ import 'package:windows_system_info/windows_system_info.dart';
 
 import 'admin/admin_state.dart';
 import 'admin/privilege_level_changer.dart';
-import 'database/requirements_data_sender.dart';
 import 'hover_builder.dart';
 
 class VerticalNavigationBar extends StatefulWidget {
@@ -207,14 +206,14 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                 children: <Widget>[
                   Expanded(
                     child: SvgPicture.asset(
-                      'assets/Chip_Shield.svg',
+                      'assets/sgicon.svg',
                     ),
                   ),
                   if (sh > 720 && sw > 720)
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: const Text(
-                        "IPRO Security Application",
+                        "CyberGoose",
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -240,7 +239,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                                   padding: const EdgeInsets.only(
                                       left: 8, top: 2, right: 8, bottom: 2),
                                   child: const Text(
-                                    "Admin Mode",
+                                    "CyberGoose Admin",
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
@@ -255,7 +254,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
                                   padding: const EdgeInsets.only(
                                       left: 8, top: 2, right: 8, bottom: 2),
                                   child: const Text(
-                                    "User Mode",
+                                    "CyberGoose",
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
