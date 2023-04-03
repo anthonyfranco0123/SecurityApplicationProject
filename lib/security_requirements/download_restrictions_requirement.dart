@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
-// import '../database/sqltest.dart';
+import '../admin/admin_state.dart';
+import '../requirement_variables.dart';
 import 'download_restrictions/download_restrictions_file_info_getter.dart';
 import 'download_restrictions/download_restrictions_system_info.dart';
 
@@ -35,14 +34,6 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
 
   @override
   void initState() {
-    // userPath = _getHomeDirectory();
-    // DownloadsGetter().setDownloadsPathInfo(_getHomeDirectory(), platformOperatingSystem);
-    // SQLTest().getmySQLData();
-    // SQLTest().setMySQLData(deviceName, macAddress, timestamp, password, passwordRestriction, passwordExpiration, autoUpdates, systemPrivilege, firewall);
-    // DownloadRestrictionsSystemInfo().futureStringListToStringList(
-    //     DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
-    //         DownloadRestrictionsSystemInfo.userDownloadsPath,
-    //         platformOperatingSystem));
     super.initState();
   }
 
@@ -71,8 +62,10 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
     _periodicallyUpdateDownloadRestrictions();
     if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
       c = Colors.red;
+      RequirementVariables.downloadRestrictions = true;
     } else {
       c = Colors.white;
+      RequirementVariables.downloadRestrictions = false;
     }
     return Text(
       _restrictedFilesInfoText(),
@@ -86,39 +79,20 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
   }
 
   void _periodicallyUpdateDownloadRestrictions() {
-    // DownloadRestrictionsSystemInfo.filesList = [];
-    // DownloadRestrictionsSystemInfo().futureStringListToStringList(
-    //     DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
-    //         DownloadRestrictionsSystemInfo.userDownloadsPath,
-    //         Platform.operatingSystem));
-    // if(firstInitialization!) {
-    //   firstInitialization = true;
-    //   DownloadRestrictionsSystemInfo().futureStringListToStringList(
-    //       DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
-    //           DownloadRestrictionsSystemInfo.userDownloadsPath,
-    //           Platform.operatingSystem));
-    // }
-      Timer.periodic(const Duration(seconds: 4), (timer) {
-        setState(() {
-          // if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
-          // DownloadRestrictionsSystemInfo.filesList = [];
-          DownloadRestrictionsSystemInfo().futureStringListToStringList(
-              DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
-                  DownloadRestrictionsSystemInfo.userDownloadsPath,
-                  Platform.operatingSystem));
-          // }
-        });
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        DownloadRestrictionsSystemInfo().futureStringListToStringList(
+            DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
+                DownloadRestrictionsSystemInfo.userDownloadsPath,
+                Platform.operatingSystem));
+        timer.cancel();
       });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // DownloadRestrictionsSystemInfo().futureStringListToStringList(
-    //     DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
-    //         DownloadRestrictionsSystemInfo.userDownloadsPath,
-    //         platformOperatingSystem));
-    // print(DownloadRestrictionsSystemInfo.filesList);
     final sh = MediaQuery.of(context).size.height;
     final sw = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -189,7 +163,48 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  Visibility(
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    visible: AdminState.adminState,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+
+                            });
+                          },
+                          child: const Text('Turn On Installation Restrictions'),
+                        ),
+                        const Padding(padding: EdgeInsets.all(8.0)),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+
+                            });
+                          },
+                          child: const Text('Turn Off Installation Restrictions'),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

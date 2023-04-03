@@ -5,6 +5,8 @@ import 'package:flutter_security_application/security_requirements/firewall/fire
 import 'package:flutter_security_application/security_requirements/firewall/firewall_initial_state.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_state_changer.dart';
 
+import '../requirement_variables.dart';
+
 class FirewallStatesRequirementWidget extends StatefulWidget {
   const FirewallStatesRequirementWidget({super.key});
 
@@ -151,7 +153,7 @@ class _FirewallStatesRequirementWidgetState
   }
 
   void _periodicallyUpdateCurrentFirewallStatus() {
-    currentFirewallStates = FirewallAccess().getFirewallStates();
+    currentFirewallStates = RequirementVariables.firewallStates = FirewallAccess().getFirewallStates();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentFirewallStates != 9) {
@@ -221,6 +223,7 @@ class _FirewallStatesRequirementWidgetState
                         },
                         child: const Text('Turn On Firewall'),
                       ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,

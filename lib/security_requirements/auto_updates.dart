@@ -1,90 +1,65 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:shell/shell.dart';
-import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdates.dart';
-import 'package:flutter_security_application/admin/admin_state.dart';
-import 'package:flutter_security_application/security_requirements/auto_updates/AutoUpdatesChanger.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_security_application/requirement_variables.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
+
+import '../admin/admin_state.dart';
 
 class RequirementSixWidget extends StatefulWidget {
-  const RequirementSixWidget({super.key});
+  const RequirementSixWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<RequirementSixWidget> createState() => _RequirementSixWidgetState();
+  State<RequirementSixWidget> createState() => RequirementSixWidgetState();
 }
 
-class _RequirementSixWidgetState extends State<RequirementSixWidget>
-    with AutomaticKeepAliveClientMixin{
-  //var output;
-  //var display="";
-  //bool isShown = false;
-  //int a = SystemPrivileges.systemPrivilegesState();
-  int initialSystemState = -1;
-  int currentSystemState = -1;
+class RequirementSixWidgetState extends State<RequirementSixWidget> with AutomaticKeepAliveClientMixin {
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
-  @override
-  void initState() {
-    initialSystemState = AutoUpdates().getSystemUpdates();
-    super.initState();
-  }
 
   @override
-  void dispose(){
+  void dispose() {
     timer.cancel();
     super.dispose();
   }
 
-  String _initialSystemStateText(){
-    String systemStateText = '';
-    switch (initialSystemState){
+  String _currentAutoUpdatesStateText() {
+    String autoUpdatesStateText = '';
+    switch (AutoUpdatesState.privateSUpdates) {
       case 0:
-        systemStateText =
-        'Initial Status: Always Elevated is Off';
+        autoUpdatesStateText = 'Auto Update Policy is Good';
         break;
       case 1:
-        systemStateText =
-        'Initial Status: Always Elevated is On';
+        autoUpdatesStateText = 'Auto Update Policy is Not Configured';
+        break;
+      case 2:
+        autoUpdatesStateText =
+        'Auto Update Policy is Not Configured because of Path';
+        break;
+      case 3:
+        autoUpdatesStateText = 'Path exists, wrong type';
         break;
       default:
-        systemStateText =
-        'Error: Unable to find Always Elevated Status';
+        autoUpdatesStateText =
+            'Error: Unable to determine the auto-updates state!';
     }
-    return systemStateText;
+    return autoUpdatesStateText;
   }
 
-  String _currentSystemStateText(){
-    String  systemStateText = '';
-    switch (currentSystemState){
-      case 0:
-        systemStateText =
-        'Current Status: Always Elevated is Off';
-        break;
-      case 1:
-        systemStateText =
-        'Current Status: Always Elevated is On';
-        break;
-      default:
-        systemStateText =
-        'Error: Unable to find Always Elevated Status';
-    }
-    return systemStateText;
-  }
-
-  Text _textToDisplayForInitialSystemState() {
-    String textToDisplayForInitialSystemState = '';
+  Text _textToDisplayForAutoUpdatesState() {
     Color c = Colors.yellow;
-    if (initialSystemState != 1) {
+    _periodicallyUpdateAutoUpdatesStatus();
+    if (AutoUpdatesState.privateSUpdates != 0) {
       c = Colors.red;
-      textToDisplayForInitialSystemState = _initialSystemStateText();
     } else {
       c = Colors.white;
-      currentSystemState = initialSystemState;
-      textToDisplayForInitialSystemState = _initialSystemStateText();
     }
+    RequirementVariables.autoUpdates = AutoUpdatesState.privateSUpdates;
     return Text(
-      textToDisplayForInitialSystemState,
+      _currentAutoUpdatesStateText(),
       style: TextStyle(
         color: c,
         fontSize: 16,
@@ -93,35 +68,16 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
     );
   }
 
-  Text _textToDisplayForCurrentSystemState() {
-    Color c = Colors.yellow;
-    _periodicallyUpdateCurrentSystemStatus();
-    if (currentSystemState != 1) {
-      c = Colors.red;
-      AutoUpdatesChanger().autoUpdatesOn();
-    } else {
-      c = Colors.white;
-    }
-    return Text(
-      _currentSystemStateText(),
-      style: TextStyle(
-        color: c,
-        fontSize: 16,
-      ),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  void _periodicallyUpdateCurrentSystemStatus() {
-    currentSystemState = AutoUpdates().getSystemUpdates();
+  void _periodicallyUpdateAutoUpdatesStatus() {
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if (currentSystemState != 1) {
-          AutoUpdatesChanger().autoUpdatesOn();
+        if (AutoUpdatesState.privateSUpdates != 1) {
+          AutoUpdatesState().futureIntToInt();
         }
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -148,7 +104,7 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Your Auto Updates State:',
+                  'Check Your Auto Updates',
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.white,
@@ -156,8 +112,7 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
                   textAlign: TextAlign.center,
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                _textToDisplayForInitialSystemState(),
-                _textToDisplayForCurrentSystemState(),
+                _textToDisplayForAutoUpdatesState(),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Visibility(
                   maintainSize: true,
@@ -180,8 +135,9 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
 
                           });
                         },
-                        child: const Text('Turn On Always Elevated'),
+                        child: const Text('Turn On Auto-Updates'),
                       ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
@@ -191,10 +147,10 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
                         ),
                         onPressed: () {
                           setState(() {
-                            //
+                            // firewallStates = RegistryAccess.getFirewallStates();
                           });
                         },
-                        child: const Text('Turn Off Always Elevated'),
+                        child: const Text('Turn Off Auto-Updates'),
                       ),
                     ],
                   ),
@@ -207,4 +163,3 @@ class _RequirementSixWidgetState extends State<RequirementSixWidget>
     );
   }
 }
-

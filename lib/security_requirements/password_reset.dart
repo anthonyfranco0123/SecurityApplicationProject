@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shell/shell.dart';
 
-import 'password/RegistryAccess.dart';
+import '../requirement_variables.dart';
+import 'password/registry_access.dart';
 
 class RequirementOneWidget extends StatefulWidget {
   const RequirementOneWidget({
@@ -63,6 +64,8 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
               ),
               child: const Text('Get Password Reset Configuration'),
               onPressed: () async {
+                // var MAC = RegistryAccess.initPlatformState();
+
                 display = '';
                 var shell = Shell();
 
@@ -70,13 +73,16 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
                 //var forceLogOff =  output.substring(output.indexOf("Force user logoff how long after time expires?:") + 54, output.indexOf("Minimum password age (days):") - 2 );
                 //var minpwage = output.substring(output.indexOf("Minimum password age (days):") + 54, output.indexOf("Maximum password age (days):")-2 );
                 var maxpwage = output.substring(output.indexOf("Maximum password age (days):") + 54, output.indexOf("Minimum password length:")-2 );
+                RequirementVariables.maxPasswordAge = int.parse(maxpwage);
                 //var minpwlen = output.substring(output.indexOf("Minimum password length:") + 54, output.indexOf("Length of password history maintained:")-2 );
                 var pwhist = output.substring(output.indexOf("Length of password history maintained:") + 54, output.indexOf("Lockout threshold:")-2 );
+                RequirementVariables.passwordHistory = int.parse(pwhist);
                 //var lockoutThreshold = output.substring(output.indexOf("Lockout threshold:") + 54, output.indexOf("Lockout duration (minutes):")-2 );
                 //var lockoutDur = output.substring(output.indexOf("Lockout duration (minutes):") + 54, output.indexOf("Lockout observation window (minutes):")-2 );
                 //var lockoutObservation = output.substring(output.indexOf("Lockout observation window (minutes):") + 54, output.indexOf("Computer role:")-2 );
                 // print(output);
                 setState(() {
+                  // print(MAC);
                   isShown = true;
                   //print(output);
                   if (int.parse(maxpwage)!=90){

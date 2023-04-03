@@ -2,38 +2,6 @@ import 'package:win32_registry/win32_registry.dart';
 import 'package:process_run/shell.dart' as PRS;
 
 class RegistryAccess {
-  static Future<int> getBootStartDriverPolicy() async {
-    try {
-      final key1 = Registry.openPath(RegistryHive.localMachine,
-          path: r'SYSTEM\CurrentControlSet\Policies\EarlyLaunch');
-
-      final bootStart = key1.getValueAsInt("DriverLoadPolicy");
-      if (bootStart != null) {
-        //print(bootStart);
-        return bootStart;
-      }
-      var shell = PRS.Shell();
-      await shell.run('''
-       
-       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8
-       
-         ''');
-      return 0;
-    } catch (e){
-      //final key2 = Registry.openPath(RegistryHive.localMachine,
-      // path: r'SYSTEM\CurrentControlSet\Policies\');
-      var shell = PRS.Shell();
-      await shell.run('''
-       
-       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8
-       
-         ''');
-      return -1;
-    }
-
-
-  }
-
   static Future changeMaxPwAge() async {
     // This works on Windows/Linux/Mac
     var shell = PRS.Shell();
@@ -213,38 +181,6 @@ class RegistryAccess {
        reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v MaximumPINLength /t Reg_Dword /d 32 /f
        
          ''');
-
-  }
-
-  static Future<int> getAutoUpdatesKey() async {
-    try {
-      final key1 = Registry.openPath(RegistryHive.localMachine,
-          path: r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU');
-
-      final bootStart = key1.getValueAsInt("NoAutoUpdate");
-      if (bootStart != null) {
-        //print(bootStart);
-        return bootStart;
-      }
-      var shell = PRS.Shell();
-      await shell.run('''
-       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate  /t REG_SZ  /d 0x00000000 /f
-       
-         ''');
-      return 0;
-    } catch (e){
-      //final key2 = Registry.openPath(RegistryHive.localMachine,
-      // path: r'SYSTEM\CurrentControlSet\Policies\');
-      var shell = PRS.Shell();
-      await shell.run('''
-      
-       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate  /t REG_SZ  /d 0x00000000 /f
-       
-       
-         ''');
-      return -1;
-    }
-
 
   }
 }

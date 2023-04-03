@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_security_application/security_requirements/password/RegistryAccess.dart';
+import 'package:flutter_security_application/security_requirements/password/registry_access.dart';
+
+import '../requirement_variables.dart';
 // import 'package:shell/shell.dart';
 
 class RequirementTwoWidget extends StatefulWidget {
@@ -65,11 +67,14 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget>{
               onPressed: () async {
                 display = '';
 
-                int minLength = await RegistryAccess.getMinPwLen();
-                int maxLength = await RegistryAccess.getMaxPwLen();
+                int minLength = RequirementVariables.minPasswordLength = await RegistryAccess.getMinPwLen();
+                int maxLength = RequirementVariables.maxPasswordLength = await RegistryAccess.getMaxPwLen();
                 int upperCase = await RegistryAccess.getUpperCaseSetting();
+                RequirementVariables.uppercaseChars = upperCase == 1 ? true : false;
                 int lowerCase = await RegistryAccess.getLowerCaseSetting();
+                RequirementVariables.lowercaseChars = lowerCase == 1 ? true : false;
                 int special = await RegistryAccess.getSpecialCharSetting();
+                RequirementVariables.specialChars = special == 1 ? true : false;
                 setState(() {
                   isShown = true;
                   //print(output);
