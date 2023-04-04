@@ -1,5 +1,5 @@
 class RequirementVariables {
-  static int timeStamp = -1;
+  static String timeStamp = '';
   static String deviceName = '';
   static String macAddress = '';
   static int maxPasswordAge = -1; //how old

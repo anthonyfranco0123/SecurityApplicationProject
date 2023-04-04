@@ -24,6 +24,7 @@ import 'package:flutter_security_application/security_requirements/system_privil
 import 'package:flutter_security_application/security_requirements/download_restrictions_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_initial_state.dart';
+import 'package:intl/intl.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:mac_address/mac_address.dart';
 import 'package:windows_system_info/windows_system_info.dart';
@@ -44,8 +45,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   final SideMenuController _sideMenu = SideMenuController();
   final player = AudioPlayer();
   LocalNotification notification = LocalNotification(title: '');
-  final List<String> _err = [];
-  final List<String> _event = [];
 
   @override
   void initState() {
@@ -171,10 +170,12 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     });
   }
 
+  getCurrentDate() {
+    return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
+  }
+
   void _periodicallyUpdateDatabase() {
-    bool listenIsOn = true;
-    //year-month-day hr:min:sec
-    RequirementVariables.timeStamp = DateTime.now().millisecondsSinceEpoch;
+    RequirementVariables.timeStamp = DateTime.now().toString();
     Timer.periodic(const Duration(seconds: 10), (timer) {
       // print('***');
       // print(RequirementVariables.timeStamp);
@@ -206,7 +207,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
         // RequirementsDataSender().sendRequirementData();
       });
     });
-    listenIsOn = false;
   }
 
   // void _periodicallyUpdateDownloadRestrictions() {
