@@ -6,4 +6,5 @@ class InitializationPoliciesState {
   Future<void> futureIntToInt() async {
     bootStart = await InitializationPoliciesChanger.getBootStartDriverPolicy();
   }
+
 }

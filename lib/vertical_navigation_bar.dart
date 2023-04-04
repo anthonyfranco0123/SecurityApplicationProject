@@ -144,6 +144,8 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       setState(() {
         RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
         RequirementVariables.macAddress = WindowsSystemInfo.network[1].mac;
+        // print(RequirementVariables.deviceName);
+        // print(RequirementVariables.macAddress);
       });
     }
   }

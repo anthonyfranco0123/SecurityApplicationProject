@@ -78,7 +78,7 @@ class RegistryAccess {
       return -1;
     } catch (e) {
       setUpperCaseSetting();
-      return -2;
+      return -1;
     }
   }
 
@@ -133,21 +133,21 @@ class RegistryAccess {
         //print(bootStart);
         return minLen;
       }
-      setMinPwLen();
+      setMinPwLen(8);
       return -1;
     } catch (e) {
       //final key2 = Registry.openPath(RegistryHive.localMachine,
       // path: r'SYSTEM\CurrentControlSet\Policies\');
-      setMinPwLen();
+      setMinPwLen(8);
       return -2;
     }
   }
 
-  static void setMinPwLen() async {
+  static void setMinPwLen(int len) async {
     var shell = PRS.Shell();
     await shell.run('''
        
-       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v MinimumPINLength /t Reg_Dword /d 8 /f
+       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v MinimumPINLength /t Reg_Dword /d $len /f
        
          ''');
 
@@ -164,23 +164,83 @@ class RegistryAccess {
         //print(bootStart);
         return maxLen;
       }
-      setMaxPwLen();
+      setMaxPwLen(32);
       return -1;
     } catch (e) {
       //final key2 = Registry.openPath(RegistryHive.localMachine,
       // path: r'SYSTEM\CurrentControlSet\Policies\');
-      setMaxPwLen();
+      setMaxPwLen(32);
       return -2;
     }
   }
 
-  static void setMaxPwLen() async {
+  static void setMaxPwLen(int len) async {
     var shell = PRS.Shell();
     await shell.run('''
        
-       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v MaximumPINLength /t Reg_Dword /d 32 /f
+       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v MaximumPINLength /t Reg_Dword /d $len /f
        
          ''');
 
   }
+
+
+  static Future<int> getPwAge() async {
+    try {
+      final key1 = Registry.openPath(RegistryHive.localMachine,
+          path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
+
+      final pwAge = key1.getValueAsInt("Expiration");
+      if (pwAge != null) {
+        //print(bootStart);
+        return pwAge;
+      }
+
+      setPwAge(90);
+      return -1;
+    } catch (e) {
+      setPwAge(90);
+      return -2;
+    }
+  }
+
+  static void setPwAge(int age) async {
+    var shell = PRS.Shell();
+    await shell.run('''
+       
+       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v Expiration /t Reg_Dword /d $age /f
+       
+         ''');
+
+  }
+
+  static Future<int> getPwHist() async {
+    try {
+      final key1 = Registry.openPath(RegistryHive.localMachine,
+          path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
+
+      final pwHist = key1.getValueAsInt("History");
+      if (pwHist  != null) {
+        //print(bootStart);
+        return pwHist ;
+      }
+
+      setPwHist(10);
+      return -1;
+    } catch (e) {
+      setPwHist(10);
+      return -2;
+    }
+  }
+
+  static void setPwHist(int history) async {
+    var shell = PRS.Shell();
+    await shell.run('''
+       
+       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v History /t Reg_Dword /d $history /f
+       
+         ''');
+
+  }
+
 }

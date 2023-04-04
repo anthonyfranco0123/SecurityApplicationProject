@@ -13,9 +13,10 @@ class InitializationPoliciesChanger {
         return bootStart;
       }
       var shell = PRS.Shell();
+      int a = 8;
       await shell.run('''
        
-       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8
+       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8 /f
        
          ''');
       return 0;
@@ -23,12 +24,23 @@ class InitializationPoliciesChanger {
       //final key2 = Registry.openPath(RegistryHive.localMachine,
       // path: r'SYSTEM\CurrentControlSet\Policies\');
       var shell = PRS.Shell();
+      int a = 8;
       await shell.run('''
        
-       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8
+       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8 /f
        
          ''');
       return -1;
     }
+  }
+
+  static void setBootStartDriverPolicy() async {
+    var shell = PRS.Shell();
+    await shell.run('''
+       
+       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8 /f
+       
+         ''');
+
   }
 }

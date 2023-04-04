@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_security_application/security_requirements/password/password_policies.dart';
 import 'package:flutter_security_application/security_requirements/password/registry_access.dart';
 
+import '../admin/admin_state.dart';
 import '../requirement_variables.dart';
 // import 'package:shell/shell.dart';
 
@@ -15,15 +19,101 @@ class RequirementTwoWidget extends StatefulWidget {
   State<RequirementTwoWidget> createState() => RequirementTwoWidgetState();
 }
 
-class RequirementTwoWidgetState extends State<RequirementTwoWidget>{
-  var output;
-  var temp;
-  var display="";
-  bool isShown = false;
+class RequirementTwoWidgetState extends State<RequirementTwoWidget> with AutomaticKeepAliveClientMixin {
+  late Timer timer;
+  @override
+  bool get wantKeepAlive => true;
+
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+
   @override
   void initState() {
     super.initState();
   }
+
+  String _initialPasswordPolicyText(int minLen, int maxLen){
+    String passwordStatesText = '';
+    if(PasswordPolicies.minLength==minLen && PasswordPolicies.maxLength==maxLen && PasswordPolicies.upperCase==1 && PasswordPolicies.lowerCase==1 && PasswordPolicies.special==1){
+      passwordStatesText = 'Status: All Password Policies Are Ensured';
+    }
+
+    else {
+      passwordStatesText = 'Status: All Password Policies Are Not Ensured';
+    }
+
+    return passwordStatesText;
+  }
+
+  Text _textToDisplayForInitialPasswordPolicies(int minLen, int maxLen) {
+    String textToDisplayForInitialPasswordPolicies = '';
+    Color c = Colors.yellow;
+    _periodicallyUpdatePasswordPolicy(minLen, maxLen);
+    if(PasswordPolicies.minLength!=minLen || PasswordPolicies.maxLength!=maxLen || PasswordPolicies.upperCase!=1 || PasswordPolicies.lowerCase!=1 || PasswordPolicies.special !=1){
+      c = Colors.red;
+      textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText(minLen, maxLen);
+    } else{
+      c = Colors.white;
+      //currentPwHist = initialPwHist;
+      //currentMaxAge = initialMaxAge;
+      textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText(minLen, maxLen);
+    }
+    /*if (initialFirewallStates != 9) {
+      c = Colors.red;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+    } else {
+      c = Colors.white;
+      currentFirewallStates = initialFirewallStates;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+    }*/
+    RequirementVariables.minPasswordLength = PasswordPolicies.minLength;
+    RequirementVariables.maxPasswordLength = PasswordPolicies.maxLength;
+    RequirementVariables.uppercaseChars = PasswordPolicies.upperCase == 1 ? true : false;
+    RequirementVariables.lowercaseChars = PasswordPolicies.lowerCase == 1 ? true : false;
+    RequirementVariables.specialChars = PasswordPolicies.special==1 ? true:false;
+    return Text(
+      textToDisplayForInitialPasswordPolicies,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+
+  Future<void> _periodicallyUpdatePasswordPolicy(int minLen, int maxLen) async {
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        if(PasswordPolicies.minLength!= minLen){
+          RegistryAccess.setMinPwLen(minLen);
+          PasswordPolicies.minLength = minLen;
+        }
+        if(PasswordPolicies.maxLength!=maxLen){
+          RegistryAccess.setMaxPwLen(maxLen);
+          PasswordPolicies.maxLength = maxLen;
+        }
+        if(PasswordPolicies.upperCase!=1){
+          RegistryAccess.setUpperCaseSetting();
+          PasswordPolicies.upperCase = 1;
+        }
+        if(PasswordPolicies.lowerCase!=1){
+          RegistryAccess.setLowerCaseSetting();
+          PasswordPolicies.lowerCase = 1;
+        }
+        if(PasswordPolicies.special!=1){
+          RegistryAccess.setSpecialCharSetting();
+          PasswordPolicies.special = 1;
+        }
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,115 +133,69 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget>{
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Check Password Policy',
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                textStyle: const TextStyle(
-                  color: Colors.white,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Check Your Boot-Start Driver Initialization',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              child: const Text('Get Password Policy'),
-              onPressed: () async {
-                display = '';
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForInitialPasswordPolicies(8, 32),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
 
-                int minLength = RequirementVariables.minPasswordLength = await RegistryAccess.getMinPwLen();
-                int maxLength = RequirementVariables.maxPasswordLength = await RegistryAccess.getMaxPwLen();
-                int upperCase = await RegistryAccess.getUpperCaseSetting();
-                RequirementVariables.uppercaseChars = upperCase == 1 ? true : false;
-                int lowerCase = await RegistryAccess.getLowerCaseSetting();
-                RequirementVariables.lowercaseChars = lowerCase == 1 ? true : false;
-                int special = await RegistryAccess.getSpecialCharSetting();
-                RequirementVariables.specialChars = special == 1 ? true : false;
-                setState(() {
-                  isShown = true;
-                  //print(output);
+                          });
+                        },
+                        child: const Text('Turn On Initialization Policies'),
+                      ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
 
-                  if (minLength!=8){
-                    display +="Password's min length is not ensured. Changed min length to at least 8 characters!\n";
-                    RegistryAccess.setMinPwLen();
-                  }
-                  if (maxLength!=32){
-                    display +="Password's max length is not ensured. Changed max length to at most 32 characters!\n";
-                    RegistryAccess.setMaxPwLen();
-                  }
-
-                  if(upperCase != 1){
-                      if (upperCase == 0){
-                        RegistryAccess.setUpperCaseSetting();
-                        display+="Password does not require Uppercase letters. Changed to required!\n";
-                      }
-                      else if (upperCase > 1){
-                        RegistryAccess.setUpperCaseSetting();
-                        display+="Uppercase setting corrupted. Changed to required!\n";
-                      }
-                      else{
-                        display+="Uppercase setting not configured. Changed to required!\n";
-                      }
-                  }
-
-                  if(lowerCase != 1){
-                    if (lowerCase == 0){
-                      RegistryAccess.setLowerCaseSetting();
-                      display+="Password does not require lowercase letters. Changed to required!\n";
-                    }
-                    else if (lowerCase > 1){
-                      RegistryAccess.setLowerCaseSetting();
-                      display+="Lowercase setting corrupted. Changed to required!\n";
-                    }
-                    else{
-                      display+="Lowercase setting not configured. Changed to required!\n";
-                    }
-                  }
-                  if(special != 1){
-                    if (special == 0){
-                      RegistryAccess.setSpecialCharSetting();
-                      display+="Password does not require special characters. Changed to required!\n";
-                    }
-                    else if (upperCase > 1){
-                      RegistryAccess.setSpecialCharSetting();
-                      display+="Special characters setting corrupted. Changed to required!\n";
-                    }
-                    else{
-                      display+="Special characters setting not configured. Changed to required!\n";
-                    }
-                  }
-
-                  //print(display.length);
-                });
-
-
-                },
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            Visibility(
-              //if (bootStart == 0)
-              visible: isShown,
-              child: Text(
-                //'$output',
-                display.length!=0 ? "$display" : "All password policies are now ensured!",
-                style: TextStyle(
-                  color:display.length!=0 ? Colors.red : Colors.white,
+                          });
+                        },
+                        child: const Text('Turn Off Initialization Policies'),
+                      ),
+                    ],
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-
     );
   }
 }

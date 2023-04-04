@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:shell/shell.dart';
 
+import '../admin/admin_state.dart';
 import '../requirement_variables.dart';
 import 'password/registry_access.dart';
-
+import 'password/password_policies.dart';
 class RequirementOneWidget extends StatefulWidget {
   const RequirementOneWidget({
     Key? key,
@@ -13,16 +16,146 @@ class RequirementOneWidget extends StatefulWidget {
   State<RequirementOneWidget> createState() => RequirementOneWidgetState();
 }
 
-class RequirementOneWidgetState extends State<RequirementOneWidget> {
-  var output;
-  var temp;
-  var display="";
-
-  bool isShown = false;
+class RequirementOneWidgetState extends State<RequirementOneWidget> with AutomaticKeepAliveClientMixin {
+  //String output = '';
+  //var temp;
+  //var display="";
+  late Timer timer;
+  @override
+  bool get wantKeepAlive => true;
+  //int initialMaxAge = -1;
+  //int currentMaxAge = -1;
+  //int initialPwHist = -1;
+  //int currentPwHist = -1;
+  //bool isShown = false;
   @override
   void initState() {
     super.initState();
   }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  String _initialPasswordPolicyText(int age, int history){
+    String passwordStatesText = '';
+    if(PasswordPolicies.maxPwAge!=age && PasswordPolicies.pwHist!=history){
+      passwordStatesText = 'Status: Both password max age and password history list not ensured!';
+    }
+    else if(PasswordPolicies.maxPwAge==age && PasswordPolicies.pwHist!=history){
+      passwordStatesText = 'Status: Password history list not ensured!';
+    }
+    else if(PasswordPolicies.maxPwAge!=age && PasswordPolicies.pwHist==history){
+      passwordStatesText = 'Status: Password max age not ensured!';
+    }
+    else if(PasswordPolicies.maxPwAge==age && PasswordPolicies.pwHist==history){
+      passwordStatesText = 'Status: Both password max age and password history list are ensured!';
+    }
+    else {
+      passwordStatesText = 'Error: Unable to determine the password reset policies';
+    }
+
+    return passwordStatesText;
+  }
+
+  /*String _currentPasswordPolicyText(int age, int history){
+    String passwordStatesText = '';
+    if(currentMaxAge != age && currentPwHist != history){
+      passwordStatesText = 'Current Status: both password max age and password history list not ensured!';
+    }
+    else if(currentMaxAge == age && currentPwHist != history){
+      passwordStatesText = 'Current Status: password history list not ensured!';
+    }
+    else if(currentMaxAge != age && currentPwHist == history){
+      passwordStatesText = 'Current Status: password max age not ensured!';
+    }
+    else if(currentMaxAge == age && currentPwHist == history){
+      passwordStatesText = 'Current Status: both password max age and password history list are ensured!';
+    }
+    else {
+      passwordStatesText = 'Error: Unable to determine the password reset policies';
+    }
+
+    return passwordStatesText;
+  }
+
+*/
+  Text _textToDisplayForInitialPasswordPolicies(int age, int history) {
+    String textToDisplayForInitialPasswordPolicies = '';
+    Color c = Colors.yellow;
+    _periodicallyUpdatePasswordPolicy(age, history);
+    if(PasswordPolicies.maxPwAge!=age || PasswordPolicies.pwHist!=history){
+      c = Colors.red;
+      textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText(age, history);
+    } else{
+      c = Colors.white;
+      //currentPwHist = initialPwHist;
+      //currentMaxAge = initialMaxAge;
+      textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText(age, history);
+    }
+    /*if (initialFirewallStates != 9) {
+      c = Colors.red;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+    } else {
+      c = Colors.white;
+      currentFirewallStates = initialFirewallStates;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+    }*/
+    RequirementVariables.maxPasswordAge = PasswordPolicies.maxPwAge;
+    RequirementVariables.passwordHistory = PasswordPolicies.pwHist;
+    return Text(
+      textToDisplayForInitialPasswordPolicies,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  /*Text _textToDisplayForCurrentPasswordPolicy(int age, int history) {
+
+    Color c = Colors.yellow;
+    _periodicallyUpdatePasswordPolicy(age, history);
+    if(initialMaxAge!=age || initialPwHist!= history){
+      c = Colors.red;
+      RegistryAccess.changePwHist();
+      RegistryAccess.changeMaxPwAge();
+    } else{
+      c = Colors.white;
+      currentPwHist = initialPwHist;
+      currentMaxAge = initialMaxAge;
+      //textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText();
+    }
+    return Text(
+      _currentPasswordPolicyText(age, history),
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+   */
+
+  Future<void> _periodicallyUpdatePasswordPolicy(int age, int history) async {
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      setState(() {
+        if(PasswordPolicies.maxPwAge!= age){
+          RegistryAccess.setPwAge(age);
+          PasswordPolicies.maxPwAge = age;
+        }
+        if(PasswordPolicies.pwHist!=history){
+          RegistryAccess.setPwHist(history);
+          PasswordPolicies.pwHist = history;
+        }
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,87 +175,70 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> {
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Check Password Reset',
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                textStyle: const TextStyle(
-                  color: Colors.white,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Your Firewall State:',
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              child: const Text('Get Password Reset Configuration'),
-              onPressed: () async {
-                // var MAC = RegistryAccess.initPlatformState();
-
-                display = '';
-                var shell = Shell();
-
-                output = await shell.startAndReadAsString('net', arguments: ['accounts']);
-                //var forceLogOff =  output.substring(output.indexOf("Force user logoff how long after time expires?:") + 54, output.indexOf("Minimum password age (days):") - 2 );
-                //var minpwage = output.substring(output.indexOf("Minimum password age (days):") + 54, output.indexOf("Maximum password age (days):")-2 );
-                var maxpwage = output.substring(output.indexOf("Maximum password age (days):") + 54, output.indexOf("Minimum password length:")-2 );
-                RequirementVariables.maxPasswordAge = int.parse(maxpwage);
-                //var minpwlen = output.substring(output.indexOf("Minimum password length:") + 54, output.indexOf("Length of password history maintained:")-2 );
-                var pwhist = output.substring(output.indexOf("Length of password history maintained:") + 54, output.indexOf("Lockout threshold:")-2 );
-                RequirementVariables.passwordHistory = int.parse(pwhist);
-                //var lockoutThreshold = output.substring(output.indexOf("Lockout threshold:") + 54, output.indexOf("Lockout duration (minutes):")-2 );
-                //var lockoutDur = output.substring(output.indexOf("Lockout duration (minutes):") + 54, output.indexOf("Lockout observation window (minutes):")-2 );
-                //var lockoutObservation = output.substring(output.indexOf("Lockout observation window (minutes):") + 54, output.indexOf("Computer role:")-2 );
-                // print(output);
-                setState(() {
-                  // print(MAC);
-                  isShown = true;
-                  //print(output);
-                  if (int.parse(maxpwage)!=90){
-                    display +="Password's max age is not ensured. Changed max age to 3 months.\n";
-                    RegistryAccess.changeMaxPwAge();
-                  }
-
-                  if(pwhist!="None"){
-                    if (int.parse(pwhist)!=10){
-                      display +="Password's history is not ensured. Changed number of stored password to 10.\n";
-                      RegistryAccess.changePwHist();
-                    }
-                  }
-                  else{
-                    display +="Password's history is not configured. Changed number of stored password to 10.\n";
-                    RegistryAccess.changePwHist();
-                  }
-                  //print(display.length);
-                });
-
-
-              },
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            Visibility(
-              //if (bootStart == 0)
-              visible: isShown,
-              child: Text(
-                //'$output',
-                display.length!=0 ? "$display" : "All password policies are now ensured!",
-                style: TextStyle(
-                  color:display.length!=0 ? Colors.red : Colors.white,
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForInitialPasswordPolicies(90, 10),
+                //_textToDisplayForCurrentPasswordPolicy(90, 10),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            // firewallStates = RegistryAccess.getFirewallStates();
+                          });
+                        },
+                        child: const Text(''),
+                      ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            // firewallStates = RegistryAccess.getFirewallStates();
+                          });
+                        },
+                        child: const Text(''),
+                      ),
+                    ],
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-
     );
   }
 }

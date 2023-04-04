@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
 import '../admin/admin_state.dart';
 import 'initialization_policies/intialization_policies_state.dart';
+import 'initialization_policies/initialization_policies_changer.dart';
 
 class RequirementFiveWidget extends StatefulWidget {
 
@@ -77,7 +78,8 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (InitializationPoliciesState.bootStart != 8) {
-          InitializationPoliciesState().futureIntToInt();
+          InitializationPoliciesChanger.setBootStartDriverPolicy();
+          InitializationPoliciesState.bootStart = 8;
         }
       });
     });
