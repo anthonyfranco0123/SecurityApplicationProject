@@ -30,6 +30,7 @@ import 'package:windows_system_info/windows_system_info.dart';
 
 import 'admin/admin_state.dart';
 import 'admin/privilege_level_changer.dart';
+import 'database/requirements_data_sender.dart';
 import 'hover_builder.dart';
 
 class VerticalNavigationBar extends StatefulWidget {
@@ -167,31 +168,27 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   //   });
   // }
 
-  getCurrentDate() {
-    return DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
-  }
-
   void _periodicallyUpdateDatabase() {
     RequirementVariables.timeStamp = DateTime.now().toString();
     Timer.periodic(const Duration(seconds: 10), (timer) {
-      // print('***');
-      // print(RequirementVariables.timeStamp);
-      // print(RequirementVariables.deviceName);
-      // print(RequirementVariables.macAddress);
-      // print(RequirementVariables.maxPasswordAge);
-      // print(RequirementVariables.passwordHistory);
-      // print(RequirementVariables.minPasswordLength);
-      // print(RequirementVariables.maxPasswordLength);
-      // print(RequirementVariables.uppercaseChars);
-      // print(RequirementVariables.lowercaseChars);
-      // print(RequirementVariables.specialChars);
-      // print(RequirementVariables.eventLogs);
-      // print(RequirementVariables.initializationPolicies);
-      // print(RequirementVariables.autoUpdates);
-      // print(RequirementVariables.systemPrivileges);
-      // print(RequirementVariables.downloadRestrictions);
-      // print(RequirementVariables.firewallStates);
-      // print('----');
+      print('***');
+      print(RequirementVariables.timeStamp);
+      print(RequirementVariables.deviceName);
+      print(RequirementVariables.macAddress);
+      print(RequirementVariables.maxPasswordAge);
+      print(RequirementVariables.passwordHistory);
+      print(RequirementVariables.minPasswordLength);
+      print(RequirementVariables.maxPasswordLength);
+      print(RequirementVariables.uppercaseChars);
+      print(RequirementVariables.lowercaseChars);
+      print(RequirementVariables.specialChars);
+      print(RequirementVariables.eventLogs);
+      print(RequirementVariables.initializationPolicies);
+      print(RequirementVariables.autoUpdates);
+      print(RequirementVariables.systemPrivileges);
+      print(RequirementVariables.downloadRestrictions);
+      print(RequirementVariables.firewallStates);
+      print('----');
       var rng = Random();
       int num = rng.nextInt(10);
       if(num%2 == 0) {
