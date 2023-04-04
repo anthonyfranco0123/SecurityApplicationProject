@@ -41,6 +41,8 @@ dependencies:
   windows_system_info: any
   mac_address: any
   audioplayers: any
+  local_notifier: any
+#  keyboard_event: any
 
 dev_dependencies:
   flutter_test:
