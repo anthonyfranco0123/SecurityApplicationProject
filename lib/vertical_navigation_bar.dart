@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,7 @@ import 'package:flutter_security_application/security_requirements/system_privil
 import 'package:flutter_security_application/security_requirements/download_restrictions_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_initial_state.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:mac_address/mac_address.dart';
 import 'package:windows_system_info/windows_system_info.dart';
 
@@ -41,10 +43,15 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   final PageController _page = PageController();
   final SideMenuController _sideMenu = SideMenuController();
   final player = AudioPlayer();
+  LocalNotification notification = LocalNotification(title: '');
+  final List<String> _err = [];
+  final List<String> _event = [];
 
   @override
   void initState() {
     initInfo();
+    initPlatformState();
+    setUpNotifier();
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
     });
@@ -69,8 +76,59 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     AutoUpdatesState().futureIntToInt();
     InitializationPoliciesState().futureIntToInt();
     setSound();
+    notificationCreation();
     _periodicallyUpdateDatabase();
+    RawKeyboardListener(
+      focusNode: FocusNode(),
+      onKey: (event) {
+        if (event.logicalKey.keyLabel == 'Arrow Down') {
+          playSound();
+        }
+      },
+      child: const Text(''),
+    );
     super.initState();
+  }
+
+  Future<void> setUpNotifier() async {
+    // Add in main method.
+    await localNotifier.setup(
+      appName: 'local_notifier_example',
+      // The parameter shortcutPolicy only works on Windows
+      shortcutPolicy: ShortcutPolicy.requireCreate,
+    );
+  }
+
+  void notificationCreation() {
+    notification = LocalNotification(
+      title: "local_notifier_example",
+      body: "hello flutter!",
+    );
+    notification.onShow = () {
+      // print('onShow ${notification.identifier}');
+    };
+  }
+
+  void onCloseReason() {
+    notification.onClose = (closeReason) {
+      // Only supported on windows, other platforms closeReason is always unknown.
+      switch (closeReason) {
+        case LocalNotificationCloseReason.userCanceled:
+        // do something
+          break;
+        case LocalNotificationCloseReason.timedOut:
+        // do something
+          break;
+        default:
+      }
+      // print('onClose ${_exampleNotification?.identifier} - $closeReason');
+    };
+    notification.onClick = () {
+      print('onClick ${notification.identifier}');
+    };
+    notification?.onClickAction = (actionIndex) {
+      print('onClickAction ${notification?.identifier} - $actionIndex');
+    };
   }
 
   Future<void> setSound() async {
@@ -110,12 +168,12 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
 
     setState(() {
       RequirementVariables.macAddress = platformVersion;
-      print(RequirementVariables.macAddress);
     });
   }
 
   void _periodicallyUpdateDatabase() {
-    // int currentFirewallStates = FirewallAccess().getFirewallStates();
+    bool listenIsOn = true;
+    //year-month-day hr:min:sec
     RequirementVariables.timeStamp = DateTime.now().millisecondsSinceEpoch;
     Timer.periodic(const Duration(seconds: 10), (timer) {
       // print('***');
@@ -136,11 +194,19 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       // print(RequirementVariables.downloadRestrictions);
       // print(RequirementVariables.firewallStates);
       // print('----');
-      playSound();
+      var rng = Random();
+      int num = rng.nextInt(10);
+      if(num%2 == 0) {
+        playSound();
+        print(num);
+      }
+      onCloseReason();
+      notification.show();
       setState(() {
         // RequirementsDataSender().sendRequirementData();
       });
     });
+    listenIsOn = false;
   }
 
   // void _periodicallyUpdateDownloadRestrictions() {
