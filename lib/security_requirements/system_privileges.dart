@@ -142,7 +142,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {
-          SystemPrivChanger().alwaysElevatedOff();
+          SystemPrivilegesState.getSystemPrivKey();
         }
       });
     });
