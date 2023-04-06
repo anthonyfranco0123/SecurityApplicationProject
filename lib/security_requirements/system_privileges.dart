@@ -26,7 +26,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   bool get wantKeepAlive => true;
   @override
   void initState() {
-    initialSystemState = SystemPrivilegesState().systemPrivilegesState();
+    initialSystemState = SystemPrivilegesState.getSystemPrivKey();
     super.initState();
   }
 
@@ -47,6 +47,18 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
         systemStateText =
             'Initial Status: Always Elevated is Off';
         break;
+      case 2:
+        systemStateText =
+        'AlwaysInstallElevated Key Does not Exist';
+        break;
+      case 3:
+        systemStateText =
+        'Could Not Find Key';
+        break;
+      case 1:
+        systemStateText =
+        'Could Not Find Key';
+        break;
       default:
         systemStateText =
             'Error: Unable to find Always Elevated Status';
@@ -57,13 +69,26 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   String _currentSystemStateText(){
     String  systemStateText = '';
     switch (currentSystemState){
+
       case 0:
         systemStateText =
-            'Current Status: Always Elevated is On';
+        'Initial Status: Always Elevated is On';
         break;
       case 1:
         systemStateText =
-          'Current Status: Always Elevated is Off';
+        'Initial Status: Always Elevated is Off';
+        break;
+      case 2:
+        systemStateText =
+        'AlwaysInstallElevated Key Does not Exist';
+        break;
+      case 3:
+        systemStateText =
+        'Could Not Find Key';
+        break;
+      case 1:
+        systemStateText =
+        'Could Not Find Key';
         break;
       default:
         systemStateText =
@@ -99,7 +124,6 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     _periodicallyUpdateCurrentSystemStatus();
     if (currentSystemState != 1) {
       c = Colors.red;
-      SystemPrivChanger().alwaysElevatedOff();
     } else {
       c = Colors.white;
     }
@@ -114,7 +138,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   }
 
   void _periodicallyUpdateCurrentSystemStatus() {
-    currentSystemState = SystemPrivilegesState().systemPrivilegesState();
+    currentSystemState = SystemPrivilegesState.getSystemPrivKey();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {
