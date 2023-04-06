@@ -2,7 +2,7 @@ import 'package:win32_registry/win32_registry.dart';
 import 'package:process_run/shell.dart' as PRS;
 
 class InitializationPoliciesChanger {
-  static Future<int> getBootStartDriverPolicy() async {
+   static int getBootStartDriverPolicy()  {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SYSTEM\CurrentControlSet\Policies\EarlyLaunch');
@@ -14,22 +14,14 @@ class InitializationPoliciesChanger {
       }
       var shell = PRS.Shell();
       int a = 8;
-      await shell.run('''
-       
-       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8 /f
-       
-         ''');
+      setBootStartDriverPolicy();
       return 0;
     } catch (e){
       //final key2 = Registry.openPath(RegistryHive.localMachine,
       // path: r'SYSTEM\CurrentControlSet\Policies\');
       var shell = PRS.Shell();
       int a = 8;
-      await shell.run('''
-       
-       reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch /v DriverLoadPolicy /t Reg_Dword /d 8 /f
-       
-         ''');
+      setBootStartDriverPolicy();
       return -1;
     }
   }

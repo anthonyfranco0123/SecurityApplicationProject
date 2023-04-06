@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
@@ -17,9 +18,17 @@ class RequirementFiveWidget extends StatefulWidget {
 }
 
 class RequirementFiveWidgetState extends State<RequirementFiveWidget> with AutomaticKeepAliveClientMixin {
+  int initialSystemState = -1;
+  int currentSystemState = -1;
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    initialSystemState = InitializationPoliciesChanger.getBootStartDriverPolicy();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -27,45 +36,94 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
     super.dispose();
   }
 
-  String _initializationPoliciesStateText() {
-    String initializationPoliciesStatesText = '';
-    switch (InitializationPoliciesState.bootStart) {
+  String _initialinitializationPoliciesStateText() {
+    String systemStateText = '';
+    switch (initialSystemState) {
       case 0:
-        initializationPoliciesStatesText =
+        systemStateText =
         'Boot-Start Driver Initialization Policy is Not Configured';
         break;
       case 1:
-        initializationPoliciesStatesText =
+        systemStateText =
         'Boot-Start Driver Initialization Policy is Good and Unknown';
         break;
       case 3:
-        initializationPoliciesStatesText =
+        systemStateText =
         'Boot-Start Driver Initialization Policy is Good, Unknown, and Bad But Critical';
         break;
       case 7:
-        initializationPoliciesStatesText =
+        systemStateText =
         'Boot-Start Driver Initialization Policy is Configured to All';
         break;
       case 8:
-        initializationPoliciesStatesText = 'Boot-Start Driver Initialization Policy is Good';
+        systemStateText = 'Boot-Start Driver Initialization Policy is Good';
         break;
       default:
-        initializationPoliciesStatesText = 'Error: Unable to determine the initialization policies states!';
+        systemStateText = 'Error: Unable to determine the initialization policies states!';
     }
-    return initializationPoliciesStatesText;
+    return systemStateText;
   }
 
-  Text _textToDisplayForInitializationPoliciesStates() {
+  String _currentinitializationPoliciesStateText() {
+    String systemStateText = '';
+    switch (currentSystemState) {
+      case 0:
+        systemStateText =
+        'Boot-Start Driver Initialization Policy is Not Configured';
+        break;
+      case 1:
+        systemStateText =
+        'Boot-Start Driver Initialization Policy is Good and Unknown';
+        break;
+      case 3:
+        systemStateText =
+        'Boot-Start Driver Initialization Policy is Good, Unknown, and Bad But Critical';
+        break;
+      case 7:
+        systemStateText =
+        'Boot-Start Driver Initialization Policy is Configured to All';
+        break;
+      case 8:
+        systemStateText = 'Boot-Start Driver Initialization Policy is Good';
+        break;
+      default:
+        systemStateText = 'Error: Unable to determine the initialization policies states!';
+    }
+    return systemStateText;
+  }
+
+  Text _textToDisplayForInitialInitializationPoliciesStates() {
+    Color c = Colors.yellow;
+    String textToDisplayForInitialInitializationPoliciesStates;
+    if (initialSystemState != 8) {
+      c = Colors.red;
+      textToDisplayForInitialInitializationPoliciesStates = _initialinitializationPoliciesStateText();
+    } else {
+      c = Colors.white;
+      currentSystemState = initialSystemState;
+      textToDisplayForInitialInitializationPoliciesStates = _initialinitializationPoliciesStateText();
+    }
+    RequirementVariables.systemPrivileges = currentSystemState;
+    return Text(
+      textToDisplayForInitialInitializationPoliciesStates,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Text _textToDisplayForCurrentInitializationPoliciesStates() {
     Color c = Colors.yellow;
     _periodicallyUpdateInitializationPoliciesStatus();
-    if (InitializationPoliciesState.bootStart != 8) {
+    if (currentSystemState != 8) {
       c = Colors.red;
     } else {
       c = Colors.white;
     }
-    RequirementVariables.initializationPolicies = InitializationPoliciesState.bootStart;
     return Text(
-      _initializationPoliciesStateText(),
+      _currentinitializationPoliciesStateText(),
       style: TextStyle(
         color: c,
         fontSize: 16,
@@ -77,9 +135,8 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
   void _periodicallyUpdateInitializationPoliciesStatus() {
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if (InitializationPoliciesState.bootStart != 8) {
-          InitializationPoliciesChanger.setBootStartDriverPolicy();
-          InitializationPoliciesState.bootStart = 8;
+        if (currentSystemState != 8) {
+          InitializationPoliciesChanger.getBootStartDriverPolicy();
         }
       });
     });
@@ -119,7 +176,8 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
                   textAlign: TextAlign.center,
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                _textToDisplayForInitializationPoliciesStates(),
+                _textToDisplayForInitialInitializationPoliciesStates(),
+                _textToDisplayForCurrentInitializationPoliciesStates(),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Visibility(
                   maintainSize: true,
