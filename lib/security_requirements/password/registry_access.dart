@@ -32,7 +32,7 @@ class RegistryAccess {
   }
 
 
-  static Future<int> getLowerCaseSetting() async {
+  static int getLowerCaseSetting() {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
@@ -63,7 +63,7 @@ class RegistryAccess {
   }
 
 
-  static Future<int> getUpperCaseSetting() async {
+  static int getUpperCaseSetting() {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
@@ -93,7 +93,7 @@ class RegistryAccess {
   }
 
 
-  static Future<int> getSpecialCharSetting() async {
+  static int getSpecialCharSetting() {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
@@ -123,7 +123,7 @@ class RegistryAccess {
 
   }
 
-  static Future<int> getMinPwLen() async {
+  static int getMinPwLen() {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
@@ -154,7 +154,7 @@ class RegistryAccess {
   }
 
 
-  static Future<int> getMaxPwLen() async {
+  static int getMaxPwLen() {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
@@ -185,7 +185,7 @@ class RegistryAccess {
   }
 
 
-  static Future<int> getPwAge() async {
+  static int getPwAge() {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');
@@ -214,7 +214,7 @@ class RegistryAccess {
 
   }
 
-  static Future<int> getPwHist() async {
+  static int getPwHist(){
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\PassportForWork\PINComplexity');

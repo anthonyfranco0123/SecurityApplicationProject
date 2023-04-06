@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/security_requirements/password/password_policies.dart';
@@ -21,6 +22,21 @@ class RequirementTwoWidget extends StatefulWidget {
 
 class RequirementTwoWidgetState extends State<RequirementTwoWidget> with AutomaticKeepAliveClientMixin {
   late Timer timer;
+  int initialMinPwLen = -1;
+  int currentMinPwLen = -1;
+
+  int initialMaxPwLen = -1;
+  int currentMaxPwLen = -1;
+
+  int initialUpper = -1;
+  int currentUpper = -1;
+
+  int initialLower = -1;
+  int currentLower = -1;
+
+  int initialSpecial = -1;
+  int currentSpecial = -1;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -34,17 +50,35 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
 
   @override
   void initState() {
+    initialMinPwLen = currentMinPwLen = RegistryAccess.getMinPwLen();
+    initialMaxPwLen = currentMaxPwLen = RegistryAccess.getMaxPwLen();
+    initialUpper = currentUpper = RegistryAccess.getUpperCaseSetting();
+    initialLower = currentLower = RegistryAccess.getLowerCaseSetting();
+    initialSpecial = currentSpecial = RegistryAccess.getSpecialCharSetting();
     super.initState();
   }
 
   String _initialPasswordPolicyText(int minLen, int maxLen){
     String passwordStatesText = '';
-    if(PasswordPolicies.minLength==minLen && PasswordPolicies.maxLength==maxLen && PasswordPolicies.upperCase==1 && PasswordPolicies.lowerCase==1 && PasswordPolicies.special==1){
-      passwordStatesText = 'Status: All Password Policies Are Ensured';
+    if(initialMinPwLen==minLen && initialMaxPwLen==maxLen && initialUpper==1 && initialLower==1 && initialSpecial==1){
+      passwordStatesText = 'Initial Status: All Password Policies Are Ensured';
     }
 
     else {
-      passwordStatesText = 'Status: All Password Policies Are Not Ensured';
+      passwordStatesText = 'Initial Status: All Password Policies Are Not Ensured';
+    }
+
+    return passwordStatesText;
+  }
+
+  String _currentPasswordPolicyText(int minLen, int maxLen){
+    String passwordStatesText = '';
+    if(currentMinPwLen==minLen && currentMaxPwLen==maxLen && currentUpper==1 && currentLower==1 && currentSpecial==1){
+      passwordStatesText = 'Current Status: All Password Policies Are Ensured';
+    }
+
+    else {
+      passwordStatesText = 'Current Status: All Password Policies Are Not Ensured';
     }
 
     return passwordStatesText;
@@ -54,7 +88,7 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
     String textToDisplayForInitialPasswordPolicies = '';
     Color c = Colors.yellow;
     _periodicallyUpdatePasswordPolicy(minLen, maxLen);
-    if(PasswordPolicies.minLength!=minLen || PasswordPolicies.maxLength!=maxLen || PasswordPolicies.upperCase!=1 || PasswordPolicies.lowerCase!=1 || PasswordPolicies.special !=1){
+    if(initialMinPwLen!=minLen || initialMaxPwLen!=maxLen || initialUpper!=1 || initialLower!=1 || initialSpecial!=1){
       c = Colors.red;
       textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText(minLen, maxLen);
     } else{
@@ -71,11 +105,7 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
       currentFirewallStates = initialFirewallStates;
       textToDisplayForInitialFirewallStates = _initialFirewallStateText();
     }*/
-    RequirementVariables.minPasswordLength = PasswordPolicies.minLength;
-    RequirementVariables.maxPasswordLength = PasswordPolicies.maxLength;
-    RequirementVariables.uppercaseChars = PasswordPolicies.upperCase == 1 ? true : false;
-    RequirementVariables.lowercaseChars = PasswordPolicies.lowerCase == 1 ? true : false;
-    RequirementVariables.specialChars = PasswordPolicies.special==1 ? true:false;
+
     return Text(
       textToDisplayForInitialPasswordPolicies,
       style: TextStyle(
@@ -86,29 +116,71 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
     );
   }
 
+  Text _textToDisplayForCurrentPasswordPolicies(int minLen, int maxLen) {
+    String textToDisplayForInitialPasswordPolicies = '';
+    Color c = Colors.yellow;
+    _periodicallyUpdatePasswordPolicy(minLen, maxLen);
+    if(currentMinPwLen!=minLen || currentMaxPwLen!=maxLen || currentUpper!=1 || currentLower!=1 || currentSpecial!=1){
+      c = Colors.red;
+      textToDisplayForInitialPasswordPolicies = _currentPasswordPolicyText(minLen, maxLen);
+    } else{
+      c = Colors.white;
+      //currentPwHist = initialPwHist;
+      //currentMaxAge = initialMaxAge;
+      textToDisplayForInitialPasswordPolicies = _currentPasswordPolicyText(minLen, maxLen);
+    }
+    /*if (initialFirewallStates != 9) {
+      c = Colors.red;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+    } else {
+      c = Colors.white;
+      currentFirewallStates = initialFirewallStates;
+      textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+    }*/
+
+    return Text(
+      textToDisplayForInitialPasswordPolicies,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
 
   Future<void> _periodicallyUpdatePasswordPolicy(int minLen, int maxLen) async {
+    RequirementVariables.minPasswordLength = currentMinPwLen;
+    RequirementVariables.maxPasswordLength = currentMaxPwLen;
+    RequirementVariables.uppercaseChars = currentUpper == 1 ? true : false;
+    RequirementVariables.lowercaseChars = currentLower == 1 ? true : false;
+    RequirementVariables.specialChars = currentSpecial ==1 ? true:false;
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if(PasswordPolicies.minLength!= minLen){
+        if(currentMinPwLen!= minLen){
           RegistryAccess.setMinPwLen(minLen);
-          PasswordPolicies.minLength = minLen;
+          currentMinPwLen = minLen;
+          //RequirementVariables.minPasswordLength = minLen;
         }
-        if(PasswordPolicies.maxLength!=maxLen){
+        if(currentMaxPwLen!=maxLen){
           RegistryAccess.setMaxPwLen(maxLen);
-          PasswordPolicies.maxLength = maxLen;
+          currentMaxPwLen = maxLen;
+
+          //RequirementVariables.maxPasswordLength = maxLen;
         }
-        if(PasswordPolicies.upperCase!=1){
+        if(currentUpper!=1){
           RegistryAccess.setUpperCaseSetting();
-          PasswordPolicies.upperCase = 1;
+          currentUpper = 1;
+          //RequirementVariables.uppercaseChars = true;
         }
-        if(PasswordPolicies.lowerCase!=1){
+        if(currentLower!=1){
           RegistryAccess.setLowerCaseSetting();
-          PasswordPolicies.lowerCase = 1;
+          currentLower = 1;
+          //PasswordPolicies.lowerCase = 1;
         }
-        if(PasswordPolicies.special!=1){
+        if(currentSpecial!=1){
           RegistryAccess.setSpecialCharSetting();
-          PasswordPolicies.special = 1;
+          currentSpecial = 1;
+          //PasswordPolicies.special = 1;
         }
       });
     });
@@ -140,7 +212,7 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Check Your Boot-Start Driver Initialization',
+                  'Password Restriction',
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.white,
@@ -149,6 +221,7 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 _textToDisplayForInitialPasswordPolicies(8, 32),
+                _textToDisplayForCurrentPasswordPolicies(8, 32),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Visibility(
                   maintainSize: true,

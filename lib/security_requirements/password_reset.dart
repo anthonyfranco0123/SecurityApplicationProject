@@ -6,7 +6,7 @@ import 'package:shell/shell.dart';
 import '../admin/admin_state.dart';
 import '../requirement_variables.dart';
 import 'password/registry_access.dart';
-import 'password/password_policies.dart';
+import 'package:flutter_security_application/security_requirements/password/password_policies.dart';
 class RequirementOneWidget extends StatefulWidget {
   const RequirementOneWidget({
     Key? key,
@@ -20,17 +20,28 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
   //String output = '';
   //var temp;
   //var display="";
+
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
-  //int initialMaxAge = -1;
-  //int currentMaxAge = -1;
-  //int initialPwHist = -1;
-  //int currentPwHist = -1;
+  int initialMaxAge = -1;
+  int currentMaxAge = -1;
+  int initialPwHist = -1;
+  int currentPwHist = -1;
   //bool isShown = false;
   @override
   void initState() {
+    //PasswordPolicies.getPwHist();
+    //PasswordPolicies.getMaxPwAge();
+    //initialMaxAge = PasswordPolicies.maxPwAge;
+    //initialPwHist = PasswordPolicies.pwHist;
+    initialMaxAge = currentMaxAge = RegistryAccess.getPwAge();
+    initialPwHist = currentPwHist = RegistryAccess.getPwHist();
+    //print(initialMaxAge);
+    //print(initialPwHist);
+    //initialPwHist = currentPwHist = PasswordPolicies.pwHist;
     super.initState();
+
   }
 
   @override
@@ -41,17 +52,19 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
 
   String _initialPasswordPolicyText(int age, int history){
     String passwordStatesText = '';
-    if(PasswordPolicies.maxPwAge!=age && PasswordPolicies.pwHist!=history){
-      passwordStatesText = 'Status: Both password max age and password history list not ensured!';
+    //initialMaxAge = currentMaxAge = PasswordPolicies.maxPwAge;
+    //initialPwHist = currentPwHist = PasswordPolicies.pwHist;
+    if(initialMaxAge!=age && initialPwHist!=history){
+      passwordStatesText = 'Initial Status: Both password max age and password history list not ensured!';
     }
-    else if(PasswordPolicies.maxPwAge==age && PasswordPolicies.pwHist!=history){
-      passwordStatesText = 'Status: Password history list not ensured!';
+    else if(initialMaxAge==age && initialPwHist!=history){
+      passwordStatesText = 'Initial Status: Password history list not ensured!';
     }
-    else if(PasswordPolicies.maxPwAge!=age && PasswordPolicies.pwHist==history){
-      passwordStatesText = 'Status: Password max age not ensured!';
+    else if(initialMaxAge!=age && initialPwHist==history){
+      passwordStatesText = 'Initial Status: Password max age not ensured!';
     }
-    else if(PasswordPolicies.maxPwAge==age && PasswordPolicies.pwHist==history){
-      passwordStatesText = 'Status: Both password max age and password history list are ensured!';
+    else if(initialMaxAge==age && initialPwHist==history){
+      passwordStatesText = 'Initial Status: Both password max age and password history list are ensured!';
     }
     else {
       passwordStatesText = 'Error: Unable to determine the password reset policies';
@@ -60,7 +73,7 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
     return passwordStatesText;
   }
 
-  /*String _currentPasswordPolicyText(int age, int history){
+  String _currentPasswordPolicyText(int age, int history){
     String passwordStatesText = '';
     if(currentMaxAge != age && currentPwHist != history){
       passwordStatesText = 'Current Status: both password max age and password history list not ensured!';
@@ -81,18 +94,18 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
     return passwordStatesText;
   }
 
-*/
+
   Text _textToDisplayForInitialPasswordPolicies(int age, int history) {
     String textToDisplayForInitialPasswordPolicies = '';
     Color c = Colors.yellow;
-    _periodicallyUpdatePasswordPolicy(age, history);
-    if(PasswordPolicies.maxPwAge!=age || PasswordPolicies.pwHist!=history){
+
+    if(initialMaxAge!=age || initialPwHist!=history){
       c = Colors.red;
       textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText(age, history);
     } else{
       c = Colors.white;
-      //currentPwHist = initialPwHist;
-      //currentMaxAge = initialMaxAge;
+      currentPwHist = initialPwHist;
+      currentMaxAge = initialMaxAge;
       textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText(age, history);
     }
     /*if (initialFirewallStates != 9) {
@@ -103,8 +116,9 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
       currentFirewallStates = initialFirewallStates;
       textToDisplayForInitialFirewallStates = _initialFirewallStateText();
     }*/
-    RequirementVariables.maxPasswordAge = PasswordPolicies.maxPwAge;
-    RequirementVariables.passwordHistory = PasswordPolicies.pwHist;
+    //RequirementVariables.maxPasswordAge = PasswordPolicies.maxPwAge;
+    //RequirementVariables.passwordHistory = PasswordPolicies.pwHist;
+
     return Text(
       textToDisplayForInitialPasswordPolicies,
       style: TextStyle(
@@ -115,20 +129,25 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
     );
   }
 
-  /*Text _textToDisplayForCurrentPasswordPolicy(int age, int history) {
+  Text _textToDisplayForCurrentPasswordPolicy(int age, int history) {
 
     Color c = Colors.yellow;
     _periodicallyUpdatePasswordPolicy(age, history);
-    if(initialMaxAge!=age || initialPwHist!= history){
+    if(currentMaxAge!=age ) {
       c = Colors.red;
-      RegistryAccess.changePwHist();
-      RegistryAccess.changeMaxPwAge();
+      RegistryAccess.setPwAge(age);
+    }
+    else if (currentPwHist!=history){
+      c = Colors.red;
+      RegistryAccess.setPwHist(history);
     } else{
       c = Colors.white;
-      currentPwHist = initialPwHist;
-      currentMaxAge = initialMaxAge;
+      //currentPwHist = initialPwHist;
+      //currentMaxAge = initialMaxAge;
       //textToDisplayForInitialPasswordPolicies = _initialPasswordPolicyText();
     }
+
+
     return Text(
       _currentPasswordPolicyText(age, history),
       style: TextStyle(
@@ -139,18 +158,22 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
     );
   }
 
-   */
+
 
   Future<void> _periodicallyUpdatePasswordPolicy(int age, int history) async {
+    //RequirementVariables.maxPasswordAge = currentMaxAge = RegistryAccess.getMaxPwLen() as int;
+    //RequirementVariables.passwordHistory = currentPwHist = RegistryAccess.getPwHist() as int;
+    RequirementVariables.maxPasswordAge = currentMaxAge;
+    RequirementVariables.passwordHistory = currentPwHist;
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if(PasswordPolicies.maxPwAge!= age){
+        if(currentMaxAge!= age){
           RegistryAccess.setPwAge(age);
-          PasswordPolicies.maxPwAge = age;
+          RequirementVariables.maxPasswordAge = PasswordPolicies.maxPwAge = currentMaxAge = age;
         }
         if(PasswordPolicies.pwHist!=history){
           RegistryAccess.setPwHist(history);
-          PasswordPolicies.pwHist = history;
+          RequirementVariables.passwordHistory = PasswordPolicies.pwHist = currentPwHist = history;
         }
       });
     });
@@ -182,7 +205,7 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Your Firewall State:',
+                  'Password Reset',
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.white,
@@ -190,8 +213,8 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
                   textAlign: TextAlign.center,
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                _textToDisplayForInitialPasswordPolicies(90, 10),
-                //_textToDisplayForCurrentPasswordPolicy(90, 10),
+                _textToDisplayForInitialPasswordPolicies(80, 15),
+                _textToDisplayForCurrentPasswordPolicy(80, 15),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Visibility(
                   maintainSize: true,

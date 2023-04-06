@@ -9,6 +9,7 @@ import 'package:flutter_security_application/security_requirements/auto_updates/
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
 import 'package:flutter_security_application/security_requirements/initialization_policies/intialization_policies_state.dart';
+import 'package:flutter_security_application/security_requirements/password/registry_access.dart';
 import 'package:flutter_security_application/security_requirements/password_reset.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
@@ -24,6 +25,7 @@ import 'package:flutter_security_application/security_requirements/system_privil
 import 'package:flutter_security_application/security_requirements/download_restrictions_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall_states_requirement.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_initial_state.dart';
+import 'package:flutter_security_application/security_requirements/password/password_policies.dart';
 import 'package:intl/intl.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:windows_system_info/windows_system_info.dart';
@@ -54,6 +56,9 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
     });
+
+
+
     FirewallInitialState.initialFirewallStates =
         FirewallAccess().getFirewallStates();
     if (_sideMenu.currentPage != 10) {

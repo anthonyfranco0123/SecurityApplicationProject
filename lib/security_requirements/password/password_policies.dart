@@ -9,25 +9,26 @@ class PasswordPolicies {
   static int lowerCase = -1;
   static int special = -1;
 
-  Future<void> getPwHist() async {
-    pwHist = await RegistryAccess.getPwHist();
+  static void getPwHist() {
+    pwHist = RegistryAccess.getPwHist();
   }
-  Future<void> getMaxPwAge() async {
-    pwHist = await RegistryAccess.getPwAge();
+  static void getMaxPwAge() {
+    pwHist = RegistryAccess.getPwAge();
   }
-  Future<void> getPwMinLen() async {
+  static Future<void> getPwMinLen() async {
     pwHist = await RegistryAccess.getMinPwLen();
   }
-  Future<void> getPwMaxLen() async {
+  static Future<void> getPwMaxLen() async {
     pwHist = await RegistryAccess.getMaxPwLen();
   }
-  Future<void> getUpperCase() async {
+  static Future<void> getUpperCase() async {
     pwHist = await RegistryAccess.getUpperCaseSetting();
   }
-  Future<void> getLowerCase() async {
+  static Future<void> getLowerCase() async {
     pwHist = await RegistryAccess.getLowerCaseSetting();
   }
-  Future<void> getSpecial() async {
+  static Future<void> getSpecial() async {
     pwHist = await RegistryAccess.getSpecialCharSetting();
   }
+
 }
