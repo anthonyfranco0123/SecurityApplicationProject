@@ -3,24 +3,19 @@ import 'mysql.dart';
 
 class RequirementsDataSender {
   Future<void> sendRequirementData(
-  ) async {
+      ) async {
     var db = Mysql();
-    await db.getConnection().then((conn) async {
+    try {
+      var conn = await db.getConnection();
       await conn.query(
-        'insert into user_compliances_test (time_stamp, device_name, mac_address, max_password_age, password_history, min_password_length, max_password_length, uppercase_chars, lowercase_chars, special_chars, event_logs, initialization_policies, auto_updates, system_privileges, download_restrictions, firewall_states) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'insert into user_compliances (device_name, mac_address, timestamp, password_restriction, password_expiration, event_logs, auto_updates, system_privilege, installation_restrictions, firewall) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
-          RequirementVariables.timeStamp,
           RequirementVariables.deviceName,
           RequirementVariables.macAddress,
+          RequirementVariables.timeStamp,
           RequirementVariables.maxPasswordAge,
           RequirementVariables.passwordHistory,
-          RequirementVariables.minPasswordLength,
-          RequirementVariables.maxPasswordLength,
-          RequirementVariables.uppercaseChars,
-          RequirementVariables.lowercaseChars,
-          RequirementVariables.specialChars,
           RequirementVariables.eventLogs,
-          RequirementVariables.initializationPolicies,
           RequirementVariables.autoUpdates,
           RequirementVariables.systemPrivileges,
           RequirementVariables.downloadRestrictions,
@@ -28,6 +23,8 @@ class RequirementsDataSender {
         ],
       );
       conn.close();
-    });
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 }

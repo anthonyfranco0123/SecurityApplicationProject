@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
-import 'package:shell/shell.dart';
+import 'package:flutter_security_application/security_requirements/event_logs/event_logs_access.dart';
+import 'package:flutter_security_application/security_requirements/event_logs/event_logs_initial_state.dart';
+
 
 import '../admin/admin_state.dart';
 
@@ -16,15 +18,35 @@ class RequirementThreeWidget extends StatefulWidget {
 }
 
 class RequirementThreeWidgetState extends State<RequirementThreeWidget> with AutomaticKeepAliveClientMixin {
-  String output = '';
+  int initialEventLogsState = -1;
+  String stringCurrentState = '';
+  int currentEventLogsState = -1;
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    _runShellCommand();
+    initialEventLogsState = EventLogsInitialState.initialEventLogsState;
+    pleaseWork();
     super.initState();
+  }
+
+  pleaseWork() async {
+    EventLogsAccess().futureStringToString().then((value){ setState(() {
+      stringCurrentState=value;
+      pleaseWorkTwo();
+    });});
+  }
+
+  pleaseWorkTwo() {
+    if (stringCurrentState.contains("STOPPED")) {
+      currentEventLogsState = 0;
+    } else if (stringCurrentState.contains("RUNNING")) {
+      currentEventLogsState = 1;
+    } else {
+      currentEventLogsState = -1;
+    }
   }
 
   @override
@@ -33,27 +55,40 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
     super.dispose();
   }
 
-  Future<String> _runShellCommand() async {
-    var shell = Shell();
-    return await shell.startAndReadAsString('sc',
-        arguments: ['query', "eventlog"]);
-  }
-
-  Future<void> _futureStringToString(Future<String> fs) async {
-    output = await fs;
+  Text _textToDisplayForInitialEventLogsState() {
+    Color c = Colors.yellow;
+    String text = '';
+    // _periodicallyUpdateCurrentEventLogsStatus();
+    if (initialEventLogsState != 1) {
+      c = Colors.red;
+      text = 'Initial Status: Event Log Is Stopped';
+      // RequirementVariables.eventLogs = false;
+    } else {
+      c = Colors.white;
+      text = 'Initial Status: Event Log Is Running';
+      // RequirementVariables.eventLogs = true;
+    }
+    return Text(
+      text,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
   }
 
   Text _textToDisplayForCurrentEventLogsState() {
     Color c = Colors.yellow;
     String text = '';
-    _periodicallyUpdateCurrentEventLogsStatus();
-    if (output.contains("STOPPED")) {
+    // _periodicallyUpdateCurrentEventLogsStatus();
+    if (currentEventLogsState != 1) {
       c = Colors.red;
-      text = 'Event Log Is Stopped';
+      text = 'Current Status: Event Log Is Stopped';
       RequirementVariables.eventLogs = false;
     } else {
       c = Colors.white;
-      text = 'Event Log Is Running';
+      text = 'Current Status: Event Log Is Running';
       RequirementVariables.eventLogs = true;
     }
     return Text(
@@ -66,14 +101,16 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
     );
   }
 
-  void _periodicallyUpdateCurrentEventLogsStatus() {
-    _futureStringToString(_runShellCommand());
-    Timer.periodic(const Duration(seconds: 4), (timer) {
-      setState(() {
-
-      });
-    });
-  }
+  // void _periodicallyUpdateCurrentEventLogsStatus() {
+  //   currentEventLogsState = EventLogsAccess().eventLogsState();
+  //   Timer.periodic(const Duration(seconds: 4), (timer) {
+  //     setState(() {
+  //       if(currentEventLogsState != 1) {
+  //         currentEventLogsState = EventLogsAccess().eventLogsState();
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +146,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
                   textAlign: TextAlign.center,
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForInitialEventLogsState(),
                 _textToDisplayForCurrentEventLogsState(),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Visibility(
@@ -129,7 +167,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
                         ),
                         onPressed: () {
                           setState(() {
-                            // firewallStates = RegistryAccess.getFirewallStates();
+
                           });
                         },
                         child: const Text('Turn On Event Logs'),
