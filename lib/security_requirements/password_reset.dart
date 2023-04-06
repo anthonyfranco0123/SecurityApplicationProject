@@ -213,8 +213,8 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
                   textAlign: TextAlign.center,
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                _textToDisplayForInitialPasswordPolicies(80, 15),
-                _textToDisplayForCurrentPasswordPolicy(80, 15),
+                _textToDisplayForInitialPasswordPolicies(90, 10),
+                _textToDisplayForCurrentPasswordPolicy(90, 10),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Visibility(
                   maintainSize: true,
