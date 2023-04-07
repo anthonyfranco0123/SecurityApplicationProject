@@ -75,7 +75,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     if (_sideMenu.currentPage != 6) {
       // _periodicallyUpdateDownloadRestrictions();
     }
-    AutoUpdatesState().futureIntToInt();
+    //AutoUpdatesState().futureIntToInt();
     InitializationPoliciesState().futureIntToInt();
     pleaseWork();
     setSound();

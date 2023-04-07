@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
-import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_changer.dart';
 
 import '../admin/admin_state.dart';
 
@@ -16,9 +16,17 @@ class RequirementSixWidget extends StatefulWidget {
 }
 
 class RequirementSixWidgetState extends State<RequirementSixWidget> with AutomaticKeepAliveClientMixin {
+  int initialSystemState = -1;
+  int currentSystemState = -1;
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    initialSystemState = AutoUpdates.getAutoUpdatesKey();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -26,9 +34,9 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
     super.dispose();
   }
 
-  String _currentAutoUpdatesStateText() {
+  String _initialAutoUpdatesStateText() {
     String autoUpdatesStateText = '';
-    switch (AutoUpdatesState.privateSUpdates) {
+    switch (initialSystemState) {
       case 0:
         autoUpdatesStateText = 'Auto Update Policy is Good';
         break;
@@ -44,20 +52,65 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
         break;
       default:
         autoUpdatesStateText =
-            'Error: Unable to determine the auto-updates state!';
+        'Error: Unable to determine the auto-updates state!';
     }
     return autoUpdatesStateText;
   }
 
-  Text _textToDisplayForAutoUpdatesState() {
+  String _currentAutoUpdatesStateText() {
+    String autoUpdatesStateText = '';
+    switch (currentSystemState) {
+      case 0:
+        autoUpdatesStateText = 'Auto Update Policy is Good';
+        break;
+      case 1:
+        autoUpdatesStateText = 'Auto Update Policy is Not Configured';
+        break;
+      case 2:
+        autoUpdatesStateText =
+        'Auto Update Policy is Not Configured because of Path';
+        break;
+      case 3:
+        autoUpdatesStateText = 'Path exists, wrong type';
+        break;
+      default:
+        autoUpdatesStateText =
+        'Error: Unable to determine the auto-updates state!';
+    }
+    return autoUpdatesStateText;
+  }
+
+  Text _textToDisplayForInitialAutoUpdatesState() {
+    Color c = Colors.yellow;
+    String textToDisplayForInitialAutoUpdatesState = '';
+    if (initialSystemState != 0) {
+      c = Colors.red;
+      textToDisplayForInitialAutoUpdatesState = _initialAutoUpdatesStateText();
+
+    } else {
+      c = Colors.white;
+      currentSystemState = initialSystemState;
+      textToDisplayForInitialAutoUpdatesState = _initialAutoUpdatesStateText();
+    }
+    RequirementVariables.systemPrivileges = currentSystemState;
+    return Text(
+      textToDisplayForInitialAutoUpdatesState,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Text _textToDisplayForCurrentAutoUpdatesState() {
     Color c = Colors.yellow;
     _periodicallyUpdateAutoUpdatesStatus();
-    if (AutoUpdatesState.privateSUpdates != 0) {
+    if (currentSystemState != 0) {
       c = Colors.red;
     } else {
       c = Colors.white;
     }
-    RequirementVariables.autoUpdates = AutoUpdatesState.privateSUpdates;
     return Text(
       _currentAutoUpdatesStateText(),
       style: TextStyle(
@@ -69,10 +122,11 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
   }
 
   void _periodicallyUpdateAutoUpdatesStatus() {
+    currentSystemState = AutoUpdates.getAutoUpdatesKey();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if (AutoUpdatesState.privateSUpdates != 1) {
-          AutoUpdatesState().futureIntToInt();
+        if (currentSystemState != 1) {
+          AutoUpdates.getAutoUpdatesKey();
         }
       });
     });
@@ -112,7 +166,8 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
                   textAlign: TextAlign.center,
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
-                _textToDisplayForAutoUpdatesState(),
+                _textToDisplayForInitialAutoUpdatesState(),
+                _textToDisplayForCurrentAutoUpdatesState(),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 Visibility(
                   maintainSize: true,
@@ -163,3 +218,4 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
     );
   }
 }
+
