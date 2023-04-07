@@ -28,18 +28,18 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
   @override
   void initState() {
     initialEventLogsState = EventLogsInitialState.initialEventLogsState;
-    pleaseWork();
+    eventLogsStringOutput();
     super.initState();
   }
 
-  pleaseWork() async {
+  eventLogsStringOutput() async {
     EventLogsAccess().futureStringToString().then((value){ setState(() {
       stringCurrentState=value;
-      pleaseWorkTwo();
+      eventLogsState();
     });});
   }
 
-  pleaseWorkTwo() {
+  eventLogsState() {
     if (stringCurrentState.contains("STOPPED")) {
       currentEventLogsState = 0;
     } else if (stringCurrentState.contains("RUNNING")) {

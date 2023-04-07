@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
-import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
+// import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
 import 'package:flutter_security_application/security_requirements/event_logs/event_logs_access.dart';
@@ -71,16 +71,23 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
           DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(
               DownloadRestrictionsSystemInfo.userDownloadsPath,
               Platform.operatingSystem));
+      DownloadRestrictionsSystemInfo.initialFilesList = DownloadRestrictionsSystemInfo.filesList;
     }
     if (_sideMenu.currentPage != 6) {
       // _periodicallyUpdateDownloadRestrictions();
     }
     //AutoUpdatesState().futureIntToInt();
     InitializationPoliciesState().futureIntToInt();
-    pleaseWork();
+    eventLogsStringOutput();
     setSound();
     notificationCreation();
     _periodicallyUpdateDatabase();
+    DownloadRestrictionsSystemInfo.targetPath = '${DownloadRestrictionsSystemInfo.userPath}' '\\Desktop\\Potential_Threats\\';
+    DownloadRestrictionsFileInfoGetter().directoryExists(DownloadRestrictionsSystemInfo.targetPath);
+    if(DownloadRestrictionsSystemInfo.exists) {
+      DownloadRestrictionsFileInfoGetter().createDirectory();
+      DownloadRestrictionsSystemInfo.exists = true;
+    }
     RawKeyboardListener(
       focusNode: FocusNode(),
       onKey: (event) {
@@ -93,14 +100,14 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     super.initState();
   }
 
-  pleaseWork() async {
+  eventLogsStringOutput() async {
     EventLogsAccess().futureStringToString().then((value){ setState(() {
       stringCurrentState=value;
-      pleaseWorkTwo();
+      eventLogsState();
     });});
   }
 
-  pleaseWorkTwo() {
+  eventLogsState() {
     if (stringCurrentState.contains("STOPPED")) {
       EventLogsInitialState.initialEventLogsState = 0;
     } else if (stringCurrentState.contains("RUNNING")) {

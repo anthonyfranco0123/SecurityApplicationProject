@@ -3,8 +3,11 @@ import 'dart:io';
 class DownloadRestrictionsSystemInfo {
   static String userPath = '';
   static String userDownloadsPath = '';
+  static List<String> initialFilesList = [];
   static List<String> filesList = [];
   static List<String> filesSizeList = [];
+  static String targetPath = '';
+  static bool exists = false;
 
   String getHomeDirectory() {
     switch (Platform.operatingSystem) {

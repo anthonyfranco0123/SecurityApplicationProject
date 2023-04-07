@@ -21,19 +21,15 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
-  // bool firstInitialization = false;
-  String deviceName= "Test Device";
-  String macAddress= "AA:BB:CC:DD:EE:FF";
-  String timestamp= "2023-04-01 12:34:56";
-  String password= "test_password";
-  int passwordRestriction= 1;
-  int passwordExpiration= 1;
-  int autoUpdates= 1;
-  String systemPrivilege= "user";
-  int firewall= 1;
+  bool initialState = false;
 
   @override
   void initState() {
+    initialState = DownloadRestrictionsSystemInfo.initialFilesList.isNotEmpty;
+    if(!DownloadRestrictionsSystemInfo.exists) {
+      DownloadRestrictionsFileInfoGetter().createDirectory();
+      DownloadRestrictionsSystemInfo.exists = true;
+    }
     super.initState();
   }
 
@@ -90,6 +86,50 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
     });
   }
 
+  Text _textToDisplayForInitialRestrictionsState() {
+    Color c = Colors.yellow;
+    String text = '';
+    if (initialState) {
+      c = Colors.red;
+      text = 'Initial Status: Restricted Files Found!';
+      // RequirementVariables.eventLogs = false;
+    } else {
+      c = Colors.white;
+      text = 'Initial Status: No Restricted Files Found!';
+      // RequirementVariables.eventLogs = true;
+    }
+    return Text(
+      text,
+      style: TextStyle(
+        color: c,
+        fontSize: 16,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+Text _textToDisplayForCurrentRestrictionsState() {
+  Color c = Colors.yellow;
+  String text = '';
+  if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
+    c = Colors.red;
+    text = 'Current Status: Restricted Files Found!';
+    RequirementVariables.eventLogs = false;
+  } else {
+    c = Colors.white;
+    text = 'Current Status: No Restricted Files Found!';
+    RequirementVariables.eventLogs = true;
+  }
+  return Text(
+    text,
+    style: TextStyle(
+      color: c,
+      fontSize: 16,
+    ),
+    textAlign: TextAlign.center,
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -112,101 +152,111 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
           ),
         ),
         child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.black38,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(4),
-            // color: Colors.black38,
-            width: sw * 0.6,
-            height: sh * 0.6,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _textToDisplayForRestrictedFilesInfo(),
-                  const Padding(padding: EdgeInsets.all(8.0)),
-                  if (sh > 240 && sw > 240)
-                  SizedBox(
-                    width: sw * 0.4,
-                    height: sh * 0.4,
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount:
-                              DownloadRestrictionsSystemInfo.filesList.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              // color: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.75)),
-                              child: ListTile(
-                                leading: const Icon(
-                                  Icons.file_present_rounded,
-                                  color: Colors.red,
-                                ),
-                                title: Text(
-                                  DownloadRestrictionsSystemInfo
-                                      .filesList[index],
-                                  style: const TextStyle(
-                                      color: Colors.red, fontSize: 16),
-                                  textAlign: TextAlign.left,
-                                ),
-                                minLeadingWidth: 20,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black38,
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  Visibility(
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    visible: AdminState.adminState,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  padding: const EdgeInsets.all(4),
+                  // color: Colors.black38,
+                  width: sw * 0.6,
+                  height: sh * 0.6,
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            textStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-
-                            });
-                          },
-                          child: const Text('Turn On Installation Restrictions'),
-                        ),
+                        _textToDisplayForRestrictedFilesInfo(),
                         const Padding(padding: EdgeInsets.all(8.0)),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            textStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
+                        if (sh > 240 && sw > 240)
+                        SizedBox(
+                          width: sw * 0.4,
+                          height: sh * 0.4,
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount:
+                                    DownloadRestrictionsSystemInfo.filesList.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    // color: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(2.75)),
+                                    child: ListTile(
+                                      leading: const Icon(
+                                        Icons.file_present_rounded,
+                                        color: Colors.red,
+                                      ),
+                                      title: Text(
+                                        DownloadRestrictionsSystemInfo
+                                            .filesList[index],
+                                        style: const TextStyle(
+                                            color: Colors.red, fontSize: 16),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      minLeadingWidth: 20,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                          onPressed: () {
-                            setState(() {
-
-                            });
-                          },
-                          child: const Text('Turn Off Installation Restrictions'),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                _textToDisplayForInitialRestrictionsState(),
+                _textToDisplayForCurrentRestrictionsState(),
+                const Padding(padding: EdgeInsets.all(8.0)),
+                Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: AdminState.adminState,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+
+                          });
+                        },
+                        child: const Text('Turn On Installation Restrictions'),
+                      ),
+                      const Padding(padding: EdgeInsets.all(8.0)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+
+                          });
+                        },
+                        child: const Text('Turn Off Installation Restrictions'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
