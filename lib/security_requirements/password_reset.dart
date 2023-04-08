@@ -165,11 +165,11 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
       setState(() {
         if(currentMaxAge!= age){
           RegistryAccess.setPwAge(age);
-          RequirementVariables.maxPasswordAge = PasswordPolicies.maxPwAge = currentMaxAge = age;
+          RequirementVariables.maxPasswordAge = currentMaxAge = age;
         }
-        if(PasswordPolicies.pwHist!=history){
+        if(currentPwHist!=history){
           RegistryAccess.setPwHist(history);
-          RequirementVariables.passwordHistory = PasswordPolicies.pwHist = currentPwHist = history;
+          RequirementVariables.passwordHistory = currentPwHist = history;
         }
       });
     });
