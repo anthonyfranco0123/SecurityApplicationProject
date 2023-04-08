@@ -85,11 +85,11 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
     if (currentEventLogsState != 1) {
       c = Colors.red;
       text = 'Current Status: Event Log Is Stopped';
-      RequirementVariables.eventLogs = false;
+      RequirementVariables.eventLogs = 0;
     } else {
       c = Colors.white;
       text = 'Current Status: Event Log Is Running';
-      RequirementVariables.eventLogs = true;
+      RequirementVariables.eventLogs = 1;
     }
     return Text(
       text,

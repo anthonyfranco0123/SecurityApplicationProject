@@ -58,10 +58,10 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
     _periodicallyUpdateDownloadRestrictions();
     if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
       c = Colors.red;
-      RequirementVariables.downloadRestrictions = true;
+      RequirementVariables.downloadRestrictions = 0;
     } else {
       c = Colors.white;
-      RequirementVariables.downloadRestrictions = false;
+      RequirementVariables.downloadRestrictions = 1;
     }
     return Text(
       _restrictedFilesInfoText(),
@@ -114,11 +114,11 @@ Text _textToDisplayForCurrentRestrictionsState() {
   if (DownloadRestrictionsSystemInfo.filesList.isNotEmpty) {
     c = Colors.red;
     text = 'Current Status: Restricted Files Found!';
-    RequirementVariables.eventLogs = false;
+    RequirementVariables.downloadRestrictions = 0;
   } else {
     c = Colors.white;
     text = 'Current Status: No Restricted Files Found!';
-    RequirementVariables.eventLogs = true;
+    RequirementVariables.downloadRestrictions = 1;
   }
   return Text(
     text,

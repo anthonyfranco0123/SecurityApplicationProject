@@ -1,13 +1,9 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_security_application/security_requirements/password/password_policies.dart';
 import 'package:flutter_security_application/security_requirements/password/registry_access.dart';
 
 import '../admin/admin_state.dart';
 import '../requirement_variables.dart';
-// import 'package:shell/shell.dart';
 
 class RequirementTwoWidget extends StatefulWidget {
 
@@ -151,9 +147,9 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
   Future<void> _periodicallyUpdatePasswordPolicy(int minLen, int maxLen) async {
     RequirementVariables.minPasswordLength = currentMinPwLen;
     RequirementVariables.maxPasswordLength = currentMaxPwLen;
-    RequirementVariables.uppercaseChars = currentUpper == 1 ? true : false;
-    RequirementVariables.lowercaseChars = currentLower == 1 ? true : false;
-    RequirementVariables.specialChars = currentSpecial ==1 ? true:false;
+    RequirementVariables.uppercaseChars = currentUpper == 1 ? 1 : 0;
+    RequirementVariables.lowercaseChars = currentLower == 1 ? 1 : 0;
+    RequirementVariables.specialChars = currentSpecial ==1 ? 1 : 0;
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if(currentMinPwLen!= minLen){
