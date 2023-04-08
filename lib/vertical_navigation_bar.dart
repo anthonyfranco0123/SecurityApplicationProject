@@ -48,7 +48,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   @override
   void initState() {
     initInfo();
-    // initPlatformState();
     setUpNotifier();
     _sideMenu.addListener((p0) {
       _page.jumpToPage(p0);
@@ -69,10 +68,9 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               Platform.operatingSystem));
       DownloadRestrictionsSystemInfo.initialFilesList = DownloadRestrictionsSystemInfo.filesList;
     }
-    if (_sideMenu.currentPage != 6) {
+    // if (_sideMenu.currentPage != 6) {
       // _periodicallyUpdateDownloadRestrictions();
-    }
-    //AutoUpdatesState().futureIntToInt();
+    // }
     InitializationPoliciesState().futureIntToInt();
     eventLogsStringOutput();
     setSound();
@@ -168,31 +166,9 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       setState(() {
         RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
         RequirementVariables.macAddress = WindowsSystemInfo.network[1].mac;
-        // print(RequirementVariables.deviceName);
-        // print(RequirementVariables.macAddress);
       });
     }
   }
-
-  // // Platform messages are asynchronous, so we initialize in an async method.
-  // Future<void> initPlatformState() async {
-  //   String platformVersion;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     platformVersion = await GetMac.macAddress;
-  //   } on PlatformException {
-  //     platformVersion = 'Failed to get Device MAC Address.';
-  //   }
-  //
-  //   // If the widget was removed from the tree while the asynchronous platform
-  //   // message was in flight, we want to discard the reply rather than calling
-  //   // setState to update our non-existent appearance.
-  //   if (!mounted) return;
-  //
-  //   setState(() {
-  //     RequirementVariables.macAddress = platformVersion;
-  //   });
-  // }
 
   void _periodicallyUpdateDatabase() {
     RequirementVariables.timeStamp = DateTime.now().toString();
