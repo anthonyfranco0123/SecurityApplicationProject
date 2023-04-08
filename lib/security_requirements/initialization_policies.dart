@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
 import '../admin/admin_state.dart';
 import 'initialization_policies/initialization_policies_changer.dart';
+import 'initialization_policies/initialization_policies_state.dart';
 
 class RequirementFiveWidget extends StatefulWidget {
 
@@ -23,7 +24,7 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
 
   @override
   void initState() {
-    initialSystemState = InitializationPoliciesChanger.getBootStartDriverPolicy();
+    initialSystemState = InitializationPoliciesState.bootStart;// = InitializationPoliciesChanger.getBootStartDriverPolicy();
     super.initState();
   }
 
@@ -61,7 +62,7 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
     return systemStateText;
   }
 
-  String _currentinitializationPoliciesStateText() {
+  String _currentInitializationPoliciesStateText() {
     String systemStateText = '';
     switch (currentSystemState) {
       case 0:
@@ -120,7 +121,7 @@ class RequirementFiveWidgetState extends State<RequirementFiveWidget> with Autom
       c = Colors.white;
     }
     return Text(
-      _currentinitializationPoliciesStateText(),
+      _currentInitializationPoliciesStateText(),
       style: TextStyle(
         color: c,
         fontSize: 16,

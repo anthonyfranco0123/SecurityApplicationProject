@@ -1,3 +1,3 @@
 class EventLogsInitialState {
-  static int initialEventLogsState = -1;
+  static bool initialEventLogsState = false;
 }

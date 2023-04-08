@@ -18,9 +18,9 @@ class RequirementThreeWidget extends StatefulWidget {
 }
 
 class RequirementThreeWidgetState extends State<RequirementThreeWidget> with AutomaticKeepAliveClientMixin {
-  int initialEventLogsState = -1;
+  bool initialEventLogsState = false;
   String stringCurrentState = '';
-  int currentEventLogsState = -1;
+  bool currentEventLogsState = false;
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
@@ -41,12 +41,13 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
 
   eventLogsState() {
     if (stringCurrentState.contains("STOPPED")) {
-      currentEventLogsState = 0;
+      currentEventLogsState = false;
     } else if (stringCurrentState.contains("RUNNING")) {
-      currentEventLogsState = 1;
-    } else {
-      currentEventLogsState = -1;
+      currentEventLogsState =true;
     }
+    // else {
+    //   currentEventLogsState = -1;
+    // }
   }
 
   @override
@@ -59,7 +60,7 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
     Color c = Colors.yellow;
     String text = '';
     // _periodicallyUpdateCurrentEventLogsStatus();
-    if (initialEventLogsState != 1) {
+    if (!initialEventLogsState) {
       c = Colors.red;
       text = 'Initial Status: Event Log Is Stopped';
       // RequirementVariables.eventLogs = false;
@@ -82,14 +83,14 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
     Color c = Colors.yellow;
     String text = '';
     // _periodicallyUpdateCurrentEventLogsStatus();
-    if (currentEventLogsState != 1) {
+    if (!currentEventLogsState) {
       c = Colors.red;
       text = 'Current Status: Event Log Is Stopped';
-      RequirementVariables.eventLogs = 0;
+      RequirementVariables.eventLogs = false;
     } else {
       c = Colors.white;
       text = 'Current Status: Event Log Is Running';
-      RequirementVariables.eventLogs = 1;
+      RequirementVariables.eventLogs = true;
     }
     return Text(
       text,

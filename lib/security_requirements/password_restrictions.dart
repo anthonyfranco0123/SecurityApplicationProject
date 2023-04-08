@@ -147,9 +147,9 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
   Future<void> _periodicallyUpdatePasswordPolicy(int minLen, int maxLen) async {
     RequirementVariables.minPasswordLength = currentMinPwLen;
     RequirementVariables.maxPasswordLength = currentMaxPwLen;
-    RequirementVariables.uppercaseChars = currentUpper == 1 ? 1 : 0;
-    RequirementVariables.lowercaseChars = currentLower == 1 ? 1 : 0;
-    RequirementVariables.specialChars = currentSpecial ==1 ? 1 : 0;
+    RequirementVariables.uppercaseChars = currentUpper == 1 ? true : false;
+    RequirementVariables.lowercaseChars = currentLower == 1 ? true : false;
+    RequirementVariables.specialChars = currentSpecial ==1 ? true : false;
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if(currentMinPwLen!= minLen){

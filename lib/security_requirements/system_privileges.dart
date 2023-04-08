@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
-// import 'package:shell/shell.dart';
 import 'package:flutter_security_application/admin/admin_state.dart';
 import 'package:flutter_security_application/security_requirements/system_privileges/system_privileges_state.dart';
-import 'package:flutter_security_application/security_requirements/system_privileges/system_priv_changer.dart';
 
 class RequirementEightWidget extends StatefulWidget {
   const RequirementEightWidget({super.key});
@@ -26,7 +24,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   bool get wantKeepAlive => true;
   @override
   void initState() {
-    initialSystemState = SystemPrivilegesState.getSystemPrivKey();
+    initialSystemState = SystemPrivilegesState().getSystemPrivilegeKey();
     super.initState();
   }
 
@@ -55,10 +53,6 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
         systemStateText =
         'Could Not Find Key';
         break;
-      case 1:
-        systemStateText =
-        'Could Not Find Key';
-        break;
       default:
         systemStateText =
             'Error: Unable to find Always Elevated Status';
@@ -72,21 +66,17 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
 
       case 0:
         systemStateText =
-        'Initial Status: Always Elevated is On';
+        'Current Status: Always Elevated is On';
         break;
       case 1:
         systemStateText =
-        'Initial Status: Always Elevated is Off';
+        'Current Status: Always Elevated is Off';
         break;
       case 2:
         systemStateText =
         'AlwaysInstallElevated Key Does not Exist';
         break;
       case 3:
-        systemStateText =
-        'Could Not Find Key';
-        break;
-      case 1:
         systemStateText =
         'Could Not Find Key';
         break;
@@ -108,7 +98,6 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
       currentSystemState = initialSystemState;
       textToDisplayForInitialSystemState = _initialSystemStateText();
     }
-    RequirementVariables.systemPrivileges = currentSystemState;
     return Text(
       textToDisplayForInitialSystemState,
       style: TextStyle(
@@ -127,6 +116,8 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     } else {
       c = Colors.white;
     }
+    RequirementVariables.systemPrivileges = currentSystemState;
+    print(currentSystemState);
     return Text(
       _currentSystemStateText(),
       style: TextStyle(
@@ -138,11 +129,11 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   }
 
   void _periodicallyUpdateCurrentSystemStatus() {
-    currentSystemState = SystemPrivilegesState.getSystemPrivKey();
+    currentSystemState = SystemPrivilegesState().getSystemPrivilegeKey();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {
-          SystemPrivilegesState.getSystemPrivKey();
+          SystemPrivilegesState().getSystemPrivilegeKey();
         }
       });
     });

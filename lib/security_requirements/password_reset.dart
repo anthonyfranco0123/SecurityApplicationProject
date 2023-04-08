@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:shell/shell.dart';
-
 import '../admin/admin_state.dart';
 import '../requirement_variables.dart';
 import 'password/registry_access.dart';
 import 'package:flutter_security_application/security_requirements/password/password_policies.dart';
+
 class RequirementOneWidget extends StatefulWidget {
   const RequirementOneWidget({
     Key? key,
@@ -157,8 +155,6 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
       textAlign: TextAlign.center,
     );
   }
-
-
 
   Future<void> _periodicallyUpdatePasswordPolicy(int age, int history) async {
     //RequirementVariables.maxPasswordAge = currentMaxAge = RegistryAccess.getMaxPwLen() as int;

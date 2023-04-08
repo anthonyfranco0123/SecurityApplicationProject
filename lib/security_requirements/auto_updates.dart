@@ -24,7 +24,7 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
 
   @override
   void initState() {
-    initialSystemState = AutoUpdates.getAutoUpdatesKey();
+    initialSystemState = AutoUpdates().getAutoUpdatesKey();
     super.initState();
   }
 
@@ -122,11 +122,11 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
   }
 
   void _periodicallyUpdateAutoUpdatesStatus() {
-    currentSystemState = AutoUpdates.getAutoUpdatesKey();
+    currentSystemState = AutoUpdates().getAutoUpdatesKey();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {
-          AutoUpdates.getAutoUpdatesKey();
+          AutoUpdates().getAutoUpdatesKey();
         }
       });
     });

@@ -4,12 +4,19 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_security_application/requirement_variables.dart';
+import 'package:flutter_security_application/security_requirements/auto_updates/auto_updates_state.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_system_info.dart';
 import 'package:flutter_security_application/security_requirements/download_restrictions/download_restrictions_file_info_getter.dart';
 import 'package:flutter_security_application/security_requirements/event_logs/event_logs_access.dart';
 import 'package:flutter_security_application/security_requirements/event_logs/event_logs_initial_state.dart';
 import 'package:flutter_security_application/security_requirements/initialization_policies/initialization_policies_state.dart';
+import 'package:flutter_security_application/security_requirements/password/password_reset_initial_states.dart';
+import 'package:flutter_security_application/security_requirements/password/password_restrictions_initial_states.dart';
+import 'package:flutter_security_application/security_requirements/password/registry_access.dart';
 import 'package:flutter_security_application/security_requirements/password_reset.dart';
+import 'package:flutter_security_application/security_requirements/requirement_variables_logic.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/system_privileges_initial_state.dart';
+import 'package:flutter_security_application/security_requirements/system_privileges/system_privileges_state.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_security_application/navbar/easy_sidemenu.dart';
 import 'package:flutter_security_application/security_requirements/firewall/firewall_access.dart';
@@ -71,7 +78,18 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // if (_sideMenu.currentPage != 6) {
       // _periodicallyUpdateDownloadRestrictions();
     // }
-    InitializationPoliciesState().futureIntToInt();
+    InitializationPoliciesState().setBootStartState();
+    RequirementVariables.initializationPolicies = InitializationPoliciesState.bootStart;
+    AutoUpdatesState().setInitialAutoUpdatesState();
+    RequirementVariables.autoUpdates = AutoUpdatesState.privateSUpdates;
+    SystemPrivilegesInitialState.initialSystemPrivilegesState = SystemPrivilegesState().getSystemPrivilegeKey();
+    PasswordResetInitialStates.initialMaxAge = RegistryAccess.getPwAge();
+    PasswordResetInitialStates.initialPwHist = RegistryAccess.getPwHist();
+    PasswordRestrictionsInitialStates.initialMinPwLen = RegistryAccess.getMinPwLen();
+    PasswordRestrictionsInitialStates.initialMaxPwLen = RegistryAccess.getMaxPwLen();
+    PasswordRestrictionsInitialStates.initialUpper = RegistryAccess.getUpperCaseSetting();
+    PasswordRestrictionsInitialStates.initialLower = RegistryAccess.getLowerCaseSetting();
+    PasswordRestrictionsInitialStates.initialSpecial = RegistryAccess.getSpecialCharSetting();
     eventLogsStringOutput();
     setSound();
     notificationCreation();
@@ -82,15 +100,16 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       DownloadRestrictionsFileInfoGetter().createDirectory();
       DownloadRestrictionsSystemInfo.exists = true;
     }
-    RawKeyboardListener(
-      focusNode: FocusNode(),
-      onKey: (event) {
-        if (event.logicalKey.keyLabel == 'Arrow Down') {
-          playSound();
-        }
-      },
-      child: const Text(''),
-    );
+    // RawKeyboardListener(
+    //   focusNode: FocusNode(),
+    //   onKey: (event) {
+    //     if (event.logicalKey.keyLabel == 'Arrow Down') {
+    //       playSound();
+    //     }
+    //   },
+    //   child: const Text(''),
+    // );
+    setInitialVariablesForComplianceCheck();
     super.initState();
   }
 
@@ -103,12 +122,13 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
 
   eventLogsState() {
     if (stringCurrentState.contains("STOPPED")) {
-      EventLogsInitialState.initialEventLogsState = 0;
+      EventLogsInitialState.initialEventLogsState = false;
     } else if (stringCurrentState.contains("RUNNING")) {
-      EventLogsInitialState.initialEventLogsState = 1;
-    } else {
-      EventLogsInitialState.initialEventLogsState = -1;
+      EventLogsInitialState.initialEventLogsState = true;
     }
+    // else {
+    //   EventLogsInitialState.initialEventLogsState = false;
+    // }
   }
 
   Future<void> setUpNotifier() async {
@@ -171,7 +191,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   }
 
   void _periodicallyUpdateDatabase() {
-    RequirementVariables.timeStamp = DateTime.now().toString();
+    // RequirementVariables.timeStamp = DateTime.now().toString();
     Timer.periodic(const Duration(seconds: 10), (timer) {
       print('***');
       print(RequirementVariables.timeStamp);
@@ -200,8 +220,100 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       notification.show();
       setState(() {
         // RequirementsDataSender().sendRequirementData();
+        // RequirementsDataSender().sendRequirementComplianceData(RequirementVariables.deviceName, RequirementVariables.macAddress, DateTime.now().toString(), passwordReset(), passwordRestrictions(), eventLogs(), initializationPolicies(), autoUpdates(), systemPrivileges(), installationRestrictions(), firewallState());
       });
     });
+  }
+
+  setInitialVariablesForComplianceCheck() {
+    RequirementVariablesLogic().setInitialPasswordReset();
+    RequirementVariablesLogic().setInitialPasswordRestrictions();
+    RequirementVariablesLogic().setInitialEventLogs();
+    RequirementVariablesLogic().setInitialInitializationPolicies();
+    RequirementVariablesLogic().setInitialAutoUpdates();
+    RequirementVariablesLogic().setInitialSystemPrivileges();
+    RequirementVariablesLogic().setInitialInstallationRestrictions();
+    RequirementVariablesLogic().setInitialFirewallState();
+  }
+
+  passwordReset() {
+    if((RequirementVariables.initialPasswordReset == 1) && (RequirementVariables.currentPasswordReset == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialPasswordReset == 3) && (RequirementVariables.currentPasswordReset == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  passwordRestrictions() {
+    if((RequirementVariables.initialPasswordRestrictions == 1) && (RequirementVariables.currentPasswordRestrictions == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialPasswordRestrictions == 3) && (RequirementVariables.currentPasswordRestrictions == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  eventLogs() {
+    if((RequirementVariables.initialEventLogs == 1) && (RequirementVariables.currentEventLogs == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialEventLogs == 3) && (RequirementVariables.currentEventLogs == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  initializationPolicies() {
+    if((RequirementVariables.initialInitializationPolicies == 1) && (RequirementVariables.currentInitializationPolicies == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialInitializationPolicies == 3) && (RequirementVariables.currentInitializationPolicies == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  autoUpdates() {
+    if((RequirementVariables.initialAutoUpdates == 1) && (RequirementVariables.currentAutoUpdates == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialAutoUpdates == 3) && (RequirementVariables.currentAutoUpdates == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  systemPrivileges() {
+    if((RequirementVariables.initialSystemPrivileges == 1) && (RequirementVariables.currentSystemPrivileges == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialSystemPrivileges == 3) && (RequirementVariables.currentSystemPrivileges == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  installationRestrictions() {
+    if((RequirementVariables.initialInstallationRestrictions == 1) && (RequirementVariables.currentInstallationRestrictions == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialInstallationRestrictions == 3) && (RequirementVariables.currentInstallationRestrictions == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  firewallState() {
+    if((RequirementVariables.initialFirewallState == 1) && (RequirementVariables.currentFirewallState == 1)) {
+      return 1;
+    } else if((RequirementVariables.initialFirewallState == 3) && (RequirementVariables.currentFirewallState == 1)) {
+      return 2;
+    } else {
+      return 3;
+    }
   }
 
   // void _periodicallyUpdateDownloadRestrictions() {
