@@ -2,7 +2,7 @@ import 'package:win32_registry/win32_registry.dart';
 import 'package:process_run/shell.dart' as PRS;
 
 class AutoUpdates {
-  static int getAutoUpdatesKey()  {
+ /* static int getAutoUpdatesKey()  {
     int? privateSUpdates;
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
@@ -36,6 +36,29 @@ class AutoUpdates {
       return -1;
     }
   }
+
+  */
+
+  static int getAutoUpdatesKey() {
+    try {
+      final key1 = Registry.openPath(RegistryHive.localMachine,
+          path: r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU');
+      final privateUpdates = key1.getValueAsInt("NoAutoUpdate");
+      //final minLen = key1.getValueAsInt("MinimumPINLength");
+      if (privateUpdates != null) {
+        //print(bootStart);
+        return privateUpdates;
+      }
+      setautoPrivKey();
+      return 2;
+    } catch (e) {
+      //final key2 = Registry.openPath(RegistryHive.localMachine,
+      // path: r'SYSTEM\CurrentControlSet\Policies\');
+      setautoPrivKey();
+      return 3;
+    }
+  }
+
 
   static void setautoPrivKey() async {
     var shell = PRS.Shell();
