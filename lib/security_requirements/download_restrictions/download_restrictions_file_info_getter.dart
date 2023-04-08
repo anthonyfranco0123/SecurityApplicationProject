@@ -74,7 +74,7 @@ class DownloadRestrictionsFileInfoGetter {
 
   createDirectory() {
     _shell.run('''
-    cd '${DownloadRestrictionsSystemInfo.userPath}' '\\Desktop\\' && mkdir Potential_Threats
+    cd "${DownloadRestrictionsSystemInfo.userPath}\\Desktop\\" && mkdir Potential_Threats
     ''');
   }
 
