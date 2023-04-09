@@ -65,9 +65,9 @@ class RequirementVariablesLogic {
 
   setInitialInstallationRestrictions() {
     if (DownloadRestrictionsSystemInfo.initialFilesList.isEmpty) {
-      RequirementVariables.initialSystemPrivileges = 1;
+      RequirementVariables.initialInstallationRestrictions = 1;
     } else {
-      RequirementVariables.initialSystemPrivileges = 3;
+      RequirementVariables.initialInstallationRestrictions = 3;
     }
   }
 
@@ -126,7 +126,7 @@ class RequirementVariablesLogic {
   }
 
   setCurrentSystemPrivileges() {
-    if (RequirementVariables.systemPrivileges == 0) {
+    if (RequirementVariables.systemPrivileges == 1) {
       RequirementVariables.currentSystemPrivileges = 1;
     } else {
       RequirementVariables.currentSystemPrivileges = 3;
@@ -135,9 +135,9 @@ class RequirementVariablesLogic {
 
   setCurrentInstallationRestrictions() {
     if (DownloadRestrictionsSystemInfo.filesList.isEmpty) {
-      RequirementVariables.currentSystemPrivileges = 1;
+      RequirementVariables.currentInstallationRestrictions = 1;
     } else {
-      RequirementVariables.currentSystemPrivileges = 3;
+      RequirementVariables.currentInstallationRestrictions = 3;
     }
   }
 

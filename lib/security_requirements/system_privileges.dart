@@ -116,7 +116,6 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     } else {
       c = Colors.white;
     }
-    RequirementVariables.systemPrivileges = currentSystemState;
     return Text(
       _currentSystemStateText(),
       style: TextStyle(
@@ -128,7 +127,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
   }
 
   void _periodicallyUpdateCurrentSystemStatus() {
-    currentSystemState = SystemPrivilegesState().getSystemPrivilegeKey();
+    currentSystemState = RequirementVariables.systemPrivileges = SystemPrivilegesState().getSystemPrivilegeKey();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 1) {

@@ -280,6 +280,10 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   }
 
   eventLogs() {
+    print(';');
+    print(RequirementVariables.initialEventLogs);
+    print(RequirementVariables.currentEventLogs);
+    print(';');
     if((RequirementVariables.initialEventLogs == 1) && (RequirementVariables.currentEventLogs == 1)) {
       return 1;
     } else if((RequirementVariables.initialEventLogs == 3) && (RequirementVariables.currentEventLogs == 1)) {
