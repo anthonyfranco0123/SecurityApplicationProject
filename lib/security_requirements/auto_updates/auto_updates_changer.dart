@@ -13,9 +13,7 @@ class AutoUpdates {
       return 2;
     }
     if (privateSUpdates != null) {
-      //print(bootStart);
       if (privateSUpdates == 1) {
-        //print('Auto Updates : off');
         setautoPrivKey();
         //return privateSUpdates;
         //return 0;
@@ -27,7 +25,6 @@ class AutoUpdates {
         return 0;
       }
       else {
-        //print('Auto Updates registry value does not exist');
         privateSUpdates == 3;
         return 3;
       }
@@ -46,7 +43,6 @@ class AutoUpdates {
       final privateUpdates = key1.getValueAsInt("NoAutoUpdate");
       //final minLen = key1.getValueAsInt("MinimumPINLength");
       if (privateUpdates != null) {
-        //print(bootStart);
         return privateUpdates;
       }
       setAutoPrivKey();

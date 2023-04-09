@@ -39,7 +39,6 @@ class RegistryAccess {
 
       final lowerCaseSetting = key1.getValueAsInt("LowerCaseLetters");
       if (lowerCaseSetting != null) {
-        //print(bootStart);
         return lowerCaseSetting;
       }
       setLowerCaseSetting();
@@ -70,7 +69,6 @@ class RegistryAccess {
 
       final upperCaseSetting = key1.getValueAsInt("UpperCaseLetters");
       if (upperCaseSetting != null) {
-        //print(bootStart);
         return upperCaseSetting;
       }
 
@@ -100,7 +98,6 @@ class RegistryAccess {
 
       final specialCharSetting = key1.getValueAsInt("SpecialCharacters");
       if (specialCharSetting != null) {
-        //print(bootStart);
         return specialCharSetting;
       }
       setSpecialCharSetting();
@@ -130,7 +127,6 @@ class RegistryAccess {
 
       final minLen = key1.getValueAsInt("MinimumPINLength");
       if (minLen != null) {
-        //print(bootStart);
         return minLen;
       }
       setMinPwLen(8);
@@ -161,7 +157,6 @@ class RegistryAccess {
 
       final maxLen = key1.getValueAsInt("MaximumPINLength");
       if (maxLen != null) {
-        //print(bootStart);
         return maxLen;
       }
       setMaxPwLen(32);
@@ -192,7 +187,6 @@ class RegistryAccess {
 
       final pwAge = key1.getValueAsInt("Expiration");
       if (pwAge != null) {
-        //print(bootStart);
         return pwAge;
       }
 
@@ -221,7 +215,6 @@ class RegistryAccess {
 
       final pwHist = key1.getValueAsInt("History");
       if (pwHist  != null) {
-        //print(bootStart);
         return pwHist ;
       }
 

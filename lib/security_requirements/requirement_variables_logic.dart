@@ -56,7 +56,7 @@ class RequirementVariablesLogic {
   }
 
   setInitialSystemPrivileges() {
-    if (SystemPrivilegesInitialState.initialSystemPrivilegesState == 0) {
+    if (SystemPrivilegesInitialState.initialSystemPrivilegesState == 1) {
       RequirementVariables.initialSystemPrivileges = 1;
     } else {
       RequirementVariables.initialSystemPrivileges = 3;
@@ -64,7 +64,7 @@ class RequirementVariablesLogic {
   }
 
   setInitialInstallationRestrictions() {
-    if(DownloadRestrictionsSystemInfo.initialFilesList.isEmpty) {
+    if (DownloadRestrictionsSystemInfo.initialFilesList.isEmpty) {
       RequirementVariables.initialSystemPrivileges = 1;
     } else {
       RequirementVariables.initialSystemPrivileges = 3;
@@ -72,7 +72,7 @@ class RequirementVariablesLogic {
   }
 
   setInitialFirewallState() {
-    if(FirewallInitialState.initialFirewallStates == 9) {
+    if (FirewallInitialState.initialFirewallStates == 9) {
       RequirementVariables.initialFirewallState = 1;
     } else {
       RequirementVariables.initialFirewallState = 3;
@@ -83,9 +83,9 @@ class RequirementVariablesLogic {
   setCurrentPasswordReset() {
     if ((PasswordResetInitialStates.initialMaxAge == 90) &&
         (PasswordResetInitialStates.initialPwHist == 10)) {
-      RequirementVariables.initialPasswordReset = 1;
+      RequirementVariables.currentPasswordReset = 1;
     } else {
-      RequirementVariables.initialPasswordReset = 3;
+      RequirementVariables.currentPasswordReset = 3;
     }
   }
 
@@ -95,41 +95,57 @@ class RequirementVariablesLogic {
         (PasswordRestrictionsInitialStates.initialUpper == 1) &&
         (PasswordRestrictionsInitialStates.initialLower == 1) &&
         (PasswordRestrictionsInitialStates.initialSpecial == 1)) {
-      RequirementVariables.initialPasswordRestrictions = 1;
+      RequirementVariables.currentPasswordRestrictions = 1;
     } else {
-      RequirementVariables.initialPasswordRestrictions = 3;
+      RequirementVariables.currentPasswordRestrictions = 3;
     }
   }
 
   setCurrentEventLogs() {
-    if (EventLogsInitialState.initialEventLogsState) {
-      RequirementVariables.initialEventLogs = 1;
+    if (RequirementVariables.eventLogs) {
+      RequirementVariables.currentEventLogs = 1;
     } else {
-      RequirementVariables.initialEventLogs = 3;
+      RequirementVariables.currentEventLogs = 3;
     }
   }
 
   setCurrentInitializationPolicies() {
-    if (InitializationPoliciesState.bootStart == 8) {
-      RequirementVariables.initialInitializationPolicies = 1;
+    if (RequirementVariables.initializationPolicies == 8) {
+      RequirementVariables.currentInitializationPolicies = 1;
     } else {
-      RequirementVariables.initialInitializationPolicies = 3;
+      RequirementVariables.currentInitializationPolicies = 3;
     }
   }
 
   setCurrentAutoUpdates() {
-    if (AutoUpdatesState.privateSUpdates == 0) {
-      RequirementVariables.initialAutoUpdates = 1;
+    if (RequirementVariables.autoUpdates == 0) {
+      RequirementVariables.currentAutoUpdates = 1;
     } else {
-      RequirementVariables.initialAutoUpdates = 3;
+      RequirementVariables.currentAutoUpdates = 3;
     }
   }
 
   setCurrentSystemPrivileges() {
-    if (SystemPrivilegesInitialState.initialSystemPrivilegesState == 0) {
-      RequirementVariables.initialSystemPrivileges = 1;
+    if (RequirementVariables.systemPrivileges == 0) {
+      RequirementVariables.currentSystemPrivileges = 1;
     } else {
-      RequirementVariables.initialSystemPrivileges = 3;
+      RequirementVariables.currentSystemPrivileges = 3;
+    }
+  }
+
+  setCurrentInstallationRestrictions() {
+    if (DownloadRestrictionsSystemInfo.filesList.isEmpty) {
+      RequirementVariables.currentSystemPrivileges = 1;
+    } else {
+      RequirementVariables.currentSystemPrivileges = 3;
+    }
+  }
+
+  setCurrentFirewallState() {
+    if (RequirementVariables.firewallStates == 9) {
+      RequirementVariables.currentFirewallState = 1;
+    } else {
+      RequirementVariables.currentFirewallState = 3;
     }
   }
 }

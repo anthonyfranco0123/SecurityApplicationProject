@@ -49,8 +49,6 @@ class DownloadRestrictionsFileInfoGetter {
         // Error cuz its not a file and probably a folder or zip
       }
     }
-    // print('Before');
-    // print(DownloadRestrictionsSystemInfo.filesSizeList);
     return DownloadRestrictionsSystemInfo.filesList;
   }
 

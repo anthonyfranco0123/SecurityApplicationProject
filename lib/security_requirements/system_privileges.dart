@@ -117,7 +117,6 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
       c = Colors.white;
     }
     RequirementVariables.systemPrivileges = currentSystemState;
-    print(currentSystemState);
     return Text(
       _currentSystemStateText(),
       style: TextStyle(

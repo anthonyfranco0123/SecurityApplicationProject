@@ -19,15 +19,12 @@ class EventLogsAccess {
   // int eventLogsState() {
   //   _futureStringToString(_runShellCommand());
   //   if(state) {
-  //     print('s t');
   //   }
   //   if (output.contains("STOPPED")) {
   //     return 0;
   //   } else if (output.contains("RUNNING")) {
   //     return 1;
   //   } else {
-  //     print('f');
-  //     print(output.toString());
   //     return -1;
   //   }
   // }

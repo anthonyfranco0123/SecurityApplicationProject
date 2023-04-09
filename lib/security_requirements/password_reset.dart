@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../admin/admin_state.dart';
 import '../requirement_variables.dart';
 import 'password/registry_access.dart';
-import 'package:flutter_security_application/security_requirements/password/password_policies.dart';
 
 class RequirementOneWidget extends StatefulWidget {
   const RequirementOneWidget({
@@ -35,8 +34,6 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
     //initialPwHist = PasswordPolicies.pwHist;
     initialMaxAge = currentMaxAge = RegistryAccess.getPwAge();
     initialPwHist = currentPwHist = RegistryAccess.getPwHist();
-    //print(initialMaxAge);
-    //print(initialPwHist);
     //initialPwHist = currentPwHist = PasswordPolicies.pwHist;
     super.initState();
 

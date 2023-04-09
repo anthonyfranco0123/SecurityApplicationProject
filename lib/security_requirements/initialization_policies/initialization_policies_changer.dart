@@ -9,18 +9,13 @@ class InitializationPoliciesChanger {
 
       final bootStart = key1.getValueAsInt("DriverLoadPolicy");
       if (bootStart != null) {
-        //print(bootStart);
         return bootStart;
       }
-      var shell = PRS.Shell();
-      int a = 8;
       setBootStartDriverPolicy();
       return 0;
     } catch (e){
       //final key2 = Registry.openPath(RegistryHive.localMachine,
       // path: r'SYSTEM\CurrentControlSet\Policies\');
-      var shell = PRS.Shell();
-      int a = 8;
       setBootStartDriverPolicy();
       return -1;
     }

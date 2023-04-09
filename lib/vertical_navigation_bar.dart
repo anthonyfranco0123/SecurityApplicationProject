@@ -146,7 +146,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       body: "hello flutter!",
     );
     notification.onShow = () {
-      // print('onShow ${notification.identifier}');
     };
   }
 
@@ -162,7 +161,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
           break;
         default:
       }
-      // print('onClose ${_exampleNotification?.identifier} - $closeReason');
     };
     notification.onClick = () {
       print('onClick ${notification.identifier}');
@@ -193,24 +191,25 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   void _periodicallyUpdateDatabase() {
     // RequirementVariables.timeStamp = DateTime.now().toString();
     Timer.periodic(const Duration(seconds: 10), (timer) {
-      print('***');
-      print(RequirementVariables.timeStamp);
-      print(RequirementVariables.deviceName);
-      print(RequirementVariables.macAddress);
-      print(RequirementVariables.maxPasswordAge);
-      print(RequirementVariables.passwordHistory);
-      print(RequirementVariables.minPasswordLength);
-      print(RequirementVariables.maxPasswordLength);
-      print(RequirementVariables.uppercaseChars);
-      print(RequirementVariables.lowercaseChars);
-      print(RequirementVariables.specialChars);
-      print(RequirementVariables.eventLogs);
-      print(RequirementVariables.initializationPolicies);
-      print(RequirementVariables.autoUpdates);
-      print(RequirementVariables.systemPrivileges);
-      print(RequirementVariables.downloadRestrictions);
-      print(RequirementVariables.firewallStates);
-      print('----');
+      setCurrentVariablesForComplianceCheck();
+      // print('***');
+      // print(RequirementVariables.timeStamp);
+      // print(RequirementVariables.deviceName);
+      // print(RequirementVariables.macAddress);
+      // print(RequirementVariables.maxPasswordAge);
+      // print(RequirementVariables.passwordHistory);
+      // print(RequirementVariables.minPasswordLength);
+      // print(RequirementVariables.maxPasswordLength);
+      // print(RequirementVariables.uppercaseChars);
+      // print(RequirementVariables.lowercaseChars);
+      // print(RequirementVariables.specialChars);
+      // print(RequirementVariables.eventLogs);
+      // print(RequirementVariables.initializationPolicies);
+      // print(RequirementVariables.autoUpdates);
+      // print(RequirementVariables.systemPrivileges);
+      // print(RequirementVariables.downloadRestrictions);
+      // print(RequirementVariables.firewallStates);
+      // print('----');
       var rng = Random();
       int num = rng.nextInt(10);
       if(num%2 == 0) {
@@ -218,6 +217,19 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       }
       onCloseReason();
       notification.show();
+      print('+++');
+      print(RequirementVariables.deviceName);
+      print(RequirementVariables.macAddress);
+      print(DateTime.now().toString());
+      print(passwordReset());
+      print(passwordRestrictions());
+      print(eventLogs());
+      print(initializationPolicies());
+      print(autoUpdates());
+      print(systemPrivileges());
+      print(installationRestrictions());
+      print(firewallState());
+      print('///');
       setState(() {
         // RequirementsDataSender().sendRequirementData();
         // RequirementsDataSender().sendRequirementComplianceData(RequirementVariables.deviceName, RequirementVariables.macAddress, DateTime.now().toString(), passwordReset(), passwordRestrictions(), eventLogs(), initializationPolicies(), autoUpdates(), systemPrivileges(), installationRestrictions(), firewallState());
@@ -234,6 +246,17 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     RequirementVariablesLogic().setInitialSystemPrivileges();
     RequirementVariablesLogic().setInitialInstallationRestrictions();
     RequirementVariablesLogic().setInitialFirewallState();
+  }
+
+  setCurrentVariablesForComplianceCheck() {
+    RequirementVariablesLogic().setCurrentPasswordReset();
+    RequirementVariablesLogic().setCurrentPasswordRestrictions();
+    RequirementVariablesLogic().setCurrentEventLogs();
+    RequirementVariablesLogic().setCurrentInitializationPolicies();
+    RequirementVariablesLogic().setCurrentAutoUpdates();
+    RequirementVariablesLogic().setCurrentSystemPrivileges();
+    RequirementVariablesLogic().setCurrentInstallationRestrictions();
+    RequirementVariablesLogic().setCurrentFirewallState();
   }
 
   passwordReset() {
