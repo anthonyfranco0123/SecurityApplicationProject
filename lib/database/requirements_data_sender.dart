@@ -44,18 +44,19 @@ class RequirementsDataSender {
       var conn = await db.getConnection();
       await conn.query(
         //Talk to back-end for below
-        'insert into user_compliances (device_name, mac_address, timestamp, password_restriction, password_expiration, event_logs, auto_updates, system_privilege, installation_restrictions, firewall) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'insert into user_compliances (device_name, mac_address, timestamp, password_expiration, password_restriction, event_logs, auto_updates, system_privilege, installation_restrictions, firewall) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
-          deviceName,
-          macAddress,
-          timeStamp,
-          passwordReset,
-          passwordRestrictions,
-          eventLogs,
-          autoUpdates,
-          systemPrivileges,
-          installationRestrictions,
-          firewallState,
+          deviceName, //String
+          macAddress, //String
+          timeStamp, //String
+          passwordReset, //int
+          passwordRestrictions, //int
+          eventLogs, //int
+          // initializationPolicies, //int
+          autoUpdates, //int
+          systemPrivileges, //int
+          installationRestrictions, //int
+          firewallState, //int
         ],
       );
       conn.close();

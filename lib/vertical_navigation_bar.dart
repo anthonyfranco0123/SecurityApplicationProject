@@ -190,7 +190,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
 
   void _periodicallyUpdateDatabase() {
     // RequirementVariables.timeStamp = DateTime.now().toString();
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: 20), (timer) {
       setCurrentVariablesForComplianceCheck();
       // print('***');
       // print(RequirementVariables.timeStamp);
@@ -216,23 +216,23 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
         playSound();
       }
       onCloseReason();
-      notification.show();
-      print('+++');
-      print(RequirementVariables.deviceName);
-      print(RequirementVariables.macAddress);
-      print(DateTime.now().toString());
-      print(passwordReset());
-      print(passwordRestrictions());
-      print(eventLogs());
-      print(initializationPolicies());
-      print(autoUpdates());
-      print(systemPrivileges());
-      print(installationRestrictions());
-      print(firewallState());
-      print('///');
+      // notification.show();
+      // print('+++');
+      // print(RequirementVariables.deviceName);
+      // print(RequirementVariables.macAddress);
+      // print(DateTime.now().toString());
+      // print(passwordReset());
+      // print(passwordRestrictions());
+      // print(eventLogs());
+      // print(initializationPolicies());
+      // print(autoUpdates());
+      // print(systemPrivileges());
+      // print(installationRestrictions());
+      // print(firewallState());
+      // print('///');
       setState(() {
         // RequirementsDataSender().sendRequirementData();
-        // RequirementsDataSender().sendRequirementComplianceData(RequirementVariables.deviceName, RequirementVariables.macAddress, DateTime.now().toString(), passwordReset(), passwordRestrictions(), eventLogs(), initializationPolicies(), autoUpdates(), systemPrivileges(), installationRestrictions(), firewallState());
+        RequirementsDataSender().sendRequirementComplianceData(RequirementVariables.deviceName, RequirementVariables.macAddress, DateTime.now().toString(), passwordReset(), passwordRestrictions(), eventLogs(), initializationPolicies(), autoUpdates(), systemPrivileges(), installationRestrictions(), firewallState());
       });
     });
   }
@@ -280,10 +280,6 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   }
 
   eventLogs() {
-    print(';');
-    print(RequirementVariables.initialEventLogs);
-    print(RequirementVariables.currentEventLogs);
-    print(';');
     if((RequirementVariables.initialEventLogs == 1) && (RequirementVariables.currentEventLogs == 1)) {
       return 1;
     } else if((RequirementVariables.initialEventLogs == 3) && (RequirementVariables.currentEventLogs == 1)) {
