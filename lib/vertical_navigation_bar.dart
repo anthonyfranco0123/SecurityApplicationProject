@@ -100,7 +100,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       DownloadRestrictionsFileInfoGetter().createDirectory();
       DownloadRestrictionsSystemInfo.exists = true;
     }
-    //Comment
+    // Comment
     // RawKeyboardListener(
     //   focusNode: FocusNode(),
     //   onKey: (event) {
@@ -180,12 +180,17 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   }
 
   Future<void> initInfo() async {
-    await WindowsSystemInfo.initWindowsInfo();
-    if (await WindowsSystemInfo.isInitilized) {
-      setState(() {
-        RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
-        RequirementVariables.macAddress = WindowsSystemInfo.network[1].mac;
-      });
+    try {
+      await WindowsSystemInfo.initWindowsInfo();
+      if (await WindowsSystemInfo.isInitilized) {
+        setState(() {
+          RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
+          RequirementVariables.macAddress = WindowsSystemInfo.network[1].mac;
+        });
+      }
+    } catch(e) {
+      print('Error in main file');
+      print(e);
     }
   }
 
