@@ -4,6 +4,6 @@ class AutoUpdatesState {
   static int privateSUpdates = -1;
 
  setInitialAutoUpdatesState() {
-   privateSUpdates = AutoUpdates().getAutoUpdatesKey();
+   //privateSUpdates = AutoUpdates.getAutoUpdatesKey();
   }
 }

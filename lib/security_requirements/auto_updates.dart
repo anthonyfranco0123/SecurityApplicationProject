@@ -24,7 +24,7 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
 
   @override
   void initState() {
-    initialSystemState = AutoUpdates().getAutoUpdatesKey();
+    currentSystemState = initialSystemState = AutoUpdates.getAutoUpdatesKey();
     super.initState();
   }
 
@@ -38,17 +38,17 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
     String autoUpdatesStateText = '';
     switch (initialSystemState) {
       case 0:
-        autoUpdatesStateText = 'Auto Update Policy is Good';
+        autoUpdatesStateText = 'Initial Status: Auto Update Policy is Good';
         break;
       case 1:
-        autoUpdatesStateText = 'Auto Update Policy is Not Configured';
+        autoUpdatesStateText = 'Initial Status: Auto Update Policy is Not Configured';
         break;
       case 2:
         autoUpdatesStateText =
-        'Auto Update Policy is Not Configured because of Path';
+        'Initial Status: Auto Update Policy is Not Configured because of Path';
         break;
       case 3:
-        autoUpdatesStateText = 'Path exists, wrong type';
+        autoUpdatesStateText = 'Initial Status: Path exists, wrong type';
         break;
       default:
         autoUpdatesStateText =
@@ -61,17 +61,17 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
     String autoUpdatesStateText = '';
     switch (currentSystemState) {
       case 0:
-        autoUpdatesStateText = 'Auto Update Policy is Good';
+        autoUpdatesStateText = 'Current Status: Auto Update Policy is Good';
         break;
       case 1:
-        autoUpdatesStateText = 'Auto Update Policy is Not Configured';
+        autoUpdatesStateText = 'Current Status: Auto Update Policy is Not Configured';
         break;
       case 2:
         autoUpdatesStateText =
-        'Auto Update Policy is Not Configured because of Path';
+        'Current Status: Auto Update Policy is Not Configured because of Path';
         break;
       case 3:
-        autoUpdatesStateText = 'Path exists, wrong type';
+        autoUpdatesStateText = 'Current Status: Path exists, wrong type';
         break;
       default:
         autoUpdatesStateText =
@@ -89,10 +89,10 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
 
     } else {
       c = Colors.white;
-      currentSystemState = initialSystemState;
+      //currentSystemState = initialSystemState;
       textToDisplayForInitialAutoUpdatesState = _initialAutoUpdatesStateText();
     }
-    RequirementVariables.systemPrivileges = currentSystemState;
+
     return Text(
       textToDisplayForInitialAutoUpdatesState,
       style: TextStyle(
@@ -122,14 +122,16 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
   }
 
   void _periodicallyUpdateAutoUpdatesStatus() {
-    currentSystemState = AutoUpdates().getAutoUpdatesKey();
+    //currentSystemState = AutoUpdates.getAutoUpdatesKey();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
-        if (currentSystemState != 1) {
-          AutoUpdates().getAutoUpdatesKey();
+        if (currentSystemState != 0) {
+          currentSystemState = 0;
+          AutoUpdates.setAutoPrivKey();
         }
       });
     });
+    RequirementVariables.autoUpdates = currentSystemState;
   }
 
   @override
