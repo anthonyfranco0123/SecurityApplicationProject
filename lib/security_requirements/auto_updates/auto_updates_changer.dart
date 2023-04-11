@@ -36,7 +36,7 @@ class AutoUpdates {
 
   */
 
-  int getAutoUpdatesKey() {
+  static int getAutoUpdatesKey() {
     try {
       final key1 = Registry.openPath(RegistryHive.localMachine,
           path: r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU');
@@ -56,7 +56,7 @@ class AutoUpdates {
   }
 
 
-  void setAutoPrivKey() async {
+  static void setAutoPrivKey() async {
     var shell = PRS.Shell();
     await shell.run('''
           reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate /t REG_DWORD /d 0 /f
