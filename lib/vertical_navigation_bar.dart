@@ -80,8 +80,8 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // }
     InitializationPoliciesState().setBootStartState();
     RequirementVariables.initializationPolicies = InitializationPoliciesState.bootStart;
-    AutoUpdatesState().setInitialAutoUpdatesState();
-    RequirementVariables.autoUpdates = AutoUpdatesState.privateSUpdates;
+    //AutoUpdatesState().setInitialAutoUpdatesState();
+    //RequirementVariables.autoUpdates = AutoUpdatesState.privateSUpdates;
     SystemPrivilegesInitialState.initialSystemPrivilegesState = SystemPrivilegesState().getSystemPrivilegeKey();
     PasswordResetInitialStates.initialMaxAge = RegistryAccess.getPwAge();
     PasswordResetInitialStates.initialPwHist = RegistryAccess.getPwHist();
