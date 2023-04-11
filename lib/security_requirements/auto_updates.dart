@@ -126,7 +126,7 @@ class RequirementSixWidgetState extends State<RequirementSixWidget> with Automat
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentSystemState != 0) {
-          AutoUpdates().getAutoUpdatesKey();
+          AutoUpdates().setAutoPrivKey();
         }
       });
     });
