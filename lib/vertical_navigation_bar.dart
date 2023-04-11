@@ -100,6 +100,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       DownloadRestrictionsFileInfoGetter().createDirectory();
       DownloadRestrictionsSystemInfo.exists = true;
     }
+    //Comment
     // RawKeyboardListener(
     //   focusNode: FocusNode(),
     //   onKey: (event) {
