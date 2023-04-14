@@ -1,22 +1,15 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:process_run/shell.dart';
-
 import 'download_restrictions_system_info.dart';
-// import 'package:path/path.dart' as p;
 
 class DownloadRestrictionsFileInfoGetter {
-  // String pattern = r"\.(txt|jar|pdf)$";
   RegExp regExp = RegExp(r"\.(txt|jar|pdf)$");
-  // String filesPath = '';
-  // int filesPathLength = -1;
   final _shell = Shell();
 
   Future<List<String>> getAllFilesWithExtension(
       String? pathToDownloads, String platformOperatingSystem) async {
     DownloadRestrictionsSystemInfo.filesList = [];
-    // DownloadRestrictionsSystemInfo.filesSizeList = [];
     final List<FileSystemEntity> filesFromDownloads =
         await Directory('$pathToDownloads').list().toList();
     for (int i = 0; i < filesFromDownloads.length; i++) {

@@ -12,6 +12,17 @@ class EventLogsAccess {
 
   Future<String> futureStringToString() async {
     final shell = Shell();
+    try {
+      // await shell.start('reg.exe delete HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\MiniNT /f');
+      // await shell.start('Remove-Item Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\MiniNT -Recurse  -Force');
+      // await shell.start('Remove-Item -Path HKLM:\SYSTEM\CurrentControlSet\Control\MiniNT -Force -Verbose');
+      //TO DO
+      await shell.start('Get-Item HKLM:\SYSTEM\CurrentControlSet\Control\MiniNT | Remove-Item -Force -Verbose');
+      print('Success');
+    } catch(e) {
+      print('Error: E-Log');
+      print(e);
+    }
     return output = await shell
         .startAndReadAsString('sc', arguments: ['query', "eventlog"]);
   }
