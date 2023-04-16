@@ -18,21 +18,21 @@ class RequirementThreeWidget extends StatefulWidget {
 }
 
 class RequirementThreeWidgetState extends State<RequirementThreeWidget> with AutomaticKeepAliveClientMixin {
-  bool initialEventLogsState = false;
-  String stringCurrentState = '';
-  bool currentEventLogsState = false;
+  int initialEventLogsState = -1;
+  // stringCurrentState = '';
+  int currentEventLogsState = -1;
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    initialEventLogsState = EventLogsInitialState.initialEventLogsState;
-    eventLogsStringOutput();
+    currentEventLogsState = initialEventLogsState = EventLogsAccess.getSecurityLog();
+    //eventLogsStringOutput();
     super.initState();
   }
 
-  eventLogsStringOutput() async {
+  /*eventLogsStringOutput() async {
     EventLogsAccess().futureStringToString().then((value){ setState(() {
       stringCurrentState=value;
       eventLogsState();
@@ -49,24 +49,50 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
     //   currentEventLogsState = -1;
     // }
   }
-
+*/
   @override
   void dispose() {
     timer.cancel();
     super.dispose();
   }
 
+  String _initialEventLog(){
+    String eventLogText = '';
+    if(initialEventLogsState == 0){
+      eventLogText = 'Initial Status: Security Log disabled';
+    }
+
+    else {
+      eventLogText = 'Initial Status: Security Log not disabled';
+    }
+
+    return eventLogText;
+  }
+
+  String _currentEventLog(){
+    String eventLogText = '';
+    if(currentEventLogsState == 0){
+      eventLogText = 'Current Status: Security Log disabled';
+    }
+
+    else {
+      eventLogText = 'Current Status: Security Log not disabled';
+    }
+
+    return eventLogText;
+  }
+
   Text _textToDisplayForInitialEventLogsState() {
     Color c = Colors.yellow;
     String text = '';
     // _periodicallyUpdateCurrentEventLogsStatus();
-    if (!initialEventLogsState) {
+    if (initialEventLogsState!=0) {
       c = Colors.red;
-      text = 'Initial Status: Event Log Is Stopped';
+      text = _initialEventLog();
       // RequirementVariables.eventLogs = false;
     } else {
       c = Colors.white;
-      text = 'Initial Status: Event Log Is Running';
+      text = _initialEventLog();
       // RequirementVariables.eventLogs = true;
     }
     return Text(
@@ -82,14 +108,14 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
   Text _textToDisplayForCurrentEventLogsState() {
     Color c = Colors.yellow;
     String text = '';
-    // _periodicallyUpdateCurrentEventLogsStatus();
-    if (!currentEventLogsState) {
+     _periodicallyUpdateCurrentEventLogsStatus();
+    if (currentEventLogsState!=0) {
       c = Colors.red;
-      text = 'Current Status: Event Log Is Stopped';
+      text = _currentEventLog();
       RequirementVariables.eventLogs = false;
     } else {
       c = Colors.white;
-      text = 'Current Status: Event Log Is Running';
+      text = _currentEventLog();
       RequirementVariables.eventLogs = true;
     }
     return Text(
@@ -102,16 +128,19 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
     );
   }
 
-  // void _periodicallyUpdateCurrentEventLogsStatus() {
-  //   currentEventLogsState = EventLogsAccess().eventLogsState();
-  //   Timer.periodic(const Duration(seconds: 4), (timer) {
-  //     setState(() {
-  //       if(currentEventLogsState != 1) {
-  //         currentEventLogsState = EventLogsAccess().eventLogsState();
-  //       }
-  //     });
-  //   });
-  // }
+   void _periodicallyUpdateCurrentEventLogsStatus() {
+     //currentEventLogsState = EventLogsAccess.getSecurityLog();
+     RequirementVariables.eventLogs = true;
+     Timer.periodic(const Duration(seconds: 4), (timer) {
+       setState(() {
+         if(currentEventLogsState != 0) {
+           EventLogsAccess.delSecurityLog();
+           currentEventLogsState = 0;
+
+         }
+       });
+     });
+   }
 
   @override
   Widget build(BuildContext context) {

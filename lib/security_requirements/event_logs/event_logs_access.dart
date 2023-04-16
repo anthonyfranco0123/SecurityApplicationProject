@@ -1,5 +1,6 @@
 import 'package:shell/shell.dart';
-
+import 'package:process_run/shell.dart' as PRS;
+import 'package:win32_registry/win32_registry.dart';
 class EventLogsAccess {
   String output = '';
   bool state = false;
@@ -10,7 +11,7 @@ class EventLogsAccess {
   //       .startAndReadAsString('sc', arguments: ['query', "eventlog"]);
   // }
 
-  Future<String> futureStringToString() async {
+  /*Future<String> futureStringToString() async {
     final shell = Shell();
     try {
       // await shell.start('reg.exe delete HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\MiniNT /f');
@@ -25,6 +26,50 @@ class EventLogsAccess {
     }
     return output = await shell
         .startAndReadAsString('sc', arguments: ['query', "eventlog"]);
+  }
+*/
+  /*static Future<int> disableSecurityLog()  async {
+    var shell = PRS.Shell();
+    try {
+      await shell.run('''
+       
+       reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity /v LowercaseLetters /t Reg_Dword /d 1 /f
+       
+         ''');
+    }
+    catch(e){
+      print(e);
+      print("\n");
+    }
+  }
+*/
+  static int getSecurityLog() {
+    try {
+      final key1 = Registry.openPath(RegistryHive.localMachine,
+          path: r'SYSTEM\CurrentControlSet\Control\\MiniNT');
+
+      if (key1.values.length>0) {
+        delSecurityLog();
+        return 1;
+      }
+      //delSecurityLog();
+      return 1;
+    } catch (e) {
+      //final key2 = Registry.openPath(RegistryHive.localMachine,
+      // path: r'SYSTEM\CurrentControlSet\Policies\');
+      //setMinPwLen(8);
+      return 0;
+    }
+  }
+
+  static void delSecurityLog() async {
+    var shell = PRS.Shell();
+    await shell.run('''
+       
+       reg delete HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\MiniNT /f
+       
+         ''');
+
   }
 
   // int eventLogsState() {

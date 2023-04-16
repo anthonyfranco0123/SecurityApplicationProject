@@ -90,7 +90,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     PasswordRestrictionsInitialStates.initialUpper = RegistryAccess.getUpperCaseSetting();
     PasswordRestrictionsInitialStates.initialLower = RegistryAccess.getLowerCaseSetting();
     PasswordRestrictionsInitialStates.initialSpecial = RegistryAccess.getSpecialCharSetting();
-    eventLogsStringOutput();
+    //eventLogsStringOutput();
     setSound();
     notificationCreation();
     _periodicallyUpdateDatabase();
@@ -114,14 +114,14 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     super.initState();
   }
 
-  eventLogsStringOutput() async {
+  /*eventLogsStringOutput() async {
     EventLogsAccess().futureStringToString().then((value){ setState(() {
       stringCurrentState=value;
       eventLogsState();
     });});
-  }
+  }*/
 
-  eventLogsState() {
+ /* eventLogsState() {
     if (stringCurrentState.contains("STOPPED")) {
       EventLogsInitialState.initialEventLogsState = false;
     } else if (stringCurrentState.contains("RUNNING")) {
@@ -130,7 +130,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // else {
     //   EventLogsInitialState.initialEventLogsState = false;
     // }
-  }
+  }*/
 
   Future<void> setUpNotifier() async {
     // Add in main method.
