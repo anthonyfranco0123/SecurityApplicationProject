@@ -14,7 +14,7 @@ class SystemPrivilegesState {
         }
         else if (state == '0x1') {
           setSystemPrivilegeKey();
-          return 0;
+          return 2;
         }
         else {
 
@@ -22,7 +22,7 @@ class SystemPrivilegesState {
         }
       }
       else {
-        return -1;
+        return 3;
       }
     } catch (e) {
       setSystemPrivilegeKey();

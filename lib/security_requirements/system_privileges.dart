@@ -39,7 +39,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
     switch (initialSystemState){
       case 0:
         systemStateText =
-            'Initial Status: Always Elevated is On';
+            'Non-Compliant';
         break;
       case 1:
         systemStateText =
@@ -47,11 +47,11 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
         break;
       case 2:
         systemStateText =
-        'AlwaysInstallElevated Key Does not Exist';
+        'Initial Status: Always Elevated is On';
         break;
       case 3:
         systemStateText =
-        'Could Not Find Key';
+        'Could Not Find Key or Could not Change Key';
         break;
       default:
         systemStateText =
@@ -66,7 +66,7 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
 
       case 0:
         systemStateText =
-        'Current Status: Always Elevated is On';
+        'Non-Compliant';
         break;
       case 1:
         systemStateText =
@@ -74,11 +74,11 @@ class RequirementEightWidgetState extends State<RequirementEightWidget>
         break;
       case 2:
         systemStateText =
-        'AlwaysInstallElevated Key Does not Exist';
+        'Current Status: Always Elevated is Off';
         break;
       case 3:
         systemStateText =
-        'Could Not Find Key';
+        'Could Not Find Key or Could not Change Key';
         break;
       default:
         systemStateText =
