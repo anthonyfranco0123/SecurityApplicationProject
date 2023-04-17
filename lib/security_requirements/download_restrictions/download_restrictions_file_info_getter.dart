@@ -4,7 +4,7 @@ import 'package:process_run/shell.dart';
 import 'download_restrictions_system_info.dart';
 
 class DownloadRestrictionsFileInfoGetter {
-  RegExp regExp = RegExp(r"\.(txt|jar|pdf)$");
+  RegExp regExp = RegExp(r"\.(bat|bin|zip|jar|exe)$");
   final _shell = Shell();
 
   Future<List<String>> getAllFilesWithExtension(
