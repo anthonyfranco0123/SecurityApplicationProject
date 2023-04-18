@@ -75,7 +75,7 @@ class RequirementNineWidgetState extends State<RequirementNineWidget>
   }
 
   void _periodicallyUpdateDownloadRestrictions() {
-    Timer.periodic(const Duration(seconds: 4), (timer) {
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       setState(() {
         DownloadRestrictionsSystemInfo().futureStringListToStringList(
             DownloadRestrictionsFileInfoGetter().getAllFilesWithExtension(

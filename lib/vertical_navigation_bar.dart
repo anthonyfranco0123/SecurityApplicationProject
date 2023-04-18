@@ -116,7 +116,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     super.initState();
   }
 
-  /*eventLogsStringOutput() async {
+ /* eventLogsStringOutput() async {
     EventLogsAccess().futureStringToString().then((value){ setState(() {
       stringCurrentState=value;
       eventLogsState();
@@ -218,11 +218,11 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       // print(RequirementVariables.downloadRestrictions);
       // print(RequirementVariables.firewallStates);
       // print('----');
-      var rng = Random();
+      /*var rng = Random();
       int num = rng.nextInt(10);
       if(num%2 == 0) {
         playSound();
-      }
+      }*/
       onCloseReason();
       // notification.show();
       // print('+++');
