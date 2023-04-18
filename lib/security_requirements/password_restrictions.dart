@@ -70,7 +70,13 @@ class RequirementTwoWidgetState extends State<RequirementTwoWidget> with Automat
   String _currentPasswordPolicyText(int minLen, int maxLen){
     String passwordStatesText = '';
     if(currentMinPwLen==minLen && currentMaxPwLen==maxLen && currentUpper==1 && currentLower==1 && currentSpecial==1){
-      passwordStatesText = 'Current Status: All Password Policies Are Ensured';
+      if(currentMinPwLen != initialMinPwLen || currentMaxPwLen != initialMaxPwLen || currentUpper!= initialUpper || currentLower != initialLower || currentSpecial != initialSpecial ){
+        passwordStatesText = 'Current Status: All Password Policies Are Ensured. \nPLEASE RESTART YOUR COMPUTER FOR THE CHANGES TO TAKE EFFECT!!';
+      }
+      else {
+        passwordStatesText =
+        'Current Status: All Password Policies Are Ensured';
+      }
     }
 
     else {

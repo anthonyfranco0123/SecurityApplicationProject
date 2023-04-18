@@ -80,7 +80,12 @@ class RequirementOneWidgetState extends State<RequirementOneWidget> with Automat
       passwordStatesText = 'Current Status: password max age not ensured!';
     }
     else if(currentMaxAge == age && currentPwHist == history){
+      if(currentMaxAge != initialMaxAge || currentPwHist != initialPwHist){
+        passwordStatesText = 'Current Status: both password max age and password history list are ensured! \nPLEASE RESTART YOUR COMPUTER FOR THE CHANGES TO TAKE EFFECT!!';
+      }
+      else{
       passwordStatesText = 'Current Status: both password max age and password history list are ensured!';
+      }
     }
     else {
       passwordStatesText = 'Error: Unable to determine the password reset policies';

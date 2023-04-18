@@ -83,13 +83,15 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     //AutoUpdatesState().setInitialAutoUpdatesState();
     //RequirementVariables.autoUpdates = AutoUpdatesState.privateSUpdates;
     SystemPrivilegesInitialState.initialSystemPrivilegesState = SystemPrivilegesState().getSystemPrivilegeKey();
-    PasswordResetInitialStates.initialMaxAge = RegistryAccess.getPwAge();
+  /*  PasswordResetInitialStates.initialMaxAge = RegistryAccess.getPwAge();
     PasswordResetInitialStates.initialPwHist = RegistryAccess.getPwHist();
     PasswordRestrictionsInitialStates.initialMinPwLen = RegistryAccess.getMinPwLen();
     PasswordRestrictionsInitialStates.initialMaxPwLen = RegistryAccess.getMaxPwLen();
     PasswordRestrictionsInitialStates.initialUpper = RegistryAccess.getUpperCaseSetting();
     PasswordRestrictionsInitialStates.initialLower = RegistryAccess.getLowerCaseSetting();
     PasswordRestrictionsInitialStates.initialSpecial = RegistryAccess.getSpecialCharSetting();
+    */
+
     //eventLogsStringOutput();
     setSound();
     notificationCreation();
