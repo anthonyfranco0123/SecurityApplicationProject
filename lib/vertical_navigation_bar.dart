@@ -273,7 +273,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialPasswordReset == 3) && (RequirementVariables.currentPasswordReset == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -283,7 +283,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialPasswordRestrictions == 3) && (RequirementVariables.currentPasswordRestrictions == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -293,7 +293,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialEventLogs == 3) && (RequirementVariables.currentEventLogs == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -303,7 +303,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialInitializationPolicies == 3) && (RequirementVariables.currentInitializationPolicies == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -313,7 +313,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialAutoUpdates == 3) && (RequirementVariables.currentAutoUpdates == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -323,7 +323,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialSystemPrivileges == 3) && (RequirementVariables.currentSystemPrivileges == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -333,7 +333,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialInstallationRestrictions == 3) && (RequirementVariables.currentInstallationRestrictions == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -343,7 +343,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialFirewallState == 3) && (RequirementVariables.currentFirewallState == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 

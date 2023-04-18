@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:shell/shell.dart';
+
+import 'password/RegistryAccess.dart';
+
 class RequirementSevenWidget extends StatefulWidget {
 
-  const RequirementSevenWidget({
+  const RequirementSevenWidget({rr
     Key? key,
   }) : super(key: key);
 
@@ -15,7 +19,9 @@ class RequirementSevenWidgetState extends State<RequirementSevenWidget>{
   void initState() {
     super.initState();
   }
-
+  var output="";
+  var display;
+  var shell = Shell();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +40,7 @@ class RequirementSevenWidgetState extends State<RequirementSevenWidget>{
             ],
           ),
         ),
+
         child: const Text('Req seven',
           style: TextStyle(
             fontSize: 35,
