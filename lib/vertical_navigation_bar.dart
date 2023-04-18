@@ -90,7 +90,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     PasswordRestrictionsInitialStates.initialUpper = RegistryAccess.getUpperCaseSetting();
     PasswordRestrictionsInitialStates.initialLower = RegistryAccess.getLowerCaseSetting();
     PasswordRestrictionsInitialStates.initialSpecial = RegistryAccess.getSpecialCharSetting();
-    //eventLogsStringOutput();
+    eventLogsStringOutput();
     setSound();
     notificationCreation();
     _periodicallyUpdateDatabase();
@@ -100,7 +100,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
       DownloadRestrictionsFileInfoGetter().createDirectory();
       DownloadRestrictionsSystemInfo.exists = true;
     }
-    // Comment
+    //Comment
     // RawKeyboardListener(
     //   focusNode: FocusNode(),
     //   onKey: (event) {
@@ -114,14 +114,14 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     super.initState();
   }
 
-  /*eventLogsStringOutput() async {
+  eventLogsStringOutput() async {
     EventLogsAccess().futureStringToString().then((value){ setState(() {
       stringCurrentState=value;
       eventLogsState();
     });});
-  }*/
+  }
 
- /* eventLogsState() {
+  eventLogsState() {
     if (stringCurrentState.contains("STOPPED")) {
       EventLogsInitialState.initialEventLogsState = false;
     } else if (stringCurrentState.contains("RUNNING")) {
@@ -130,7 +130,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     // else {
     //   EventLogsInitialState.initialEventLogsState = false;
     // }
-  }*/
+  }
 
   Future<void> setUpNotifier() async {
     // Add in main method.
@@ -180,17 +180,12 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
   }
 
   Future<void> initInfo() async {
-    try {
-      await WindowsSystemInfo.initWindowsInfo();
-      if (await WindowsSystemInfo.isInitilized) {
-        setState(() {
-          RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
-          RequirementVariables.macAddress = WindowsSystemInfo.network[1].mac;
-        });
-      }
-    } catch(e) {
-      print('Error in main file');
-      print(e);
+    await WindowsSystemInfo.initWindowsInfo();
+    if (await WindowsSystemInfo.isInitilized) {
+      setState(() {
+        RequirementVariables.deviceName = WindowsSystemInfo.deviceName;
+        RequirementVariables.macAddress = WindowsSystemInfo.network[1].mac;
+      });
     }
   }
 
@@ -271,7 +266,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialPasswordReset == 3) && (RequirementVariables.currentPasswordReset == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -281,7 +276,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialPasswordRestrictions == 3) && (RequirementVariables.currentPasswordRestrictions == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -291,7 +286,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialEventLogs == 3) && (RequirementVariables.currentEventLogs == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -301,7 +296,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialInitializationPolicies == 3) && (RequirementVariables.currentInitializationPolicies == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -311,7 +306,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialAutoUpdates == 3) && (RequirementVariables.currentAutoUpdates == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -321,7 +316,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialSystemPrivileges == 3) && (RequirementVariables.currentSystemPrivileges == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -331,7 +326,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialInstallationRestrictions == 3) && (RequirementVariables.currentInstallationRestrictions == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
@@ -341,7 +336,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
     } else if((RequirementVariables.initialFirewallState == 3) && (RequirementVariables.currentFirewallState == 1)) {
       return 2;
     } else {
-      return 3;
+      return 0;
     }
   }
 
