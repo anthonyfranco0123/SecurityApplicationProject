@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
+import 'package:shell/shell.dart';
+
+
 class RequirementSevenWidget extends StatefulWidget {
-  const RequirementSevenWidget({
-    Key? key,
-  }) : super(key: key);
+
 
   @override
   State<RequirementSevenWidget> createState() => RequirementSevenWidgetState();
 }
 
-class RequirementSevenWidgetState extends State<RequirementSevenWidget> {
+class RequirementSevenWidgetState extends State<RequirementSevenWidget>{
   @override
   void initState() {
     super.initState();
   }
-
+  var output="";
+  var display;
+  var shell = Shell();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +36,8 @@ class RequirementSevenWidgetState extends State<RequirementSevenWidget> {
             ],
           ),
         ),
-        child: const Text(
-          'Req seven',
+
+        child: const Text('Req seven',
           style: TextStyle(
             fontSize: 35,
             color: Colors.white,

@@ -59,11 +59,11 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
   String _initialEventLog(){
     String eventLogText = '';
     if(initialEventLogsState == 0){
-      eventLogText = 'Initial Status: Security Log disabled';
+      eventLogText = 'Initial Status: Windows Log Disabled';
     }
 
     else {
-      eventLogText = 'Initial Status: Security Log not disabled';
+      eventLogText = 'Initial Status: Windows Log Enabled';
     }
 
     return eventLogText;
@@ -72,11 +72,11 @@ class RequirementThreeWidgetState extends State<RequirementThreeWidget> with Aut
   String _currentEventLog(){
     String eventLogText = '';
     if(currentEventLogsState == 0){
-      eventLogText = 'Current Status: Security Log disabled';
+      eventLogText = 'Current Status: Windows Log Disabled';
     }
 
     else {
-      eventLogText = 'Current Status: Security Log not disabled';
+      eventLogText = 'Current Status: Windows Log Enabled';
     }
 
     return eventLogText;

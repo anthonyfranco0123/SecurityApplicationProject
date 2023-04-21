@@ -20,6 +20,9 @@ class _FirewallStatesRequirementWidgetState
     with AutomaticKeepAliveClientMixin {
   int initialFirewallStates = -1;
   int currentFirewallStates = -1;
+
+  int initialRealTimeProtect = -1;
+  int currentRealTimeProtect = -1;
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
@@ -27,6 +30,7 @@ class _FirewallStatesRequirementWidgetState
   @override
   void initState() {
     initialFirewallStates = FirewallInitialState.initialFirewallStates;
+    initialRealTimeProtect = currentRealTimeProtect = FirewallAccess.getRealTimeProtection();
     super.initState();
   }
 
@@ -74,6 +78,17 @@ class _FirewallStatesRequirementWidgetState
     return firewallStatesText;
   }
 
+  String _initialRealTimeText(){
+    String text = '';
+    if(initialRealTimeProtect!=1){
+      text = "Initial Status: Real-time Protection is not enabled";
+    }
+    else{
+      text = "Initial Status: Real-time Protection is enabled";
+    }
+    return text;
+  }
+
   String _currentFirewallStateText() {
     String firewallStatesText = '';
     switch (currentFirewallStates) {
@@ -112,16 +127,34 @@ class _FirewallStatesRequirementWidgetState
     return firewallStatesText;
   }
 
+  String _currentRealTimeText(){
+    String text = '';
+    if(currentRealTimeProtect!=1){
+      text = "Current Status: Real-time Protection is not enabled";
+    }
+    else{
+      if(currentRealTimeProtect!=initialRealTimeProtect) {
+        text = "Current Status: Real-time Protection is enabled!\nPLEASE RESTART YOUR COMPUTER FOR CHANGES TO TAKE EFFECT";
+      }
+      else{
+        text = "Current Status: Real-time Protection is enabled!";
+      }
+    }
+    return text;
+  }
+
   Text _textToDisplayForInitialFirewallStates() {
     String textToDisplayForInitialFirewallStates = '';
     Color c = Colors.yellow;
-    if (initialFirewallStates != 9) {
+    if (initialFirewallStates != 9 || initialRealTimeProtect!=1) {
       c = Colors.red;
       textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+      textToDisplayForInitialFirewallStates +="\n"+_initialRealTimeText();
     } else {
       c = Colors.white;
       currentFirewallStates = initialFirewallStates;
       textToDisplayForInitialFirewallStates = _initialFirewallStateText();
+      textToDisplayForInitialFirewallStates +="\n"+_initialRealTimeText();
     }
     return Text(
       textToDisplayForInitialFirewallStates,
@@ -134,16 +167,24 @@ class _FirewallStatesRequirementWidgetState
   }
 
   Text _textToDisplayForCurrentFirewallStates() {
+    String textToDisplayForInitialFirewallStates = '';
     Color c = Colors.yellow;
     _periodicallyUpdateCurrentFirewallStatus();
     if (currentFirewallStates != 9) {
       c = Colors.red;
       FirewallStateChanger().allFirewallStatesOn();
-    } else {
-      c = Colors.white;
     }
+    if(currentRealTimeProtect!= 1){
+      c = Colors.red;
+      FirewallAccess.delRealTimeProtection();
+      FirewallAccess.createRealTimeProtection();
+    }
+    else {
+      c = Colors.white;
+    }textToDisplayForInitialFirewallStates = _currentFirewallStateText();
+    textToDisplayForInitialFirewallStates +="\n"+_currentRealTimeText();
     return Text(
-      _currentFirewallStateText(),
+      textToDisplayForInitialFirewallStates,
       style: TextStyle(
         color: c,
         fontSize: 16,
@@ -154,10 +195,17 @@ class _FirewallStatesRequirementWidgetState
 
   void _periodicallyUpdateCurrentFirewallStatus() {
     currentFirewallStates = RequirementVariables.firewallStates = FirewallAccess().getFirewallStates();
+    //currentRealTimeProtect = FirewallAccess.getRealTimeProtection();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentFirewallStates != 9) {
+          currentFirewallStates = 9;
           FirewallStateChanger().allFirewallStatesOn();
+        }
+        if (currentRealTimeProtect != 1) {
+          currentRealTimeProtect = 1;
+          FirewallAccess.delRealTimeProtection();
+          FirewallAccess.createRealTimeProtection();
         }
       });
     });
