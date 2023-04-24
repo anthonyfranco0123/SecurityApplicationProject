@@ -564,7 +564,7 @@ class _VerticalNavigationBarState extends State<VerticalNavigationBar> {
               ),
               SideMenuItem(
                 priority: 7,
-                title: 'Firewall State',
+                title: 'Firewall and Real-time Protection State',
                 onTap: (page, _) {
                   _sideMenu.changePage(page);
                 },

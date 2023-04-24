@@ -70,4 +70,10 @@ class FirewallAccess {
        
          ''');
   }
+  static void turnOnRealTimeProtection() async {
+    var shell = PRS.Shell();
+    await shell.run('''
+       Powershell set-mppreference -disablerealtimemonitoring 0
+         ''');
+  }
 }

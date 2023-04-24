@@ -21,8 +21,8 @@ class _FirewallStatesRequirementWidgetState
   int initialFirewallStates = -1;
   int currentFirewallStates = -1;
 
-  int initialRealTimeProtect = -1;
-  int currentRealTimeProtect = -1;
+  //int initialRealTimeProtect = -1;
+  //int currentRealTimeProtect = -1;
   late Timer timer;
   @override
   bool get wantKeepAlive => true;
@@ -30,7 +30,7 @@ class _FirewallStatesRequirementWidgetState
   @override
   void initState() {
     initialFirewallStates = FirewallInitialState.initialFirewallStates;
-    initialRealTimeProtect = currentRealTimeProtect = FirewallAccess.getRealTimeProtection();
+    //initialRealTimeProtect = currentRealTimeProtect = FirewallAccess.getRealTimeProtection();
     super.initState();
   }
 
@@ -70,7 +70,7 @@ class _FirewallStatesRequirementWidgetState
         break;
       case 9:
         firewallStatesText =
-            'Initial Status: Private, Public, and Domain firewalls are all on!';
+            'Initial Status: Private, Public, and Domain firewalls are all on!\nReal-time Monitoring on';
         break;
       default:
         firewallStatesText = 'Error: Unable to determine the firewall states!';
@@ -78,7 +78,7 @@ class _FirewallStatesRequirementWidgetState
     return firewallStatesText;
   }
 
-  String _initialRealTimeText(){
+  /*String _initialRealTimeText(){
     String text = '';
     if(initialRealTimeProtect!=1){
       text = "Initial Status: Real-time Protection is not enabled";
@@ -88,7 +88,7 @@ class _FirewallStatesRequirementWidgetState
     }
     return text;
   }
-
+*/
   String _currentFirewallStateText() {
     String firewallStatesText = '';
     switch (currentFirewallStates) {
@@ -119,14 +119,14 @@ class _FirewallStatesRequirementWidgetState
         break;
       case 9:
         firewallStatesText =
-            'Current Status: Private, Public, and Domain firewalls are all on!';
+            'Current Status: Private, Public, and Domain firewalls are all on!\nReal-time Monitoring on';
         break;
       default:
         firewallStatesText = 'Error: Unable to determine the firewall states!';
     }
     return firewallStatesText;
   }
-
+/*
   String _currentRealTimeText(){
     String text = '';
     if(currentRealTimeProtect!=1){
@@ -142,19 +142,19 @@ class _FirewallStatesRequirementWidgetState
     }
     return text;
   }
-
+*/
   Text _textToDisplayForInitialFirewallStates() {
     String textToDisplayForInitialFirewallStates = '';
     Color c = Colors.yellow;
-    if (initialFirewallStates != 9 || initialRealTimeProtect!=1) {
+    if (initialFirewallStates != 9 ) {
       c = Colors.red;
       textToDisplayForInitialFirewallStates = _initialFirewallStateText();
-      textToDisplayForInitialFirewallStates +="\n"+_initialRealTimeText();
+      //textToDisplayForInitialFirewallStates +="\n"+_initialRealTimeText();
     } else {
       c = Colors.white;
       currentFirewallStates = initialFirewallStates;
       textToDisplayForInitialFirewallStates = _initialFirewallStateText();
-      textToDisplayForInitialFirewallStates +="\n"+_initialRealTimeText();
+      //textToDisplayForInitialFirewallStates +="\n"+_initialRealTimeText();
     }
     return Text(
       textToDisplayForInitialFirewallStates,
@@ -174,15 +174,15 @@ class _FirewallStatesRequirementWidgetState
       c = Colors.red;
       FirewallStateChanger().allFirewallStatesOn();
     }
-    if(currentRealTimeProtect!= 1){
+   /* if(currentRealTimeProtect!= 1){
       c = Colors.red;
       FirewallAccess.delRealTimeProtection();
       FirewallAccess.createRealTimeProtection();
-    }
+    }*/
     else {
       c = Colors.white;
     }textToDisplayForInitialFirewallStates = _currentFirewallStateText();
-    textToDisplayForInitialFirewallStates +="\n"+_currentRealTimeText();
+    //textToDisplayForInitialFirewallStates +="\n"+_currentRealTimeText();
     return Text(
       textToDisplayForInitialFirewallStates,
       style: TextStyle(
@@ -196,17 +196,18 @@ class _FirewallStatesRequirementWidgetState
   void _periodicallyUpdateCurrentFirewallStatus() {
     currentFirewallStates = RequirementVariables.firewallStates = FirewallAccess().getFirewallStates();
     //currentRealTimeProtect = FirewallAccess.getRealTimeProtection();
+    FirewallAccess.turnOnRealTimeProtection();
     Timer.periodic(const Duration(seconds: 4), (timer) {
       setState(() {
         if (currentFirewallStates != 9) {
           currentFirewallStates = 9;
           FirewallStateChanger().allFirewallStatesOn();
         }
-        if (currentRealTimeProtect != 1) {
-          currentRealTimeProtect = 1;
-          FirewallAccess.delRealTimeProtection();
-          FirewallAccess.createRealTimeProtection();
-        }
+     //   if (currentRealTimeProtect != 1) {
+       //   currentRealTimeProtect = 1;
+         // FirewallAccess.delRealTimeProtection();
+          //FirewallAccess.createRealTimeProtection();
+       // }
       });
     });
   }
@@ -237,7 +238,7 @@ class _FirewallStatesRequirementWidgetState
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Your Firewall State:',
+                  'Your Firewall and Real-time Protection State:',
                   style: TextStyle(
                     fontSize: 35,
                     color: Colors.white,
